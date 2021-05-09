@@ -31,6 +31,13 @@ public class Bullet : MonoBehaviour
         pool.ReturnToPool(this);
     }
     
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Asteroid
+        if (other.gameObject.layer == 9)
+            DestroyBullet();
+    }
+    
     public static void TurnOn(Bullet bullet)
     {
         bullet.gameObject.SetActive(true);

@@ -15,7 +15,7 @@ public class Spawner : MonoBehaviour, ISpawner
     {
         AsteroidFactory factory = new AsteroidFactory();
 
-        //_asteroidPool = new Pool<Asteroid>(factory.Create, Asteroid.TurnOn, Asteroid.TurnOff, 10);
+        _asteroidPool = new Pool<Asteroid>(factory.Create, Asteroid.TurnOn, Asteroid.TurnOff, 10);
     }
 
     private void Start()

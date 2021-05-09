@@ -2,29 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AsteroidFactory : IFactory<Asteroid, Vector2>
+public class AsteroidFactory : IFactory<Asteroid>
 {
-    public GameObject asteroidPrefab;
-
-    public Asteroid Create(Vector2 playerPos)
+    public Asteroid Create()
     {
-        GameObject asteroid = GameObject.Instantiate(asteroidPrefab);
+        Asteroid asteroid = null;
         
-        RotateAsteroid(asteroid, playerPos);
+        int random = Random.Range(0, 3);
+        
+        if(random == 0)
+            asteroid = Resources.Load<Asteroid>("Prefabs/Asteroid (Small)");
+        else if (random == 1)
+            asteroid = Resources.Load<Asteroid>("Prefabs/Asteroid (Medium)");
+        else if (random == 2)
+            asteroid = Resources.Load<Asteroid>("Prefabs/Asteroid (Large)");
 
-        return asteroid.GetComponent<Asteroid>();
-    }
-    
-    /// <summary>
-    /// Rotates the asteroid towards the player direction
-    /// </summary>
-    /// <param name="asteroid"></param>
-    /// <param name="playerPos"></param>
-    private void RotateAsteroid(GameObject asteroid, Vector2 playerPos)
-    {
-        playerPos.Normalize();
-        
-        float rot_z = Mathf.Atan2(playerPos.y, playerPos.x) * Mathf.Rad2Deg;
-        asteroid.transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
+        return Object.Instantiate(asteroid);
     }
 }
