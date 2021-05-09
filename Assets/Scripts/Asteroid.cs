@@ -6,26 +6,34 @@ using UnityEngine.Experimental.Animations;
 
 public class Asteroid : MonoBehaviour
 {
-    public float speed;
+    public float Speed;
+    
+    public Pool<Asteroid> pool;
 
-    public static Asteroid TurnOn(Asteroid asteroid)
+    private void Update()
+    {
+        transform.position += transform.up * (Speed * Time.deltaTime);
+    }
+
+    public static void TurnOn(Asteroid asteroid)
     {
         asteroid.gameObject.SetActive(true);
-        
-        return asteroid;
     }
     
-    public static Asteroid TurnOff(Asteroid asteroid)
+    public static void TurnOff(Asteroid asteroid)
     {
         asteroid.gameObject.SetActive(false);
-        
-        return asteroid;
+    }
+
+    private void DestroyAsteroid()
+    {
+        pool.ReturnToPool(this);
     }
     
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Player bullet
-        if (other.gameObject.layer == 10)
-            TurnOff(this);
+        if (other.gameObject.layer == 8)
+            DestroyAsteroid();
     }
 }
