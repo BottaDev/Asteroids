@@ -7,29 +7,33 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     public Transform spawnPoint;
-    
+    public Pool<Bullet> bulletPool;
+    public float currentFireRate;
+
     private Player _player;
-    private float _currentFireRate;
-    private Pool<Bullet> _bulletPool;
     
     private void Awake()
     {
         _player = GetComponent<Player>();
         
         BulletFactory factory = new BulletFactory();
-        _bulletPool = new Pool<Bullet>(factory.Create, Bullet.TurnOn, Bullet.TurnOff, 5);
+        bulletPool = new Pool<Bullet>(factory.Create, Bullet.TurnOn, Bullet.TurnOff, 5);
         
-        _currentFireRate = 0;
+        currentFireRate = 0;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _currentFireRate <= 0)
-            Shoot();
+        if (Input.GetKeyDown(KeyCode.Space) && currentFireRate <= 0)
+            _player.weapons[_player.currentWeaponIndex].Shoot();
+            //Shoot();
+        else if (Input.GetKeyDown(KeyCode.E))
+            _player.NextWeapon();
         else
-            _currentFireRate -= Time.deltaTime;
+            currentFireRate -= Time.deltaTime;
     }
 
+    /*
     private void Shoot()
     {
         var bullet = _bulletPool.Get();
@@ -40,4 +44,5 @@ public class PlayerInput : MonoBehaviour
 
         _currentFireRate = _player.FireRate;
     }
+    */
 }
