@@ -6,8 +6,15 @@ using UnityEngine.Experimental.Animations;
 
 public class Asteroid : MonoBehaviour
 {
-    public Pool<Asteroid> pool;
+    public float Speed;
     
+    public Pool<Asteroid> pool;
+
+    private void Update()
+    {
+        transform.position += transform.up * (Speed * Time.deltaTime);
+    }
+
     public static void TurnOn(Asteroid asteroid)
     {
         asteroid.gameObject.SetActive(true);

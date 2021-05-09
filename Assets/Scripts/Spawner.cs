@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour, ISpawner
 {
-    public float timeToSpawn;
+    public float TimeToSpawn;
 
     private float _currentTime;
     private Transform _playerPos;
@@ -20,8 +19,10 @@ public class Spawner : MonoBehaviour, ISpawner
 
     private void Start()
     {
-        _currentTime = timeToSpawn;
+        _currentTime = TimeToSpawn;
         _playerPos = GameObject.FindObjectOfType<Player>().GetComponent<Transform>();
+        
+        SpawnObject();
     }
 
     private void Update()
@@ -39,6 +40,17 @@ public class Spawner : MonoBehaviour, ISpawner
 
     public void SpawnObject()
     {
-        // Spawnear usando pool
+        Vector3 v3Pos = Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(-1f, 1f),Random.Range(-1f, 1f),10));
+        
+        var asteroid = _asteroidPool.Get();
+        asteroid.pool = _asteroidPool;
+        asteroid.transform.position = v3Pos;
+
+        Vector3 diff = _playerPos.position - asteroid.transform.position;
+        diff.Normalize();
+        float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+        asteroid.transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
+        
+        _currentTime = TimeToSpawn;
     }
 }
