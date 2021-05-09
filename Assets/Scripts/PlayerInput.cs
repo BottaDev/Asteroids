@@ -9,7 +9,7 @@ public class PlayerInput : MonoBehaviour
     public Transform spawnPoint;
     
     private Player _player;
-    private float _currentFireRate;
+    public float _currentFireRate;
     private Pool<Bullet> _bulletPool;
     
     private void Awake()
