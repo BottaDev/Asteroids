@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeToSpawn: 30
-  AsteroidCount: 10
+  AsteroidCount: 0
 --- !u!114 &1523638587
 MonoBehaviour:
   m_ObjectHideFlags: 0

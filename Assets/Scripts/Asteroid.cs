@@ -10,7 +10,7 @@ public class Asteroid : Entity
     
     public Pool<Asteroid> pool;
 
-    private void Update()
+    protected void Update()
     {
         base.Update();
         
