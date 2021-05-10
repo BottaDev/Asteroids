@@ -1,13 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
     public float Hp;
     public float Speed;
     
     [Range(min: 0, max: 1)]
     public float FireRate;
-    
+
+    private void Update()
+    {
+        base.Update();
+    }
 }
