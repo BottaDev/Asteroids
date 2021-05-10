@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4748810030229864159}
   - component: {fileID: 4748810030229864152}
   - component: {fileID: -8739859769175515294}
-  - component: {fileID: 4555846796147472613}
   m_Layer: 9
   m_Name: Asteroid (Small)
   m_TagString: Untagged
@@ -112,24 +111,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 3
---- !u!50 &4555846796147472613
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4748810030229864153}
-  m_BodyType: 0
-  m_Simulated: 0
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
