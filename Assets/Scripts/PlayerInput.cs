@@ -9,6 +9,8 @@ public class PlayerInput : MonoBehaviour
     public string inputAxisX;
     public string inputAxisY;
     public Transform spawnPoint;
+    
+    public float currentFireRate;
 
     public float decelerationTime = 1.0f;
     
@@ -28,9 +30,9 @@ public class PlayerInput : MonoBehaviour
         _player = GetComponent<Player>();
         
         BulletFactory factory = new BulletFactory();
-        _bulletPool = new Pool<Bullet>(factory.Create, Bullet.TurnOn, Bullet.TurnOff, 5);
+        bulletPool = new Pool<Bullet>(factory.Create, Bullet.TurnOn, Bullet.TurnOff, 5);
         
-        _currentFireRate = 0;
+        currentFireRate = 0;
     }
 
     private void FixedUpdate()
@@ -49,16 +51,24 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        // Rotate player
+    
         if (_auxAxisX != 0)
             transform.Rotate(Vector3.forward * _player.RotationSpeed * Time.deltaTime * -_auxAxisX);
+            
+            
+        if (Input.GetKeyDown(KeyCode.Space) && currentFireRate <= 0)
+            _player.weapons[_player.currentWeaponIndex].Shoot();
+            
+        else if (Input.GetKeyDown(KeyCode.E))
+            _player.NextWeapon();
 
-        if (Input.GetKeyDown(KeyCode.Space) && _currentFireRate <= 0)
-            Shoot();
         else
-            _currentFireRate -= Time.deltaTime;
+            currentFireRate -= Time.deltaTime;
     }
 
+}
+
+    /*
     private void Move()
     {
         if (_isStopping && _auxAxisY < 0)
@@ -97,4 +107,4 @@ public class PlayerInput : MonoBehaviour
 
         _currentFireRate = _player.FireRate;
     }
-}
+    */
