@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player : Entity
 {
-    public float Hp;
     public float Speed;
     public float RotationSpeed;
     
@@ -27,5 +27,12 @@ public class Player : Entity
     protected void Update()
     {
         base.Update();
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Asteroid
+        if (other.gameObject.layer == 9)
+            gameObject.SetActive(false);
     }
 }
