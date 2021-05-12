@@ -7,11 +7,11 @@ public class Player : Entity
 {
     public float Hp;
     public float Speed;
-    
+    public float RotationSpeed;
     [Range(min: 0, max: 1)]
     public float FireRate;
 
-    private void Update()
+    protected void Update()
     {
         base.Update();
     }
