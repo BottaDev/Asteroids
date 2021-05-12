@@ -1,12 +1,14 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
     public float Hp;
     public float Speed;
-
+    public float RotationSpeed;
+    
     public List<IWeapon> weapons;
     public int currentWeaponIndex = 0;
     
@@ -20,5 +22,10 @@ public class Player : MonoBehaviour
         {
             currentWeaponIndex = 0;
         }
+    }
+
+    protected void Update()
+    {
+        base.Update();
     }
 }

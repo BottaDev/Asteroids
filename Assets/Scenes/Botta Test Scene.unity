@@ -134,7 +134,7 @@ GameObject:
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -212,6 +212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1523638585}
+  - component: {fileID: 1523638587}
   - component: {fileID: 1523638586}
   m_Layer: 0
   m_Name: Level Manager
@@ -246,7 +247,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870b5b01eb0c11c40b82e02cba8353f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeToSpawn: 15
+  TimeToSpawn: 30
+  AsteroidCount: 0
+--- !u!114 &1523638587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523638584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183c65903d147a04ba60722e08d6c37e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  globalXLimit: 32
+  globalYLimit: 18
 --- !u!1001 &4936573577511645328
 PrefabInstance:
   m_ObjectHideFlags: 0

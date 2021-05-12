@@ -4,17 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Animations;
 
-public class Asteroid : MonoBehaviour
+public class Asteroid : Entity
 {
     public float Speed;
     
     public Pool<Asteroid> pool;
 
-    private void Update()
+    protected void Update()
     {
+        base.Update();
+        
         transform.position += transform.up * (Speed * Time.deltaTime);
     }
-
+    
     public static void TurnOn(Asteroid asteroid)
     {
         asteroid.gameObject.SetActive(true);
