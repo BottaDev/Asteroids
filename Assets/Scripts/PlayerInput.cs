@@ -13,10 +13,11 @@ public class PlayerInput : MonoBehaviour
     public float currentFireRate;
 
     public float decelerationTime = 1.0f;
-    
+
+    public Pool<Bullet> bulletPool;
+
     private Rigidbody2D _rb;
     private Player _player;
-    private Pool<Bullet> _bulletPool;
     private float _currentFireRate;
     private float _auxAxisX;
     private float _auxAxisY;
@@ -56,7 +57,7 @@ public class PlayerInput : MonoBehaviour
             transform.Rotate(Vector3.forward * _player.RotationSpeed * Time.deltaTime * -_auxAxisX);
             
             
-        if (Input.GetKeyDown(KeyCode.Space) && currentFireRate <= 0)
+        if (Input.GetKey(KeyCode.Space) && currentFireRate <= 0)
             _player.weapons[_player.currentWeaponIndex].Shoot();
             
         else if (Input.GetKeyDown(KeyCode.E))
@@ -66,9 +67,7 @@ public class PlayerInput : MonoBehaviour
             currentFireRate -= Time.deltaTime;
     }
 
-}
 
-    /*
     private void Move()
     {
         if (_isStopping && _auxAxisY < 0)
@@ -76,26 +75,30 @@ public class PlayerInput : MonoBehaviour
             StopCoroutine(Decelerate());
             _isStopping = false;
         }
-        
+
         if (_auxAxisY > 0)
             _rb.AddForce(transform.up * _auxAxisY);
     }
-    
+
     private IEnumerator Decelerate()
     {
         float t = 0;
         Vector3 fromVelocity = _rb.velocity;
-        
-        while(t < decelerationTime)
+
+        while (t < decelerationTime)
         {
             _rb.velocity = Vector3.Lerp(fromVelocity, Vector3.zero, t);
             t += Time.deltaTime / decelerationTime;
-            
+
             yield return null;
         }
 
         _isStopping = false;
-    } 
+    }
+
+}
+
+    /*
 
     private void Shoot()
     {

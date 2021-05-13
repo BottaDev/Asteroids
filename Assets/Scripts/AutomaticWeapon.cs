@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class AutomaticWeapon : IWeapon
 {
-    PlayerInput _playerInput;
+    public PlayerInput _playerInput;
     float fireRate;
+
+    public void GetPlayerInput(PlayerInput playerInput)
+    {
+        _playerInput = playerInput;
+    }
 
     public void Shoot()
     {
@@ -13,7 +18,7 @@ public class AutomaticWeapon : IWeapon
 
         bullet.pool = _playerInput.bulletPool;
         bullet.transform.position = _playerInput.spawnPoint.position;
-        bullet.transform.forward = _playerInput.transform.forward;
+        bullet.transform.eulerAngles = _playerInput.transform.eulerAngles;
 
         _playerInput.currentFireRate = fireRate;
     }
