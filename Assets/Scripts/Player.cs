@@ -9,7 +9,7 @@ public class Player : Entity
     public float Speed;
     public float RotationSpeed;
     
-    public List<IWeapon> weapons;
+    public List<IWeapon> weapons = new List<IWeapon>();
     public int currentWeaponIndex = 0;
     
     [Range(min: 0, max: 1)]
@@ -24,9 +24,28 @@ public class Player : Entity
         }
     }
 
+    
     protected void Update()
     {
         base.Update();
+    }
+
+    private void Awake()
+    {
+        InitializeWeaponList();
+    }
+
+
+    void InitializeWeaponList()
+    {
+        weapons.Add(new AutomaticWeapon());
+        weapons.Add(new LaserWeapon());
+
+        PlayerInput pInput = GetComponent<PlayerInput>();
+        foreach (IWeapon item in weapons)
+        {
+            item.GetPlayerInput(pInput);
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D other)

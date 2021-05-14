@@ -52,8 +52,8 @@ public class PlayerInput : MonoBehaviour
     {
         if (_auxAxisX != 0)
             transform.Rotate(Vector3.forward * _player.RotationSpeed * Time.deltaTime * -_auxAxisX);
-        
-        if (Input.GetKeyDown(KeyCode.Space) && currentFireRate <= 0)
+            
+        if (Input.GetKey(KeyCode.Space) && currentFireRate <= 0)
             _player.weapons[_player.currentWeaponIndex].Shoot();
         else if (Input.GetKeyDown(KeyCode.E))
             _player.NextWeapon();
@@ -89,4 +89,3 @@ public class PlayerInput : MonoBehaviour
         _isStopping = false;
     }
 }
-    

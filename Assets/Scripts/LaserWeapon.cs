@@ -7,6 +7,11 @@ public class LaserWeapon : IWeapon
     PlayerInput _playerInput;
     float fireRate;
 
+    public void GetPlayerInput(PlayerInput playerInput)
+    {
+        _playerInput = playerInput;
+    }
+
     public void Shoot()
     {
         //piuum piuum laser sounds
