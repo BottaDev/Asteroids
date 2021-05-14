@@ -5,16 +5,14 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    [Header("Movement")]
-    public string inputAxisX;
+    [Header("Movement")] public string inputAxisX;
     public string inputAxisY;
     public Transform spawnPoint;
-    
-    public float currentFireRate;
-
-    public float decelerationTime = 1.0f;
-
+    [HideInInspector]
     public Pool<Bullet> bulletPool;
+    [HideInInspector]
+    public float currentFireRate;
+    public float decelerationTime = 1.0f;
 
     private Rigidbody2D _rb;
     private Player _player;
@@ -22,17 +20,17 @@ public class PlayerInput : MonoBehaviour
     private float _auxAxisX;
     private float _auxAxisY;
     private float _maxVelocity = 3;
-    public bool _isStopping;
-    
+    private bool _isStopping;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        
+
         _player = GetComponent<Player>();
-        
+
         BulletFactory factory = new BulletFactory();
         bulletPool = new Pool<Bullet>(factory.Create, Bullet.TurnOn, Bullet.TurnOff, 5);
-        
+
         currentFireRate = 0;
     }
 
@@ -52,21 +50,16 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-    
         if (_auxAxisX != 0)
             transform.Rotate(Vector3.forward * _player.RotationSpeed * Time.deltaTime * -_auxAxisX);
             
-            
         if (Input.GetKey(KeyCode.Space) && currentFireRate <= 0)
             _player.weapons[_player.currentWeaponIndex].Shoot();
-            
         else if (Input.GetKeyDown(KeyCode.E))
             _player.NextWeapon();
-
         else
             currentFireRate -= Time.deltaTime;
     }
-
 
     private void Move()
     {
@@ -95,19 +88,4 @@ public class PlayerInput : MonoBehaviour
 
         _isStopping = false;
     }
-
 }
-
-    /*
-
-    private void Shoot()
-    {
-        var bullet = _bulletPool.Get();
-
-        bullet.pool = _bulletPool;
-        bullet.transform.position = spawnPoint.position;
-        bullet.transform.forward = spawnPoint.forward;
-
-        _currentFireRate = _player.FireRate;
-    }
-    */
