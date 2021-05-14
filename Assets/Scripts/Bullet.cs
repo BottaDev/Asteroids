@@ -5,7 +5,7 @@ using TreeEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : Entity
 {
     public float Speed;
     public float TimeToDestroy;
@@ -20,6 +20,8 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
+        base.Update();
+        
         transform.position += transform.up * (Speed * Time.deltaTime);
         
         if (_spawnTime + TimeToDestroy <= Time.time)
