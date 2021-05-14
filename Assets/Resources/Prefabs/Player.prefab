@@ -141,9 +141,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a4e8274f3134e4b97985e92bdf4c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hp: 0
   Speed: 5
-  RotationSpeed: 200
+  RotationSpeed: 450
+  currentWeaponIndex: 0
   FireRate: 0.1
 --- !u!114 &5102735304644719248
 MonoBehaviour:
@@ -160,6 +160,8 @@ MonoBehaviour:
   inputAxisX: Horizontal
   inputAxisY: Vertical
   spawnPoint: {fileID: 2207774237356267631}
+  currentFireRate: 0
+  decelerationTime: 1
 --- !u!1 &8576650193852228960
 GameObject:
   m_ObjectHideFlags: 0

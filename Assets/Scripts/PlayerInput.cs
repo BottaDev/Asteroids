@@ -12,15 +12,13 @@ public class PlayerInput : MonoBehaviour
     public Pool<Bullet> bulletPool;
     [HideInInspector]
     public float currentFireRate;
-    public float decelerationTime = 1.0f;
+    public float decelerationTime = 5.0f;
 
     private Rigidbody2D _rb;
     private Player _player;
     private float _currentFireRate;
     private float _auxAxisX;
     private float _auxAxisY;
-    private float _maxVelocity = 3;
-    private bool _isStopping;
 
     private void Awake()
     {
@@ -38,12 +36,6 @@ public class PlayerInput : MonoBehaviour
     {
         _auxAxisX = Input.GetAxis(inputAxisX);
         _auxAxisY = Input.GetAxis(inputAxisY);
-
-        if (_auxAxisY < 0)
-        {
-            _isStopping = true;
-            StartCoroutine(Decelerate());
-        }
 
         Move();
     }
@@ -63,14 +55,15 @@ public class PlayerInput : MonoBehaviour
 
     private void Move()
     {
-        if (_isStopping && _auxAxisY < 0)
+        if (_auxAxisY > 0)
         {
             StopCoroutine(Decelerate());
-            _isStopping = false;
-        }
-
-        if (_auxAxisY > 0)
             _rb.AddForce(transform.up * _auxAxisY);
+        }
+        else
+        {
+            StartCoroutine(Decelerate());
+        }
     }
 
     private IEnumerator Decelerate()
@@ -85,7 +78,5 @@ public class PlayerInput : MonoBehaviour
 
             yield return null;
         }
-
-        _isStopping = false;
     }
 }
