@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeToSpawn: 30
-  AsteroidCount: 0
+  AsteroidCount: 1
 --- !u!114 &1523638587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,6 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 183c65903d147a04ba60722e08d6c37e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Manager: {fileID: 0}
   globalXLimit: 32
   globalYLimit: 18
 --- !u!1001 &4936573577511645328
