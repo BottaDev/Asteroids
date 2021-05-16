@@ -26,8 +26,10 @@ public class PlayerInput : MonoBehaviour
 
         _player = GetComponent<Player>();
 
-        BulletFactory factory = new BulletFactory();
-        bulletPool = new Pool<Bullet>(factory.Create, Bullet.TurnOn, Bullet.TurnOff, 5);
+        BulletBuilder builder = new BulletBuilder();
+        builder.SetSpeed(_player.bulletSpeed);
+        
+        bulletPool = new Pool<Bullet>(builder.Build, Bullet.TurnOn, Bullet.TurnOff, 5);
 
         currentFireRate = 0;
     }
