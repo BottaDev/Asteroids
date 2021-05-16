@@ -11,6 +11,7 @@ public class Player : Entity
     
     public List<IWeapon> weapons = new List<IWeapon>();
     public int currentWeaponIndex = 0;
+    public float bulletSpeed = 10f;
     
     [Range(min: 0, max: 1)]
     public float FireRate;

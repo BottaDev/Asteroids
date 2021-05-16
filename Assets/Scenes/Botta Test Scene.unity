@@ -247,8 +247,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870b5b01eb0c11c40b82e02cba8353f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeToSpawn: 30
+  TimeToSpawn: 10
   AsteroidCount: 0
+  AsteroidSpeed: 2
 --- !u!114 &1523638587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,6 +330,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5210274665389736683, guid: 62c0c9cf8078eae469b2ef3e90563a71,
+        type: 3}
+      propertyPath: bulletSpeed
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62c0c9cf8078eae469b2ef3e90563a71, type: 3}

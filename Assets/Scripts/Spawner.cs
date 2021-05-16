@@ -6,6 +6,7 @@ public class Spawner : MonoBehaviour, ISpawner
 {
     public float TimeToSpawn = 30;
     public int AsteroidCount = 8;
+    public float AsteroidSpeed = 2f;
 
     private float _currentTime;
     private Transform _playerPos;
@@ -13,9 +14,10 @@ public class Spawner : MonoBehaviour, ISpawner
 
     private void Awake()
     {
-        AsteroidFactory factory = new AsteroidFactory();
-
-        _asteroidPool = new Pool<Asteroid>(factory.Create, Asteroid.TurnOn, Asteroid.TurnOff, AsteroidCount);
+        AsteroidBuilder builder = new AsteroidBuilder();
+        builder.SetSpeed(AsteroidSpeed);
+        
+        _asteroidPool = new Pool<Asteroid>(builder.Build, Asteroid.TurnOn, Asteroid.TurnOff, AsteroidCount);
     }
 
     private void Start()

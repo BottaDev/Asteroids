@@ -17,6 +17,11 @@ public class Bullet : Entity
     {
         _spawnTime = Time.time;
     }
+    
+    public void Configure(float speed) 
+    {
+        Speed = speed;
+    }
 
     private void Update()
     {
