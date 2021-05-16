@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletBuilder : MonoBehaviour
+public class BulletBuilder
 {
     private float _speed;
     
