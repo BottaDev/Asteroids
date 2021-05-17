@@ -8,14 +8,13 @@ public class Player : Entity
 {
     public float Speed;
     public float RotationSpeed;
+    public float MaxSpeed;
     
     public List<IWeapon> weapons = new List<IWeapon>();
+    [HideInInspector]
     public int currentWeaponIndex = 0;
     public float bulletSpeed = 10f;
-    
-    [Range(min: 0, max: 1)]
-    public float FireRate;
-    
+
     public void NextWeapon()
     {
         currentWeaponIndex++;

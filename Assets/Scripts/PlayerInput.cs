@@ -60,7 +60,10 @@ public class PlayerInput : MonoBehaviour
         if (_auxAxisY > 0)
         {
             StopCoroutine(Decelerate());
-            _rb.AddForce(transform.up * _auxAxisY);
+
+            _rb.AddForce(transform.up * _player.Speed );
+            _rb.velocity = new Vector2(Mathf.Clamp(_rb.velocity.x, -_player.MaxSpeed, _player.MaxSpeed), 
+                                        Mathf.Clamp(_rb.velocity.y, -_player.MaxSpeed, _player.MaxSpeed));
         }
         else
         {
