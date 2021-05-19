@@ -26,14 +26,18 @@ public class PlayerInput : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
 
         _player = GetComponent<Player>();
-
+        
         currentFireRate = 0;
     }
 
     private void Start()
     {
-        BulletFactory factory = new BulletFactory();
-        bulletPool = new Pool<Bullet>(factory.Create, Bullet.TurnOn, Bullet.TurnOff, 5);
+        BulletBuilder builder = new BulletBuilder();
+        builder.SetSpeed(_player.bulletSpeed);
+        
+        bulletPool = new Pool<Bullet>(builder.Build, Bullet.TurnOn, Bullet.TurnOff, 5);
+
+        currentFireRate = 0;
     }
 
     private void FixedUpdate()
@@ -62,7 +66,10 @@ public class PlayerInput : MonoBehaviour
         if (_auxAxisY > 0)
         {
             StopCoroutine(Decelerate());
-            _rb.AddForce(transform.up * _auxAxisY);
+
+            _rb.AddForce(transform.up * _player.Speed );
+            _rb.velocity = new Vector2(Mathf.Clamp(_rb.velocity.x, -_player.MaxSpeed, _player.MaxSpeed), 
+                                        Mathf.Clamp(_rb.velocity.y, -_player.MaxSpeed, _player.MaxSpeed));
         }
         else
         {

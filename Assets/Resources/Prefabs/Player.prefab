@@ -141,10 +141,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a4e8274f3134e4b97985e92bdf4c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 5
+  Speed: 6
   RotationSpeed: 450
+  MaxSpeed: 4.5
   currentWeaponIndex: 0
-  FireRate: 0.1
+  bulletSpeed: 10
 --- !u!114 &5102735304644719248
 MonoBehaviour:
   m_ObjectHideFlags: 0
