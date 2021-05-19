@@ -12,16 +12,13 @@ public class Spawner : MonoBehaviour, ISpawner
     private Transform _playerPos;
     private Pool<Asteroid> _asteroidPool;
 
-    private void Awake()
+    private void Start()
     {
         AsteroidBuilder builder = new AsteroidBuilder();
         builder.SetSpeed(AsteroidSpeed);
         
         _asteroidPool = new Pool<Asteroid>(builder.Build, Asteroid.TurnOn, Asteroid.TurnOff, AsteroidCount);
-    }
-
-    private void Start()
-    {
+        
         _currentTime = TimeToSpawn;
         _playerPos = GameObject.FindObjectOfType<Player>().GetComponent<Transform>();
         

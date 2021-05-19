@@ -6,7 +6,7 @@ public class BulletFactory : IFactory<Bullet>
 {
     public Bullet Create()
     {
-        var bullet = Resources.Load<Bullet>("Prefabs/Bullet");
+        var bullet = LevelManager.instance.Manager.ResourceTable.GetValue("Bullet").GetComponent<Bullet>();
 
         return Object.Instantiate(bullet);
     }
