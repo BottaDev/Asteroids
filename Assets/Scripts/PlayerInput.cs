@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,10 +27,13 @@ public class PlayerInput : MonoBehaviour
 
         _player = GetComponent<Player>();
 
+        currentFireRate = 0;
+    }
+
+    private void Start()
+    {
         BulletFactory factory = new BulletFactory();
         bulletPool = new Pool<Bullet>(factory.Create, Bullet.TurnOn, Bullet.TurnOff, 5);
-
-        currentFireRate = 0;
     }
 
     private void FixedUpdate()

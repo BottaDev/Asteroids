@@ -26,6 +26,6 @@ public class LevelManager : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(transform.position, new  Vector2(globalXLimit, globalYLimit));
+        Gizmos.DrawWireCube(transform.position, new Vector2(globalXLimit, globalYLimit));
     }
 }

@@ -11,15 +11,11 @@ public class Spawner : MonoBehaviour, ISpawner
     private Transform _playerPos;
     private Pool<Asteroid> _asteroidPool;
 
-    private void Awake()
-    {
-        AsteroidFactory factory = new AsteroidFactory();
-
-        _asteroidPool = new Pool<Asteroid>(factory.Create, Asteroid.TurnOn, Asteroid.TurnOff, AsteroidCount);
-    }
-
     private void Start()
     {
+        AsteroidFactory factory = new AsteroidFactory();
+        _asteroidPool = new Pool<Asteroid>(factory.Create, Asteroid.TurnOn, Asteroid.TurnOff, AsteroidCount);
+        
         _currentTime = TimeToSpawn;
         _playerPos = GameObject.FindObjectOfType<Player>().GetComponent<Transform>();
         
