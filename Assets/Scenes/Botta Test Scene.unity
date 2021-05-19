@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 1523638585}
   - component: {fileID: 1523638587}
   - component: {fileID: 1523638586}
+  - component: {fileID: 1523638588}
   m_Layer: 0
   m_Name: Level Manager
   m_TagString: Untagged
@@ -248,7 +249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeToSpawn: 10
-  AsteroidCount: 0
+  AsteroidCount: 1
   AsteroidSpeed: 2
 --- !u!114 &1523638587
 MonoBehaviour:
@@ -262,8 +263,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 183c65903d147a04ba60722e08d6c37e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Manager: {fileID: 0}
   globalXLimit: 32
   globalYLimit: 18
+--- !u!114 &1523638588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523638584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b910d12e9d98744888aa705a6d4ad71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4936573577511645328
 PrefabInstance:
   m_ObjectHideFlags: 0
