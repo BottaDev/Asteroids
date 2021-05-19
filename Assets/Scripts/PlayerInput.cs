@@ -16,7 +16,6 @@ public class PlayerInput : MonoBehaviour
 
     private Rigidbody2D _rb;
     private Player _player;
-    private float _currentFireRate;
     private float _auxAxisX;
     private float _auxAxisY;
 
