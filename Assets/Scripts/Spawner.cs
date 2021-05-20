@@ -14,6 +14,8 @@ public class Spawner : MonoBehaviour, ISpawner
 
     private void Start()
     {
+        EventManager.Instance.Subscribe("OnGameFinished", OnGameFinished);
+
         AsteroidBuilder builder = new AsteroidBuilder();
         builder.SetSpeed(AsteroidSpeed);
         
@@ -55,5 +57,15 @@ public class Spawner : MonoBehaviour, ISpawner
         }
 
         _currentTime = TimeToSpawn;
+    }
+
+    private void OnGameFinished(params object[] parameters)
+    {
+        StopAsteroids();
+    }
+
+    public void StopAsteroids()
+    {
+        AsteroidCount = 0;
     }
 }
