@@ -6,17 +6,18 @@ public class AsteroidFactory : IFactory<Asteroid>
 {
     public Asteroid Create()
     {
-        Asteroid asteroid = null;
-        
         int random = Random.Range(0, 3);
         
-        if(random == 0)
-            asteroid = Resources.Load<Asteroid>("Prefabs/Asteroid (Small)");
-        else if (random == 1)
-            asteroid = Resources.Load<Asteroid>("Prefabs/Asteroid (Medium)");
-        else if (random == 2)
-            asteroid = Resources.Load<Asteroid>("Prefabs/Asteroid (Large)");
+        Asteroid asteroid = null;
 
+        if (random == 0)
+            asteroid = LevelManager.instance.Manager.ResourceTable.GetValue("SmallAsteroid").GetComponent<Asteroid>();
+        else if (random == 1)
+            asteroid = LevelManager.instance.Manager.ResourceTable.GetValue("MediumAsteroid").GetComponent<Asteroid>();
+        else if (random == 2)
+            asteroid = LevelManager.instance.Manager.ResourceTable.GetValue("LargeAsteroid").GetComponent<Asteroid>();
+        
         return Object.Instantiate(asteroid);
     }
+    
 }

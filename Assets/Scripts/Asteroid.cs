@@ -17,6 +17,11 @@ public class Asteroid : Entity
         EventManager.Instance.Subscribe("OnGameFinished", OnGameFinished);
     }
 
+    public void Configure(float speed) 
+    {
+        Speed = speed;
+    }
+	
     protected void Update()
     {
         base.Update();
@@ -32,6 +37,11 @@ public class Asteroid : Entity
     public static void TurnOff(Asteroid asteroid)
     {
         asteroid.gameObject.SetActive(false);
+    }
+
+    private void DestroyAsteroid()
+    {
+        pool.ReturnToPool(this);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

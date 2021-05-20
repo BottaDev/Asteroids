@@ -9,13 +9,13 @@ public class Player : Entity
     public float Speed;
     public float RotationSpeed;
     public int lifes = 3;
+    public float MaxSpeed;
     
     public List<IWeapon> weapons = new List<IWeapon>();
+    [HideInInspector]
     public int currentWeaponIndex = 0;
-    
-    [Range(min: 0, max: 1)]
-    public float FireRate;
-    
+    public float bulletSpeed = 10f;
+
     public void NextWeapon()
     {
         currentWeaponIndex++;
