@@ -8,6 +8,7 @@ public class Player : Entity
 {
     public float Speed;
     public float RotationSpeed;
+    public int lifes = 3;
     
     public List<IWeapon> weapons = new List<IWeapon>();
     public int currentWeaponIndex = 0;
@@ -24,10 +25,23 @@ public class Player : Entity
         }
     }
 
-    
+    private void Start()
+    {
+        EventManager.Instance.Subscribe("OnPlayerDead", OnPlayerDead);
+        EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
+        EventManager.Instance.Subscribe("OnGameFinished", OnGameFinished);
+    }
+
     protected void Update()
     {
         base.Update();
+
+        if (lifes == 0)
+        {
+            gameObject.SetActive(false);
+            EventManager.Instance.Trigger("OnGameFinished");
+            EventManager.Instance.Trigger("OnPlayerDead");
+        }
     }
 
     private void Awake()
@@ -52,6 +66,21 @@ public class Player : Entity
     {
         // Asteroid
         if (other.gameObject.layer == 9)
-            gameObject.SetActive(false);
+        {
+            lifes--;
+            EventManager.Instance.Trigger("OnPlayerDamaged", lifes);
+        }
+    }
+
+    private void OnPlayerDead(params object[] parameters)
+    {
+    }
+
+    private void OnPlayerDamaged(params object[] parameters)
+    {
+    }
+
+    private void OnGameFinished(params object[] parameters)
+    {
     }
 }
