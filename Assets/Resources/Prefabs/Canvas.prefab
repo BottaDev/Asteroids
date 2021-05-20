@@ -273,8 +273,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Pause
+      - m_Target: {fileID: 7466508900690731645, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
+          type: 3}
+        m_MethodName: Resume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
