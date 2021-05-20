@@ -39,11 +39,6 @@ public class Asteroid : Entity
         asteroid.gameObject.SetActive(false);
     }
 
-    private void DestroyAsteroid()
-    {
-        pool.ReturnToPool(this);
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Player bullet
