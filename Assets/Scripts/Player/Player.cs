@@ -39,6 +39,7 @@ public class Player : Entity
         if (lifes == 0)
         {
             gameObject.SetActive(false);
+            EventManager.Instance.Unsubscribe("OnPlayerDamaged", OnPlayerDamaged);
             EventManager.Instance.Trigger("OnGameFinished");
             EventManager.Instance.Trigger("OnPlayerDead");
         }
