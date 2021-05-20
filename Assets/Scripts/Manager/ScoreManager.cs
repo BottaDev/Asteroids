@@ -32,5 +32,6 @@ public class ScoreManager : MonoBehaviour
 
     private void OnPlayerDead(params object[] parameters)
     {
+        EventManager.Instance.Unsubscribe("OnScoreUpdate", OnScoreUpdate);
     }
 }

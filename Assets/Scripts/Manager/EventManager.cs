@@ -28,6 +28,13 @@ public class EventManager : MonoBehaviour
             _subscribers[eventId] += callback;
     }
 
+    public void Unsubscribe(string eventId, Action<object[]> callback)
+    {
+        if (!_subscribers.ContainsKey(eventId)) return;
+
+        _subscribers[eventId] -= callback;
+    }
+
     public void Trigger(string eventId, params object[] parameters)
     {
         if (!_subscribers.ContainsKey(eventId))
