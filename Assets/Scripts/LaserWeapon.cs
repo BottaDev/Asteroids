@@ -45,12 +45,13 @@ public class LaserWeapon : IWeapon
 
             if (hit = Physics2D.Raycast(_playerInput.spawnPoint.position, _playerInput.transform.up, range))
             {
-                Debug.Log("bingo bango!");
+                //Debug.Log("bingo bango!");
                 _lr.SetPosition(1, hit.point);
+                hit.collider.GetComponent<Asteroid>().HitByLaser();
             }
             else
             {
-                Debug.Log("he does miss sometimes :((");
+                //Debug.Log("he does miss sometimes :((");
                 _lr.SetPosition(1, _playerInput.spawnPoint.position + _playerInput.transform.up * range);
             }
 

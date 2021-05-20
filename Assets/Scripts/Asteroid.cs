@@ -42,4 +42,9 @@ public class Asteroid : Entity
         if (other.gameObject.layer == 8)
             DestroyAsteroid();
     }
+
+    public void HitByLaser()
+    {
+        DestroyAsteroid();
+    }
 }
