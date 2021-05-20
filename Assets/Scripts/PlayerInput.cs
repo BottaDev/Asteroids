@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +25,12 @@ public class PlayerInput : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
 
         _player = GetComponent<Player>();
+        
+        currentFireRate = 0;
+    }
 
+    private void Start()
+    {
         BulletBuilder builder = new BulletBuilder();
         builder.SetSpeed(_player.bulletSpeed);
         
