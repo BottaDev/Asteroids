@@ -227,6 +227,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8646879906738742014, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
+        type: 3}
+      propertyPath: TimeToSpawn
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8646879906738742014, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
+        type: 3}
+      propertyPath: AsteroidCount
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 229e6a1edb05e2b4a85cd4264a5d0a03, type: 3}
 --- !u!1 &364387146
@@ -406,6 +416,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: LoadMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609389587531855215, guid: c671f3212265bf4458e06feb5f900d7f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.13995361
       objectReference: {fileID: 0}
     - target: {fileID: 4609389588258557089, guid: c671f3212265bf4458e06feb5f900d7f,
         type: 3}
