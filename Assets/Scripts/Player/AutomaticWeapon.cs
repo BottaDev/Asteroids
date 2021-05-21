@@ -5,7 +5,7 @@ using UnityEngine;
 public class AutomaticWeapon : IWeapon
 {
     public PlayerInput _playerInput;
-    float fireRate;
+    float fireRate = 0.2f;
 
     public void GetPlayerInput(PlayerInput playerInput)
     {

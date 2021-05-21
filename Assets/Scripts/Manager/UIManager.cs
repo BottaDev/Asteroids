@@ -55,7 +55,6 @@ public class UIManager : MonoBehaviour
 
     private void OnPlayerDead(params object[] parameters)
     {
-        var finalScore = (int)parameters[0];
     }
 
     private void DeadUI()
