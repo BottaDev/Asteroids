@@ -39,13 +39,18 @@ public class Asteroid : Entity
         asteroid.gameObject.SetActive(false);
     }
 
+    public void HitByLaser()
+    {
+        DestroyAsteroid();
+    }
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Player bullet
         if (other.gameObject.layer == 8)
             DestroyAsteroid();
     }
-
+    
     private void DestroyAsteroid(bool hasScore = true)
     {
         if(hasScore)
