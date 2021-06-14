@@ -8,7 +8,8 @@ public class UIManager : MonoBehaviour
     public GameObject ingameScene;
     public GameObject loseScene;
     public GameObject[] lifeImages;
-    int _lifes = 3;
+    
+    private int _lifes = 3;
 
     private void Start()
     {
@@ -23,10 +24,7 @@ public class UIManager : MonoBehaviour
     {
         var lifeRecived = (int)parameters[0];
         _lifes = lifeRecived;
-    }
-
-    private void Update()
-    {
+        
         if (_lifes != 0)
             LifeImages();
         else

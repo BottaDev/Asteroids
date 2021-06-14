@@ -5,10 +5,17 @@ using UnityEngine;
 
 public class ResourceManager : MonoBehaviour
 {
+    public static ResourceManager instance = null;
+    
     public LookupTable<string, GameObject> ResourceTable;
     
     private void Awake()
     {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+        
         ResourceTable = new LookupTable<string, GameObject>(GetFromResources);
     }
     
