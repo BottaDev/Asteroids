@@ -11,11 +11,11 @@ public class AsteroidFactory : IFactory<Asteroid>
         Asteroid asteroid = null;
 
         if (random == 0)
-            asteroid = LevelManager.instance.Manager.ResourceTable.GetValue("SmallAsteroid").GetComponent<Asteroid>();
+            asteroid = ResourceManager.instance.ResourceTable.GetValue("SmallAsteroid").GetComponent<Asteroid>();
         else if (random == 1)
-            asteroid = LevelManager.instance.Manager.ResourceTable.GetValue("MediumAsteroid").GetComponent<Asteroid>();
+            asteroid = ResourceManager.instance.ResourceTable.GetValue("MediumAsteroid").GetComponent<Asteroid>();
         else if (random == 2)
-            asteroid = LevelManager.instance.Manager.ResourceTable.GetValue("LargeAsteroid").GetComponent<Asteroid>();
+            asteroid = ResourceManager.instance.ResourceTable.GetValue("LargeAsteroid").GetComponent<Asteroid>();
         
         return Object.Instantiate(asteroid);
     }

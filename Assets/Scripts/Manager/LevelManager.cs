@@ -7,8 +7,6 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance = null;
 
-    public ResourceManager Manager;
-
     [Header("Map Limit")]
     public float globalXLimit = 17.5f;
     public float globalYLimit = 9.5f;
@@ -19,8 +17,6 @@ public class LevelManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
-
-        Manager = GetComponent<ResourceManager>();
     }
 
     private void OnDrawGizmos()
