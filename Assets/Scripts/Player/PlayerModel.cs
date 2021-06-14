@@ -9,18 +9,6 @@ public class PlayerModel : Entity
     public float MaxSpeed;
     
     public List<IWeapon> weapons = new List<IWeapon>();
-    [HideInInspector]
-    public int currentWeaponIndex = 0;
-    public float bulletSpeed = 10f;
-
-    public void NextWeapon()
-    {
-        currentWeaponIndex++;
-        if (currentWeaponIndex >= weapons.Count)
-        {
-            currentWeaponIndex = 0;
-        }
-    }
 
     private void Start()
     {

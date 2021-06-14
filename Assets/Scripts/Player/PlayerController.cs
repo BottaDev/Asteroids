@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Movement")] public string inputAxisX;
+    [Header("Player Movement")] 
+    public string inputAxisX;
     public string inputAxisY;
     public Transform spawnPoint;
     [HideInInspector]
@@ -14,7 +15,11 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public float currentFireRate;
     public float decelerationTime = 5.0f;
-
+    [Header("Bullets")]
+    [HideInInspector]
+    public int currentWeaponIndex = 0;
+    public float bulletSpeed = 10f;
+    
     private Rigidbody2D _rb;
     private PlayerModel _playerModel;
     private float _auxAxisX;
@@ -32,7 +37,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         BulletBuilder builder = new BulletBuilder();
-        builder.SetSpeed(_playerModel.bulletSpeed);
+        builder.SetSpeed(bulletSpeed);
         
         bulletPool = new Pool<Bullet>(builder.Build, Bullet.TurnOn, Bullet.TurnOff, 5);
 
@@ -53,11 +58,20 @@ public class PlayerController : MonoBehaviour
             transform.Rotate(Vector3.forward * _playerModel.RotationSpeed * Time.deltaTime * -_auxAxisX);
             
         if (Input.GetKey(KeyCode.Space) && currentFireRate <= 0)
-            _playerModel.weapons[_playerModel.currentWeaponIndex].Shoot();
+            _playerModel.weapons[currentWeaponIndex].Shoot();
         else if (Input.GetKeyDown(KeyCode.E))
-            _playerModel.NextWeapon();
+            NextWeapon();
         else
             currentFireRate -= Time.deltaTime;
+    }
+    
+    public void NextWeapon()
+    {
+        currentWeaponIndex++;
+        if (currentWeaponIndex >= _playerModel.weapons.Count)
+        {
+            currentWeaponIndex = 0;
+        }
     }
 
     private void Move()
