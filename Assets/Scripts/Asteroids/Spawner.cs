@@ -22,7 +22,7 @@ public class Spawner : MonoBehaviour, ISpawner
         _asteroidPool = new Pool<Asteroid>(builder.Build, Asteroid.TurnOn, Asteroid.TurnOff, AsteroidCount);
         
         _currentTime = TimeToSpawn;
-        _playerPos = GameObject.FindObjectOfType<Player>().GetComponent<Transform>();
+        _playerPos = GameObject.FindObjectOfType<PlayerModel>().GetComponent<Transform>();
         
         SpawnObject();
     }
