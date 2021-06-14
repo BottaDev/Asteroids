@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LaserWeapon : IWeapon
 {
-    PlayerInput _playerInput;
+    PlayerController _playerController;
     bool _isLaserOn = false;
 
     float fireRate = 5; 
@@ -14,19 +14,19 @@ public class LaserWeapon : IWeapon
 
     LineRenderer _lr;
 
-    public void GetPlayerInput(PlayerInput playerInput)
+    public void GetPlayerInput(PlayerController playerController)
     {
-        _playerInput = playerInput;
-        _lr = _playerInput.spawnPoint.GetComponent<LineRenderer>();
+        _playerController = playerController;
+        _lr = _playerController.spawnPoint.GetComponent<LineRenderer>();
     }
 
     public void Shoot()
     {
-        _playerInput.currentFireRate = fireRate;
+        _playerController.currentFireRate = fireRate;
 
         if (!_isLaserOn)
         {
-            _playerInput.StartCoroutine(Laser());
+            _playerController.StartCoroutine(Laser());
         }
     }
 
@@ -40,9 +40,9 @@ public class LaserWeapon : IWeapon
 
         for (int i = 0; i < duration*60; i++)
         {
-            _lr.SetPosition(0, _playerInput.spawnPoint.position);
+            _lr.SetPosition(0, _playerController.spawnPoint.position);
 
-            if (hit = Physics2D.Raycast(_playerInput.spawnPoint.position, _playerInput.transform.up, range, layerMask))
+            if (hit = Physics2D.Raycast(_playerController.spawnPoint.position, _playerController.transform.up, range, layerMask))
             {
                 Debug.Log(hit.collider.name);
                 _lr.SetPosition(1, hit.point);
@@ -51,7 +51,7 @@ public class LaserWeapon : IWeapon
             else
             {
                 Debug.Log("he does miss sometimes :((");
-                _lr.SetPosition(1, _playerInput.spawnPoint.position + _playerInput.transform.up * range);
+                _lr.SetPosition(1, _playerController.spawnPoint.position + _playerController.transform.up * range);
             }
 
             yield return new WaitForSeconds(1/60);

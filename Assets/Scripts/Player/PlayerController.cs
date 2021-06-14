@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PlayerInput : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Movement")] public string inputAxisX;
     public string inputAxisY;
@@ -16,7 +16,7 @@ public class PlayerInput : MonoBehaviour
     public float decelerationTime = 5.0f;
 
     private Rigidbody2D _rb;
-    private Player _player;
+    private PlayerModel _playerModel;
     private float _auxAxisX;
     private float _auxAxisY;
 
@@ -24,7 +24,7 @@ public class PlayerInput : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
 
-        _player = GetComponent<Player>();
+        _playerModel = GetComponent<PlayerModel>();
         
         currentFireRate = 0;
     }
@@ -32,7 +32,7 @@ public class PlayerInput : MonoBehaviour
     private void Start()
     {
         BulletBuilder builder = new BulletBuilder();
-        builder.SetSpeed(_player.bulletSpeed);
+        builder.SetSpeed(_playerModel.bulletSpeed);
         
         bulletPool = new Pool<Bullet>(builder.Build, Bullet.TurnOn, Bullet.TurnOff, 5);
 
@@ -50,12 +50,12 @@ public class PlayerInput : MonoBehaviour
     private void Update()
     {
         if (_auxAxisX != 0)
-            transform.Rotate(Vector3.forward * _player.RotationSpeed * Time.deltaTime * -_auxAxisX);
+            transform.Rotate(Vector3.forward * _playerModel.RotationSpeed * Time.deltaTime * -_auxAxisX);
             
         if (Input.GetKey(KeyCode.Space) && currentFireRate <= 0)
-            _player.weapons[_player.currentWeaponIndex].Shoot();
+            _playerModel.weapons[_playerModel.currentWeaponIndex].Shoot();
         else if (Input.GetKeyDown(KeyCode.E))
-            _player.NextWeapon();
+            _playerModel.NextWeapon();
         else
             currentFireRate -= Time.deltaTime;
     }
@@ -66,9 +66,9 @@ public class PlayerInput : MonoBehaviour
         {
             StopCoroutine(Decelerate());
 
-            _rb.AddForce(transform.up * _player.Speed );
-            _rb.velocity = new Vector2(Mathf.Clamp(_rb.velocity.x, -_player.MaxSpeed, _player.MaxSpeed), 
-                                        Mathf.Clamp(_rb.velocity.y, -_player.MaxSpeed, _player.MaxSpeed));
+            _rb.AddForce(transform.up * _playerModel.Speed );
+            _rb.velocity = new Vector2(Mathf.Clamp(_rb.velocity.x, -_playerModel.MaxSpeed, _playerModel.MaxSpeed), 
+                                        Mathf.Clamp(_rb.velocity.y, -_playerModel.MaxSpeed, _playerModel.MaxSpeed));
         }
         else
         {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Entity
+public class PlayerModel : Entity
 {
     public float Speed;
     public float RotationSpeed;
@@ -53,10 +53,10 @@ public class Player : Entity
         weapons.Add(new AutomaticWeapon());
         weapons.Add(new LaserWeapon());
 
-        PlayerInput pInput = GetComponent<PlayerInput>();
+        PlayerController pController = GetComponent<PlayerController>();
         foreach (IWeapon item in weapons)
         {
-            item.GetPlayerInput(pInput);
+            item.GetPlayerInput(pController);
         }
     }
     
