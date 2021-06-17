@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4936573575626426886}
   - component: {fileID: 5210274665389736683}
   - component: {fileID: 5102735304644719248}
+  - component: {fileID: 28109775916569675}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -143,9 +144,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 6
   RotationSpeed: 450
+  lifes: 3
   MaxSpeed: 4.5
-  currentWeaponIndex: 0
-  bulletSpeed: 10
 --- !u!114 &5102735304644719248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +163,20 @@ MonoBehaviour:
   spawnPoint: {fileID: 2207774237356267631}
   currentFireRate: 0
   decelerationTime: 1
+  currentWeaponIndex: 0
+  bulletSpeed: 10
+--- !u!114 &28109775916569675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4936573575626426883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1568eb09353d1e4e9537c00240536d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8576650193852228960
 GameObject:
   m_ObjectHideFlags: 0
