@@ -17,19 +17,6 @@ public class PlayerModel : Entity
         EventManager.Instance.Subscribe("OnGameFinished", OnGameFinished);
     }
 
-    protected void Update()
-    {
-        base.Update();
-
-        if (lifes == 0)
-        {
-            gameObject.SetActive(false);
-            EventManager.Instance.Unsubscribe("OnPlayerDamaged", OnPlayerDamaged);
-            EventManager.Instance.Trigger("OnGameFinished");
-            EventManager.Instance.Trigger("OnPlayerDead");
-        }
-    }
-
     private void Awake()
     {
         InitializeWeaponList();
@@ -56,6 +43,7 @@ public class PlayerModel : Entity
             lifes--;
             EventManager.Instance.Trigger("OnPlayerDamaged", lifes);
         }
+            
     }
 
     private void OnPlayerDead(params object[] parameters)
@@ -64,6 +52,13 @@ public class PlayerModel : Entity
 
     private void OnPlayerDamaged(params object[] parameters)
     {
+        if (lifes == 0)
+        {
+            gameObject.SetActive(false);
+            EventManager.Instance.Unsubscribe("OnPlayerDamaged", OnPlayerDamaged);
+            EventManager.Instance.Trigger("OnGameFinished");
+            EventManager.Instance.Trigger("OnPlayerDead");
+        }
     }
 
     private void OnGameFinished(params object[] parameters)
