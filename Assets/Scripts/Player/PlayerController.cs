@@ -5,20 +5,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Player Movement")] 
-    public string inputAxisX;
-    public string inputAxisY;
-    public Transform spawnPoint;
     [HideInInspector]
     public Pool<Bullet> bulletPool;
     [HideInInspector]
     public float currentFireRate;
-    public float decelerationTime = 5.0f;
-    [Header("Bullets")]
     [HideInInspector]
     public int currentWeaponIndex = 0;
-    public float bulletSpeed = 10f;
-    
+
     private Rigidbody2D _rb;
     private PlayerModel _playerModel;
     private float _auxAxisX;
@@ -36,7 +29,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         BulletBuilder builder = new BulletBuilder();
-        builder.SetSpeed(bulletSpeed);
+        builder.SetSpeed(_playerModel.bulletSpeed);
         
         bulletPool = new Pool<Bullet>(builder.Build, Bullet.TurnOn, Bullet.TurnOff, 5);
 
@@ -45,8 +38,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _auxAxisX = Input.GetAxis(inputAxisX);
-        _auxAxisY = Input.GetAxis(inputAxisY);
+        _auxAxisX = Input.GetAxis(_playerModel.inputAxisX);
+        _auxAxisY = Input.GetAxis(_playerModel.inputAxisY);
 
         Move();
     }
@@ -94,10 +87,10 @@ public class PlayerController : MonoBehaviour
         float t = 0;
         Vector3 fromVelocity = _rb.velocity;
 
-        while (t < decelerationTime)
+        while (t < _playerModel.decelerationTime)
         {
             _rb.velocity = Vector3.Lerp(fromVelocity, Vector3.zero, t);
-            t += Time.deltaTime / decelerationTime;
+            t += Time.deltaTime / _playerModel.decelerationTime;
 
             yield return null;
         }

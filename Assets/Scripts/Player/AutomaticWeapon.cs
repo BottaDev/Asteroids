@@ -4,22 +4,25 @@ using UnityEngine;
 
 public class AutomaticWeapon : IWeapon
 {
-    public PlayerController playerController;
+    private PlayerModel _playerModel;
+    private PlayerController _playerController;
+    
     float fireRate = 0.2f;
 
-    public void GetPlayerInput(PlayerController playerController)
+    public void GetPlayerInput(PlayerModel playerModel, PlayerController playerController)
     {
-        this.playerController = playerController;
+        this._playerModel = playerModel;
+        _playerController = playerController;
     }
 
     public void Shoot()
     {
-        var bullet = playerController.bulletPool.Get();
+        var bullet = _playerController.bulletPool.Get();
 
-        bullet.pool = playerController.bulletPool;
-        bullet.transform.position = playerController.spawnPoint.position;
-        bullet.transform.eulerAngles = playerController.transform.eulerAngles;
+        bullet.pool = _playerController.bulletPool;
+        bullet.transform.position = _playerModel.spawnPoint.position;
+        bullet.transform.eulerAngles = _playerModel.transform.eulerAngles;
 
-        playerController.currentFireRate = fireRate;
+        _playerController.currentFireRate = fireRate;
     }
 }

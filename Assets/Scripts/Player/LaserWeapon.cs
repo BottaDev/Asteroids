@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class LaserWeapon : IWeapon
 {
-    PlayerController _playerController;
-    bool _isLaserOn = false;
+    private PlayerModel _playerModel;
+    private PlayerController _playerController;
+    
+    private bool _isLaserOn = false;
+    private float fireRate = 5; 
+    private float duration = 1.5f;
+    private float range = 5;
+    private LineRenderer _lr;
 
-    float fireRate = 5; 
-    float duration = 1.5f;
-    float range = 5;
-
-
-    LineRenderer _lr;
-
-    public void GetPlayerInput(PlayerController playerController)
+    public void GetPlayerInput(PlayerModel playerModel, PlayerController playerController)
     {
+        _playerModel = playerModel;
         _playerController = playerController;
-        _lr = _playerController.spawnPoint.GetComponent<LineRenderer>();
+        _lr = playerModel.spawnPoint.GetComponent<LineRenderer>();
     }
 
     public void Shoot()
@@ -26,7 +26,7 @@ public class LaserWeapon : IWeapon
 
         if (!_isLaserOn)
         {
-            _playerController.StartCoroutine(Laser());
+            _playerModel.StartCoroutine(Laser());
         }
     }
 
@@ -40,9 +40,9 @@ public class LaserWeapon : IWeapon
 
         for (int i = 0; i < duration*60; i++)
         {
-            _lr.SetPosition(0, _playerController.spawnPoint.position);
+            _lr.SetPosition(0, _playerModel.spawnPoint.position);
 
-            if (hit = Physics2D.Raycast(_playerController.spawnPoint.position, _playerController.transform.up, range, layerMask))
+            if (hit = Physics2D.Raycast(_playerModel.spawnPoint.position, _playerModel.transform.up, range, layerMask))
             {
                 Debug.Log(hit.collider.name);
                 _lr.SetPosition(1, hit.point);
@@ -51,7 +51,7 @@ public class LaserWeapon : IWeapon
             else
             {
                 Debug.Log("he does miss sometimes :((");
-                _lr.SetPosition(1, _playerController.spawnPoint.position + _playerController.transform.up * range);
+                _lr.SetPosition(1, _playerModel.spawnPoint.position + _playerModel.transform.up * range);
             }
 
             yield return new WaitForSeconds(1/60);

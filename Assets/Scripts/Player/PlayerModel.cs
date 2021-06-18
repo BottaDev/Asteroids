@@ -3,11 +3,21 @@ using UnityEngine;
 
 public class PlayerModel : Entity
 {
+    [Header("Parameters")] 
     public float Speed;
     public float RotationSpeed;
-    public int lifes = 3;
     public float MaxSpeed;
-    
+    public int lifes = 3;
+    public float decelerationTime = 1.0f;
+    [Header("Feedback")]
+    public float damageColorTime = 0.3f;
+    [Header("Movement")] 
+    public string inputAxisX;
+    public string inputAxisY;
+    [Header("Bullets")]
+    public Transform spawnPoint;
+    public float bulletSpeed = 10f;
+    [Header("Weapons")]
     public List<IWeapon> weapons = new List<IWeapon>();
 
     private void Start()
@@ -27,11 +37,10 @@ public class PlayerModel : Entity
     {
         weapons.Add(new AutomaticWeapon());
         weapons.Add(new LaserWeapon());
-
-        PlayerController pController = GetComponent<PlayerController>();
+        
         foreach (IWeapon item in weapons)
         {
-            item.GetPlayerInput(pController);
+            item.GetPlayerInput(this, GetComponent<PlayerController>());
         }
     }
     
