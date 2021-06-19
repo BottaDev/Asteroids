@@ -2,8 +2,6 @@
 
 public class Bullet : Entity
 {
-    public float Speed;
-    public float TimeToDestroy;
     public Pool<Bullet> pool;
     
     private float _spawnTime;
@@ -15,16 +13,16 @@ public class Bullet : Entity
     
     public void Configure(float speed) 
     {
-        Speed = speed;
+        BulletFlyweightPoint.normal.speed = speed;
     }
 
     private void Update()
     {
         base.Update();
         
-        transform.position += transform.up * (Speed * Time.deltaTime);
+        transform.position += transform.up * (BulletFlyweightPoint.normal.speed * Time.deltaTime);
         
-        if (_spawnTime + TimeToDestroy <= Time.time)
+        if (_spawnTime + BulletFlyweightPoint.normal.TimeToDestroy <= Time.time)
             DestroyBullet();
     }
 
