@@ -13,7 +13,6 @@ public class Asteroid : Entity
 
     private void Start()
     {
-        EventManager.Instance.Subscribe("OnScoreUpdate", OnScoreUpdate);
         EventManager.Instance.Subscribe("OnGameFinished", OnGameFinished);
     }
 
@@ -54,12 +53,8 @@ public class Asteroid : Entity
     private void DestroyAsteroid(bool hasScore = true)
     {
         if(hasScore)
-            EventManager.Instance.Trigger("OnScoreUpdate", points);
+            EventManager.Instance.Trigger("OnAsteroidDestroyed", points);
         pool.ReturnToPool(this);
-    }
-
-    private void OnScoreUpdate(params object[] parameters)
-    {
     }
 
     private void OnGameFinished(params object[] parameters)

@@ -10,11 +10,11 @@ public class ScoreManager : MonoBehaviour
 
     private void Start()
     {
-        EventManager.Instance.Subscribe("OnScoreUpdate", OnScoreUpdate);
+        EventManager.Instance.Subscribe("OnAsteroidDestroyed", OnAsteroidDestroyed);
         EventManager.Instance.Subscribe("OnPlayerDead", OnPlayerDead);
     }
 
-    private void OnScoreUpdate(params object[] parameters)
+    private void OnAsteroidDestroyed(params object[] parameters)
     {
         var scoreRecived = (int)parameters[0];
 
@@ -32,6 +32,6 @@ public class ScoreManager : MonoBehaviour
 
     private void OnPlayerDead(params object[] parameters)
     {
-        EventManager.Instance.Unsubscribe("OnScoreUpdate", OnScoreUpdate);
+        EventManager.Instance.Unsubscribe("OnAsteroidDestroyeds", OnAsteroidDestroyed);
     }
 }

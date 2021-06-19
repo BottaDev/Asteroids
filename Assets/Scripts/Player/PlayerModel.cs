@@ -10,13 +10,6 @@ public class PlayerModel : Entity
     
     public List<IWeapon> weapons = new List<IWeapon>();
 
-    private void Start()
-    {
-        EventManager.Instance.Subscribe("OnPlayerDead", OnPlayerDead);
-        EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
-        EventManager.Instance.Subscribe("OnGameFinished", OnGameFinished);
-    }
-
     protected void Update()
     {
         base.Update();
@@ -24,7 +17,6 @@ public class PlayerModel : Entity
         if (lifes == 0)
         {
             gameObject.SetActive(false);
-            EventManager.Instance.Unsubscribe("OnPlayerDamaged", OnPlayerDamaged);
             EventManager.Instance.Trigger("OnGameFinished");
             EventManager.Instance.Trigger("OnPlayerDead");
         }
@@ -56,17 +48,5 @@ public class PlayerModel : Entity
             lifes--;
             EventManager.Instance.Trigger("OnPlayerDamaged", lifes);
         }
-    }
-
-    private void OnPlayerDead(params object[] parameters)
-    {
-    }
-
-    private void OnPlayerDamaged(params object[] parameters)
-    {
-    }
-
-    private void OnGameFinished(params object[] parameters)
-    {
     }
 }
