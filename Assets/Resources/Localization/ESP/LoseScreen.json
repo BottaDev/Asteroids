@@ -2,5 +2,5 @@
 	"loseText"		 : "Perdiste!",
 	"scoreText" 	 : "Puntaje Final",
 	"retryButton"	 : "Reintentar",
-	"loseMenuButton" : "Menú Principal"
+	"menuButton"	 : "Menú Principal"
 }
