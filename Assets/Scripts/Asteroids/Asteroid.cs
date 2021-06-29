@@ -5,28 +5,24 @@ using UnityEngine;
 using UnityEngine.Experimental.Animations;
 
 public class Asteroid : Entity
-{
-    public float Speed;
-    public int points = 10;
-    
+{   
     public Pool<Asteroid> pool;
 
     private void Start()
     {
-        EventManager.Instance.Subscribe("OnScoreUpdate", OnScoreUpdate);
         EventManager.Instance.Subscribe("OnGameFinished", OnGameFinished);
     }
 
     public void Configure(float speed) 
     {
-        Speed = speed;
+        AsteroidFlyweightPoint.normal.speed = speed;
     }
 	
     protected void Update()
     {
         base.Update();
         
-        transform.position += transform.up * (Speed * Time.deltaTime);
+        transform.position += transform.up * (AsteroidFlyweightPoint.normal.speed * Time.deltaTime);
     }
     
     public static void TurnOn(Asteroid asteroid)
@@ -54,12 +50,8 @@ public class Asteroid : Entity
     private void DestroyAsteroid(bool hasScore = true)
     {
         if(hasScore)
-            EventManager.Instance.Trigger("OnScoreUpdate", points);
+            EventManager.Instance.Trigger("OnAsteroidDestroyed", AsteroidFlyweightPoint.normal.points);
         pool.ReturnToPool(this);
-    }
-
-    private void OnScoreUpdate(params object[] parameters)
-    {
     }
 
     private void OnGameFinished(params object[] parameters)

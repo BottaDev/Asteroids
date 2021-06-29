@@ -17,7 +17,6 @@ public class UIManager : MonoBehaviour
         loseScene.SetActive(false);
 
         EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
-        EventManager.Instance.Subscribe("OnPlayerDead", OnPlayerDead);
     }
 
     private void OnPlayerDamaged(params object[] parameters)
@@ -49,10 +48,6 @@ public class UIManager : MonoBehaviour
                 lifeImages[2].SetActive(true);
                 break;
         }
-    }
-
-    private void OnPlayerDead(params object[] parameters)
-    {
     }
 
     private void DeadUI()

@@ -1,0 +1,6 @@
+{
+	"loseText"		 : "You Lose!",
+	"scoreText" 	 : "Final Score",
+	"retryButton"	 : "Retry",
+	"menuButton"     : "Main Menu"
+}
