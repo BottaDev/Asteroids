@@ -142,11 +142,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a4e8274f3134e4b97985e92bdf4c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 6
-  RotationSpeed: 450
-  MaxSpeed: 4.5
+  speed: 6
+  rotationSpeed: 450
+  maxSpeed: 4.5
   lifes: 3
   decelerationTime: 1
+  damageColorTime: 0.3
   inputAxisX: Horizontal
   inputAxisY: Vertical
   spawnPoint: {fileID: 2207774237356267631}
@@ -177,7 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1568eb09353d1e4e9537c00240536d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorTime: 0.3
 --- !u!1 &8576650193852228960
 GameObject:
   m_ObjectHideFlags: 0

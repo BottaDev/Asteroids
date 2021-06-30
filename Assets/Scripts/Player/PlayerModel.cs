@@ -4,9 +4,9 @@ using UnityEngine;
 public class PlayerModel : Entity
 {
     [Header("Parameters")] 
-    public float Speed;
-    public float RotationSpeed;
-    public float MaxSpeed;
+    public float speed;
+    public float rotationSpeed;
+    public float maxSpeed;
     public int lifes = 3;
     public float decelerationTime = 1.0f;
     [Header("Feedback")]
@@ -49,9 +49,18 @@ public class PlayerModel : Entity
             lifes--;
             EventManager.Instance.Trigger("OnPlayerDamaged", lifes);
         }
+        else if (other.gameObject.layer == 11)
+        {
+            IPowerUp powerUp = other.gameObject.GetComponent<IPowerUp>();
+            powerUp.NextPowerUp = powerUp;
+        }
             
     }
 
+    private void OnPlayerDead(params object[] parameters)
+    {
+    }
+    
     private void OnPlayerDamaged(params object[] parameters)
     {
         if (lifes == 0)

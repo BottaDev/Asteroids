@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if (_auxAxisX != 0)
-            transform.Rotate(Vector3.forward * _playerModel.RotationSpeed * Time.deltaTime * -_auxAxisX);
+            transform.Rotate(Vector3.forward * _playerModel.rotationSpeed * Time.deltaTime * -_auxAxisX);
             
         if (Input.GetKey(KeyCode.Space) && currentFireRate <= 0)
             _playerModel.weapons[currentWeaponIndex].Shoot();
@@ -72,9 +72,9 @@ public class PlayerController : MonoBehaviour
         {
             StopCoroutine(Decelerate());
 
-            _rb.AddForce(transform.up * _playerModel.Speed );
-            _rb.velocity = new Vector2(Mathf.Clamp(_rb.velocity.x, -_playerModel.MaxSpeed, _playerModel.MaxSpeed), 
-                                        Mathf.Clamp(_rb.velocity.y, -_playerModel.MaxSpeed, _playerModel.MaxSpeed));
+            _rb.AddForce(transform.up * _playerModel.speed );
+            _rb.velocity = new Vector2(Mathf.Clamp(_rb.velocity.x, -_playerModel.maxSpeed, _playerModel.maxSpeed), 
+                                        Mathf.Clamp(_rb.velocity.y, -_playerModel.maxSpeed, _playerModel.maxSpeed));
         }
         else
         {
