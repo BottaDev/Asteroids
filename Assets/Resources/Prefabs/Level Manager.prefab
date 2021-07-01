@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8646879906738742009}
   - component: {fileID: 8377481055676217245}
   - component: {fileID: 7466508900690731645}
+  - component: {fileID: 1386425841235734504}
   m_Layer: 0
   m_Name: Level Manager
   m_TagString: Untagged
@@ -49,7 +50,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 183c65903d147a04ba60722e08d6c37e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Manager: {fileID: 0}
   globalXLimit: 32
   globalYLimit: 18
 --- !u!114 &8646879906738742014
@@ -136,3 +136,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 0}
+--- !u!114 &1386425841235734504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8646879906738742012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b0c7af9b0cf1694bb6ac5b42574e2a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimeToSpawn: 30
+  PowerUpCount: 1

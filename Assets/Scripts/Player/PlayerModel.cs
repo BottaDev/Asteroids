@@ -19,6 +19,7 @@ public class PlayerModel : Entity
     private void Start()
     {
         EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
+        EventManager.Instance.Subscribe("OnPlayerHealed", OnPlayerHealed);
         EventManager.Instance.Subscribe("OnSave", SaveData);
         EventManager.Instance.Subscribe("OnLoad", LoadData);
 
@@ -45,9 +46,21 @@ public class PlayerModel : Entity
             lifes--;
             EventManager.Instance.Trigger("OnPlayerDamaged", lifes);
         }
-            
     }
 
+    public void HealPlayer()
+    {
+        if (lifes < 3)
+        {
+            lifes++;
+            EventManager.Instance.Trigger("OnPlayerHealed", lifes);
+        }
+    }
+
+    private void OnPlayerHealed(params object[] parameters)
+    {
+    }
+    
     private void OnPlayerDamaged(params object[] parameters)
     {
         if (lifes == 0)
