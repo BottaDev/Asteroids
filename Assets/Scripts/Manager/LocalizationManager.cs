@@ -20,11 +20,9 @@ public class LocalizationManager : MonoBehaviour {
             LoadTexts();
         }
         else Destroy(this);
-    }
 
-    void Start(){
         Debug.Log("Lenguaje OS: " + Application.systemLanguage);
-        
+
         language = Application.systemLanguage;
     }
 
