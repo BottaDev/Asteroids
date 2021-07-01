@@ -10,7 +10,7 @@ public class LanguageButton : MonoBehaviour
 
     private Image image;
 
-    private void Awake()
+    private void Start()
     {
         image = GetComponent<Image>();
         UpdateLanguageImage();   
