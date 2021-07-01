@@ -62,7 +62,7 @@ public class LocalizationManager : MonoBehaviour {
             if (!texts.ContainsKey(lang)) texts.Add(lang, new Dictionary<string, string>());
             
             texts[lang].Add($"{fileName}/{item.Key}", item.Value.ToString());
-            Debug.Log($"{lang} --- {fileName}/{item.Key} --- {item.Value}");
+            //Debug.Log($"{lang} --- {fileName}/{item.Key} --- {item.Value}");
         }
     }
 

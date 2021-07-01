@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using KennethDevelops.Serialization;
 
 public class PlayerModel : Entity
 {
@@ -18,6 +19,10 @@ public class PlayerModel : Entity
     private void Start()
     {
         EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
+        EventManager.Instance.Subscribe("OnSave", SaveData);
+        EventManager.Instance.Subscribe("OnLoad", LoadData);
+
+        LoadData();
     }
 
     void InitializeWeaponList()
@@ -52,5 +57,37 @@ public class PlayerModel : Entity
             EventManager.Instance.Trigger("OnGameFinished");
             EventManager.Instance.Trigger("OnPlayerDead");
         }
+    }
+
+    private void SaveData(params object[] parameters)
+    {
+        print("Player Data Saved");
+        SavestateManager.Instance.saveState.playerData = new PlayerData(this);
+    }
+
+    private void LoadData(params object[] parameters)
+    {
+        PlayerData playerData = SavestateManager.Instance.saveState.playerData;
+
+        transform.position = new Vector3(playerData.x, playerData.y, playerData.z);
+        lifes = playerData.lives;
+    }
+}
+
+[System.Serializable]
+public class PlayerData
+{
+    public int lives;
+    public float x;
+    public float y;
+    public float z;
+
+    public PlayerData(PlayerModel player)
+    {
+        x = player.transform.position.x;
+        y = player.transform.position.y;
+        z = player.transform.position.z;
+
+        lives = player.lifes;
     }
 }

@@ -1,5 +1,6 @@
 {
-	"playButton" : "PLAY GAME",
+	"newGameButton"  : "NEW GAME",
+	"loadGameButton" : "LOAD GAME",
 	"exitButton" : "EXIT",
 	"credits"	 : "GAME BY"
 }
