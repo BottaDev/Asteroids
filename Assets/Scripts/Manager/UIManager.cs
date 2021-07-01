@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
     
     private int _lifes = 3;
 
-    private void Start()
+    private void Awake()
     {
         ingameScene.SetActive(true);
         loseScene.SetActive(false);
@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     private void OnPlayerDamaged(params object[] parameters)
     {
         var lifeRecived = (int)parameters[0];
+        print(lifeRecived);
         _lifes = lifeRecived;
         
         if (_lifes != 0)
@@ -36,11 +37,16 @@ public class UIManager : MonoBehaviour
         switch (_lifes)
         {
             case 1:
+                lifeImages[0].SetActive(false);
                 lifeImages[1].SetActive(false);
+                lifeImages[2].SetActive(true);
+
                 break;
 
             case 2:
-                lifeImages[2].SetActive(false);
+                lifeImages[0].SetActive(false);
+                lifeImages[1].SetActive(true);
+                lifeImages[2].SetActive(true);
                 break;
 
             case 3:

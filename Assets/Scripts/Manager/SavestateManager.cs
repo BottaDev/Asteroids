@@ -1,17 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using KennethDevelops.Serialization;
 
 public class SavestateManager : MonoBehaviour
 {
     public static SavestateManager Instance;
 
-    public bool loaded;
+    public static bool loaded;
     public SaveState saveState;
 
     private void Awake()
     {
+
         if (Instance == null)
             Instance = this;
         else
@@ -19,14 +21,39 @@ public class SavestateManager : MonoBehaviour
             Debug.LogWarning("Duplicated detected found" + gameObject.name);
             Destroy(this);
         }
+
+        if (loaded)
+        {
+            LoadData();
+        }
+
+        EventManager.Instance.Subscribe("OnPlayerDeath", ResetLoaded);
     }
 
-    private void Start()
+    public void LoadGame()
     {
-        LoadData();
+        print(SceneManager.GetActiveScene());
+        loaded = true;
     }
 
-    public void SaveData()
+    public void SaveGame()
+    {
+        saveState.asteroidList.Clear();
+        EventManager.Instance.Trigger("OnSave");
+        SaveData();
+    }
+
+    public void ResetLoaded() //this one is for the UI button call
+    {
+        loaded = false;
+    }
+
+    private void ResetLoaded(params object[] empty) //this one is for the delegate call
+    {
+        loaded = false;
+    }
+
+    private void SaveData()
     {
         print("All Saved!");
         saveState.SaveBinary(Application.dataPath + "/Resources/SaveGame/SaveState.dat");
@@ -34,25 +61,11 @@ public class SavestateManager : MonoBehaviour
 
     public void LoadData()
     {
+        print("data loaded");
         saveState = BinarySerializer.LoadBinary<SaveState>(Application.dataPath + "/Resources/SaveGame/SaveState.dat");
-        GetComponent<Spawner>().SpawnLoadedAsteroids(saveState.asteroidList);
-        EventManager.Instance.Trigger("OnLoad");
+        GetComponent<Spawner>()?.SpawnLoadedAsteroids(saveState.asteroidList);
+        EventManager.Instance.Trigger("OnLoad", saveState.playerData.lives);
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            saveState.asteroidList.Clear();
-            EventManager.Instance.Trigger("OnSave");
-            SaveData();
-        }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            LoadData();
-        }
-    }
-
 }
 
 [System.Serializable]

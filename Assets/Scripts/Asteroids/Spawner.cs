@@ -27,7 +27,7 @@ public class Spawner : MonoBehaviour, ISpawner
         _currentTime = TimeToSpawn;
         _playerPos = GameObject.FindObjectOfType<PlayerModel>().GetComponent<Transform>();
         
-        //SpawnObject();
+        if(!SavestateManager.loaded)SpawnObject();
     }
 
     private void Update()

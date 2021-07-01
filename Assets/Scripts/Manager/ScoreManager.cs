@@ -8,7 +8,7 @@ public class ScoreManager : MonoBehaviour
     public TMPro.TextMeshProUGUI scorePoints;
     public TMPro.TextMeshProUGUI finalPoints;
 
-    private void Start()
+    private void Awake()
     {
         EventManager.Instance.Subscribe("OnAsteroidDestroyed", OnAsteroidDestroyed);
         EventManager.Instance.Subscribe("OnPlayerDead", OnPlayerDead);

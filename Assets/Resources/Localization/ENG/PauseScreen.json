@@ -1,5 +1,6 @@
 {
 	"pauseText" 	: "Pause",
+	"saveButton" 	: "Save",
 	"pauseMenuText" : "Menu",
 	"resumeButton"	: "Resume",
 }
