@@ -12,19 +12,22 @@ public class Spawner : MonoBehaviour, ISpawner
     private Transform _playerPos;
     private Pool<Asteroid> _asteroidPool;
 
-    private void Start()
+    private void Awake()
     {
         EventManager.Instance.Subscribe("OnGameFinished", OnGameFinished);
 
         AsteroidBuilder builder = new AsteroidBuilder();
         builder.SetSpeed(AsteroidSpeed);
-        
+
         _asteroidPool = new Pool<Asteroid>(builder.Build, Asteroid.TurnOn, Asteroid.TurnOff, AsteroidCount);
-        
+    }
+
+    private void Start()
+    {   
         _currentTime = TimeToSpawn;
         _playerPos = GameObject.FindObjectOfType<PlayerModel>().GetComponent<Transform>();
         
-        SpawnObject();
+        //SpawnObject();
     }
 
     private void Update()
@@ -57,6 +60,18 @@ public class Spawner : MonoBehaviour, ISpawner
         }
 
         _currentTime = TimeToSpawn;
+    }
+
+    public void SpawnLoadedAsteroids(List<AsteroidData> asteroidData)
+    {
+        foreach (var item in asteroidData)
+        {
+            print(_asteroidPool);
+            var asteroid  = _asteroidPool.Get();
+            asteroid.pool = _asteroidPool;
+            asteroid.transform.position = new Vector3(item.x, item.y, item.z);
+            asteroid.transform.rotation = Quaternion.Euler(0f, 0f, item.zRotation);
+        }
     }
 
     private void OnGameFinished(params object[] parameters)

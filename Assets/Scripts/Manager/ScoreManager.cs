@@ -12,6 +12,8 @@ public class ScoreManager : MonoBehaviour
     {
         EventManager.Instance.Subscribe("OnAsteroidDestroyed", OnAsteroidDestroyed);
         EventManager.Instance.Subscribe("OnPlayerDead", OnPlayerDead);
+        EventManager.Instance.Subscribe("OnSave", SaveScore);
+        EventManager.Instance.Subscribe("OnLoad", LoadScore);
     }
 
     private void OnAsteroidDestroyed(params object[] parameters)
@@ -33,5 +35,15 @@ public class ScoreManager : MonoBehaviour
     private void OnPlayerDead(params object[] parameters)
     {
         EventManager.Instance.Unsubscribe("OnAsteroidDestroyeds", OnAsteroidDestroyed);
+    }
+
+    private void SaveScore(params object[] parameters)
+    {
+        print("Score Saved");
+        GetComponent<SavestateManager>().saveState.score = _score;
+    }
+    private void LoadScore(params object[] parameters)
+    {
+        _score = GetComponent<SavestateManager>().saveState.score;
     }
 }

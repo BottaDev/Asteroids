@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
         loseScene.SetActive(false);
 
         EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
+        EventManager.Instance.Subscribe("OnLoad", OnPlayerDamaged);
     }
 
     private void OnPlayerDamaged(params object[] parameters)
