@@ -19,10 +19,10 @@ public class PlayerModel : Entity
     private void Start()
     {
         EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
-        EventManager.Instance.Subscribe("OnSave", SaveData);
-        EventManager.Instance.Subscribe("OnLoad", LoadData);
+        EventManager.Instance.Subscribe("OnSave", OnSaveData);
+        EventManager.Instance.Subscribe("OnLoad", OnLoadData);
 
-        LoadData();
+        OnLoadData();
     }
 
     void InitializeWeaponList()
@@ -45,7 +45,6 @@ public class PlayerModel : Entity
             lifes--;
             EventManager.Instance.Trigger("OnPlayerDamaged", lifes);
         }
-            
     }
 
     private void OnPlayerDamaged(params object[] parameters)
@@ -59,13 +58,13 @@ public class PlayerModel : Entity
         }
     }
 
-    private void SaveData(params object[] parameters)
+    private void OnSaveData(params object[] parameters)
     {
         print("Player Data Saved");
         SavestateManager.Instance.saveState.playerData = new PlayerData(this);
     }
 
-    private void LoadData(params object[] parameters)
+    private void OnLoadData(params object[] parameters)
     {
         PlayerData playerData = SavestateManager.Instance.saveState.playerData;
 
