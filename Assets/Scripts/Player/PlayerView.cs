@@ -10,7 +10,9 @@ public class PlayerView : MonoBehaviour
     
     private SpriteRenderer _renderer;
     private Color _defaultColor;
-    
+    private GameObject _fireSprite;
+
+
     private void Awake()
     {
         _renderer = gameObject.GetComponent<SpriteRenderer>();
@@ -20,11 +22,20 @@ public class PlayerView : MonoBehaviour
     private void Start()
     {
         EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
+        EventManager.Instance.Subscribe("OnPlayerMove", OnPlayerMove);
     }
     
     private void OnPlayerDamaged(params object[] parameters)
     {
-        StartCoroutine(ShowDamageColor());
+        if(gameObject.activeSelf)
+            StartCoroutine(ShowDamageColor());
+    }
+
+    private void OnPlayerMove(params object[] parameters)
+    {
+        _fireSprite = (GameObject)parameters[0];
+
+        StartCoroutine(MovementFire());
     }
     
     private IEnumerator ShowDamageColor()
@@ -34,5 +45,14 @@ public class PlayerView : MonoBehaviour
         yield return new WaitForSeconds(colorTime);
         
         _renderer.color = _defaultColor;
+    }
+
+    private IEnumerator MovementFire()
+    {
+        _fireSprite.SetActive(true);
+
+        yield return new WaitForSeconds(0.5f);
+
+        _fireSprite.SetActive(false);
     }
 }

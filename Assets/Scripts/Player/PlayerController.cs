@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public int currentWeaponIndex = 0;
     public float bulletSpeed = 10f;
+
+    public GameObject spriteFire;
     
     private Rigidbody2D _rb;
     private PlayerModel _playerModel;
@@ -82,6 +84,8 @@ public class PlayerController : MonoBehaviour
             _rb.AddForce(transform.up * _playerModel.Speed );
             _rb.velocity = new Vector2(Mathf.Clamp(_rb.velocity.x, -_playerModel.MaxSpeed, _playerModel.MaxSpeed), 
                                         Mathf.Clamp(_rb.velocity.y, -_playerModel.MaxSpeed, _playerModel.MaxSpeed));
+
+            EventManager.Instance.Trigger("OnPlayerMove", spriteFire);
         }
         else
         {
