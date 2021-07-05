@@ -4,20 +4,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Animations;
 
-public class Asteroid : Entity
+public class Asteroid : Entity, IReminder
 {   
     public Pool<Asteroid> pool;
 
+    private Memento<ObjectSnapshot> _memento = new Memento<ObjectSnapshot>();
+    
     private void Start()
     {
         EventManager.Instance.Subscribe("OnGameFinished", OnGameFinished);
         EventManager.Instance.Subscribe("OnSave", SaveAsteroid);
+        EventManager.Instance.Subscribe("OnRewind", OnRewind);
     }
 
     private void OnDisable()
     {
         EventManager.Instance.Unsubscribe("OnGameFinished", OnGameFinished);
         EventManager.Instance.Unsubscribe("OnSave", SaveAsteroid);
+        EventManager.Instance.Unsubscribe("OnRewind", OnRewind);
     }
 
     public void Configure(float speed) 
@@ -66,14 +70,46 @@ public class Asteroid : Entity
         DestroyAsteroid(false);
     }
 
+    private void OnRewind(params object[] parameters)
+    {
+        Rewind();   
+    }
+
     private void SaveAsteroid(params object[] parameters)
     {
-        print("Asteroid saved");
         SavestateManager.Instance.saveState.asteroidList.Add(new AsteroidData(this));
     }
+
+    public void MakeSnapshot()
+    {
+        var snapshot = new ObjectSnapshot();
+        snapshot.position = transform.position;
+        snapshot.rotation = transform.localRotation;
+        
+        _memento.Record(snapshot);
+    }
+
+    public void Rewind()
+    {
+        if (!_memento.CanRemember()) 
+            return;
+        
+        var snapshot = _memento.Remember();
+
+        transform.position = snapshot.position;
+        transform.rotation = snapshot.rotation;
+    }
+
+    public IEnumerator StartToRecord()
+    {
+        while (true) 
+        {
+            MakeSnapshot();
+            
+            yield return new WaitForSeconds(.1f);
+        }
+    }
 }
-
-
 
 [Serializable]
 public class AsteroidData

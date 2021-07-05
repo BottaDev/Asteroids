@@ -46,6 +46,8 @@ public class PlayerController : MonoBehaviour, IReminder
         bulletPool = new Pool<Bullet>(builder.Build, Bullet.TurnOn, Bullet.TurnOff, 5);
 
         currentFireRate = 0;
+        
+        EventManager.Instance.Subscribe("OnRewind", OnRewind);
     }
 
     private void FixedUpdate()
@@ -125,6 +127,11 @@ public class PlayerController : MonoBehaviour, IReminder
         if (!_memento.CanRemember()) 
             return;
         
+        EventManager.Instance.Trigger("OnRewind");
+    }
+
+    private void OnRewind(params object[] parameters)
+    {
         var snapshot = _memento.Remember();
 
         transform.position = snapshot.position;

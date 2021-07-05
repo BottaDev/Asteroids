@@ -40,6 +40,10 @@ public class ResourceManager : MonoBehaviour
             case "LargeAsteroid":
                 newObj = Resources.Load<GameObject>("Prefabs/Asteroid (Large)");
                 break;;
+            
+            case "Rewind":
+                newObj = Resources.Load<GameObject>("Prefabs/Rewind");
+                break;
         }
 
         return newObj;
