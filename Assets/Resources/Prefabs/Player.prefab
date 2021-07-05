@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2855184651639414420}
   - component: {fileID: 1471961641428335744}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: effect_yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 5210274665389736683}
   - component: {fileID: 5102735304644719248}
   - component: {fileID: 28109775916569675}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +269,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2207774237356267631}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

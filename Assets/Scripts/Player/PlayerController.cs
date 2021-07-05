@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IReminder
 {
     [Header("Player Movement")] 
     public string inputAxisX;
@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     private PlayerModel _playerModel;
     private float _auxAxisX;
     private float _auxAxisY;
+    private Memento<ObjectSnapshot> _memento = new Memento<ObjectSnapshot>();
 
     private void Awake()
     {
@@ -33,6 +34,8 @@ public class PlayerController : MonoBehaviour
         _playerModel = GetComponent<PlayerModel>();
         
         currentFireRate = 0;
+        
+        MementoManager.instance.Add(this);
     }
 
     private void Start()
@@ -104,6 +107,45 @@ public class PlayerController : MonoBehaviour
             t += Time.deltaTime / decelerationTime;
 
             yield return null;
+        }
+    }
+    
+    public IEnumerator StartToRecord() 
+    {
+        while (true) 
+        {
+            MakeSnapshot();
+            
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+    
+    public void Rewind() 
+    {
+        if (!_memento.CanRemember()) 
+            return;
+        
+        var snapshot = _memento.Remember();
+
+        transform.position = snapshot.position;
+        transform.rotation = snapshot.rotation;
+    }
+    
+    public void MakeSnapshot() 
+    {
+        var snapshot = new ObjectSnapshot();
+        snapshot.position = transform.position;
+        snapshot.rotation = transform.localRotation;
+        
+        _memento.Record(snapshot);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // PowerUp
+        if (other.gameObject.layer == 11)
+        {
+            Rewind();
         }
     }
 }
