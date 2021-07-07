@@ -12,6 +12,8 @@ public class Asteroid : Entity, IReminder
     
     private void Start()
     {
+        MementoManager.instance.Add(this);
+        
         EventManager.Instance.Subscribe("OnGameFinished", OnGameFinished);
         EventManager.Instance.Subscribe("OnSave", SaveAsteroid);
         EventManager.Instance.Subscribe("OnRewind", OnRewind);

@@ -130,6 +130,16 @@ PrefabInstance:
     - target: {fileID: 1716621751312137514, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
         type: 3}
       propertyPath: timeToSpawn
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1716621751312137514, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
+        type: 3}
+      propertyPath: timeToDestroy
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1716621751312137514, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
+        type: 3}
+      propertyPath: powerUpCount
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7466508900690731645, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
@@ -240,7 +250,7 @@ PrefabInstance:
     - target: {fileID: 8646879906738742014, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
         type: 3}
       propertyPath: AsteroidCount
-      value: 7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8646879906738742014, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
         type: 3}

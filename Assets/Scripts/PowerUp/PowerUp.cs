@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.PlayerLoop;
 
 public class PowerUp : MonoBehaviour, IPowerUp
 {
@@ -11,7 +12,7 @@ public class PowerUp : MonoBehaviour, IPowerUp
     
     protected void Start()
     {
-        Destroy(gameObject, _timeToDestroy);
+        StartCoroutine(DisableOnTime());
     }
     
     public void Configure(float time)
@@ -21,7 +22,7 @@ public class PowerUp : MonoBehaviour, IPowerUp
     
     public void UsePowerUp()
     {
-        Destroy(gameObject);    
+        pool.ReturnToPool(this); 
     }
     
     public static void TurnOn(PowerUp powerUp)
@@ -39,5 +40,13 @@ public class PowerUp : MonoBehaviour, IPowerUp
         // Player
         if (other.gameObject.layer == 10)
             Destroy(gameObject);
+    }
+
+    private IEnumerator DisableOnTime()
+    {
+        yield return new WaitForSeconds(_timeToDestroy);
+        
+        if(gameObject.activeSelf)
+            pool.ReturnToPool(this);
     }
 }

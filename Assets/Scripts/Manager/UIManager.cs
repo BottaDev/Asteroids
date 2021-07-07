@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     private void OnPlayerDamaged(params object[] parameters)
     {
         var lifeRecived = (int)parameters[0];
-        print(lifeRecived);
+        
         _lifes = lifeRecived;
         
         if (_lifes != 0)

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpBuilder : MonoBehaviour
+public class PowerUpBuilder
 {
     private float _timeToDestroy;
     

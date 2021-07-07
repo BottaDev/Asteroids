@@ -34,12 +34,12 @@ public class PlayerController : MonoBehaviour, IReminder
         _playerModel = GetComponent<PlayerModel>();
         
         currentFireRate = 0;
-        
-        MementoManager.instance.Add(this);
     }
 
     private void Start()
     {
+        MementoManager.instance.Add(this);
+        
         BulletBuilder builder = new BulletBuilder();
         builder.SetSpeed(bulletSpeed);
         
