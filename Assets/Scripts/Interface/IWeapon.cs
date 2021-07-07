@@ -6,6 +6,6 @@ public interface IWeapon
 {
     void Shoot();
 
-    void GetPlayerInput(PlayerController playerController);
+    void GetPlayerInput(PlayerModel playerModel, PlayerController playerController);
 }
 

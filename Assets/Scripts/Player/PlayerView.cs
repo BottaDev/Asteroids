@@ -6,17 +6,16 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class PlayerView : MonoBehaviour
 {
-    public float colorTime = 0.3f;
-    
+    private PlayerModel _playerModel;
     private SpriteRenderer _renderer;
     private Color _defaultColor;
     private GameObject _fireSprite;
-
-
+    
     private void Awake()
     {
         _renderer = gameObject.GetComponent<SpriteRenderer>();
         _defaultColor = _renderer.color;
+        _playerModel = GetComponent<PlayerModel>();
     }
 
     private void Start()
@@ -42,7 +41,7 @@ public class PlayerView : MonoBehaviour
     {
         _renderer.color = Color.red;
         
-        yield return new WaitForSeconds(colorTime);
+        yield return new WaitForSeconds(_playerModel.colorTime);
         
         _renderer.color = _defaultColor;
     }

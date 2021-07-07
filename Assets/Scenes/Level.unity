@@ -1032,6 +1032,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textKey: PauseScreen/pauseText
+--- !u!1 &1630439694 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 996703029709345985, guid: 62c0c9cf8078eae469b2ef3e90563a71,
+    type: 3}
+  m_PrefabInstance: {fileID: 4936573577511645328}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1681207058
 GameObject:
   m_ObjectHideFlags: 0
@@ -1272,6 +1278,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5210274665389736683, guid: 62c0c9cf8078eae469b2ef3e90563a71,
+        type: 3}
+      propertyPath: spawnPoint
+      value: 
+      objectReference: {fileID: 4936573577511645331}
+    - target: {fileID: 5210274665389736683, guid: 62c0c9cf8078eae469b2ef3e90563a71,
+        type: 3}
+      propertyPath: spriteFire
+      value: 
+      objectReference: {fileID: 1630439694}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62c0c9cf8078eae469b2ef3e90563a71, type: 3}
 --- !u!1 &4936573577511645329 stripped
@@ -1394,3 +1410,9 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!4 &4936573577511645331 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2207774237356267631, guid: 62c0c9cf8078eae469b2ef3e90563a71,
+    type: 3}
+  m_PrefabInstance: {fileID: 4936573577511645328}
+  m_PrefabAsset: {fileID: 0}

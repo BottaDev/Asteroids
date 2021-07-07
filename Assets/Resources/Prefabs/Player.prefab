@@ -227,6 +227,15 @@ MonoBehaviour:
   RotationSpeed: 450
   lifes: 3
   MaxSpeed: 4.5
+  inputAxisX: Horizontal
+  inputAxisY: Vertical
+  spawnPoint: {fileID: 2207774237356267631}
+  currentFireRate: 0
+  decelerationTime: 1
+  currentWeaponIndex: 0
+  bulletSpeed: 10
+  spriteFire: {fileID: 996703029709345985}
+  colorTime: 0.3
 --- !u!114 &5102735304644719248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,14 +248,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96496071893bbc647baa173ac80d6105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputAxisX: Horizontal
-  inputAxisY: Vertical
-  spawnPoint: {fileID: 2207774237356267631}
-  currentFireRate: 0
-  decelerationTime: 1
-  currentWeaponIndex: 0
-  bulletSpeed: 10
-  spriteFire: {fileID: 996703029709345985}
 --- !u!114 &28109775916569675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,7 +260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1568eb09353d1e4e9537c00240536d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorTime: 0.3
 --- !u!1 &8576650193852228960
 GameObject:
   m_ObjectHideFlags: 0
