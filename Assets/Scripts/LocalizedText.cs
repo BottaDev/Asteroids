@@ -10,7 +10,6 @@ public class LocalizedText : MonoBehaviour
 
     private void OnEnable()
     {
-        print(EventManager.Instance);
         EventManager.Instance.Subscribe("OnLanguageChange", GetText);
         GetText();
     }

@@ -4,10 +4,25 @@ using KennethDevelops.Serialization;
 
 public class PlayerModel : Entity
 {
-    public float Speed;
-    public float RotationSpeed;
+    [Header("Properties")]
+    public float Speed = 6f;
+    public float RotationSpeed = 450f;
     public int lifes = 3;
-    public float MaxSpeed;
+    public float MaxSpeed = 4.5f;
+    [Header("Player Movement")] 
+    public string inputAxisX = "Horizontal";
+    public string inputAxisY = "Vertical";
+    public Transform spawnPoint;
+    [HideInInspector]
+    public float currentFireRate;
+    public float decelerationTime = 1.0f;
+    [Header("Bullets")]
+    [HideInInspector]
+    public int currentWeaponIndex = 0;
+    public float bulletSpeed = 10f;
+    [Header("Feedback")]
+    public GameObject spriteFire;
+    public float colorTime = 0.3f;
     
     public List<IWeapon> weapons = new List<IWeapon>();
 
@@ -18,7 +33,6 @@ public class PlayerModel : Entity
 
     private void Start()
     {
-        EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
         EventManager.Instance.Subscribe("OnSave", OnSaveData);
         EventManager.Instance.Subscribe("OnLoad", OnLoadData);
 
@@ -33,28 +47,7 @@ public class PlayerModel : Entity
         PlayerController pController = GetComponent<PlayerController>();
         foreach (IWeapon item in weapons)
         {
-            item.GetPlayerInput(pController);
-        }
-    }
-    
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        // Asteroid
-        if (other.gameObject.layer == 9)
-        {
-            lifes--;
-            EventManager.Instance.Trigger("OnPlayerDamaged", lifes);
-        }
-    }
-
-    private void OnPlayerDamaged(params object[] parameters)
-    {
-        if (lifes == 0)
-        {
-            gameObject.SetActive(false);
-            EventManager.Instance.Unsubscribe("OnPlayerDamaged", OnPlayerDamaged);
-            EventManager.Instance.Trigger("OnGameFinished");
-            EventManager.Instance.Trigger("OnPlayerDead");
+            item.GetPlayerInput(this, pController);
         }
     }
 

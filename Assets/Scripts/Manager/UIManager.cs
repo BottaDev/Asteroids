@@ -17,13 +17,22 @@ public class UIManager : MonoBehaviour
         loseScene.SetActive(false);
 
         EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
+        EventManager.Instance.Subscribe("OnPlayerHealed", OnPlayerHealed);
         EventManager.Instance.Subscribe("OnLoad", OnPlayerDamaged);
     }
 
+    private void OnPlayerHealed(params object[] parameters)
+    {
+        var lifeRecived = (int)parameters[0];
+        
+        _lifes = lifeRecived;
+        LifeImages();
+    }
+    
     private void OnPlayerDamaged(params object[] parameters)
     {
         var lifeRecived = (int)parameters[0];
-        print(lifeRecived);
+        
         _lifes = lifeRecived;
         
         if (_lifes != 0)
