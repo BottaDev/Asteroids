@@ -44,6 +44,10 @@ public class ResourceManager : MonoBehaviour
             case "Rewind":
                 newObj = Resources.Load<GameObject>("Prefabs/Rewind");
                 break;
+            
+            case "Heal":
+                newObj = Resources.Load<GameObject>("Prefabs/Heal");
+                break;
         }
 
         return newObj;

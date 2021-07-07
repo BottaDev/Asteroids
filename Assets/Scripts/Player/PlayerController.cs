@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour, IReminder
         
         EventManager.Instance.Subscribe("OnRewind", OnRewind);
         EventManager.Instance.Subscribe("OnPlayerDamaged", OnPlayerDamaged);
+        EventManager.Instance.Subscribe("OnPlayerHealed", OnPlayerHealed);
     }
 
     private void FixedUpdate()
@@ -139,11 +140,25 @@ public class PlayerController : MonoBehaviour, IReminder
         {
             gameObject.SetActive(false);
             EventManager.Instance.Unsubscribe("OnPlayerDamaged", OnPlayerDamaged);
+            EventManager.Instance.Unsubscribe("OnPlayerHealed", OnPlayerHealed);
             EventManager.Instance.Trigger("OnGameFinished");
             EventManager.Instance.Trigger("OnPlayerDead");
         }
     }
 
+    private void HealPlayer()
+    {
+        if (_playerModel.lifes < 3)
+            _playerModel.lifes++;
+        
+        EventManager.Instance.Trigger("OnPlayerHealed", _playerModel.lifes);
+    }
+    
+    private void OnPlayerHealed(params object[] parameters)
+    {
+        // Do nothing...
+    }
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Asteroid
@@ -152,11 +167,13 @@ public class PlayerController : MonoBehaviour, IReminder
             _playerModel.lifes--;
             EventManager.Instance.Trigger("OnPlayerDamaged", _playerModel.lifes);
         }
-        
-        // PowerUp
-        if (other.gameObject.layer == 11)
+        else if (other.gameObject.layer == 11)  // Rewind PowerUp
         {
             Rewind();
+        }
+        else if (other.gameObject.layer == 12)  // Heal PowerUp
+        {
+            HealPlayer();
         }
     }
 }

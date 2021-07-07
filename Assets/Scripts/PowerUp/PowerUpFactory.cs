@@ -6,17 +6,15 @@ public class PowerUpFactory : IFactory<PowerUp>
 {
     public PowerUp Create()
     {
-        //int random = Random.Range(0, 3);
+        int random = Random.Range(0, 2);
         
         PowerUp powerUp = null;
-        powerUp = ResourceManager.instance.ResourceTable.GetValue("Rewind").GetComponent<PowerUp>();
-        /*if (random == 0)
-            asteroid = ResourceManager.instance.ResourceTable.GetValue("SmallAsteroid").GetComponent<Asteroid>();
-        else if (random == 1)
-            asteroid = ResourceManager.instance.ResourceTable.GetValue("MediumAsteroid").GetComponent<Asteroid>();
-        else if (random == 2)
-            asteroid = ResourceManager.instance.ResourceTable.GetValue("LargeAsteroid").GetComponent<Asteroid>();*/
         
+        if (random == 0)
+            powerUp = ResourceManager.instance.ResourceTable.GetValue("Rewind").GetComponent<PowerUp>();
+        else if (random == 1)
+            powerUp = ResourceManager.instance.ResourceTable.GetValue("Heal").GetComponent<PowerUp>();
+
         return Object.Instantiate(powerUp);
     }
 }

@@ -39,7 +39,7 @@ public class PowerUp : MonoBehaviour, IPowerUp
     {
         // Player
         if (other.gameObject.layer == 10)
-            Destroy(gameObject);
+            UsePowerUp();
     }
 
     private IEnumerator DisableOnTime()
