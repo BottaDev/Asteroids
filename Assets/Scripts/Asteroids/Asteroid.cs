@@ -23,7 +23,6 @@ public class Asteroid : Entity, IReminder
     {
         EventManager.Instance.Unsubscribe("OnGameFinished", OnGameFinished);
         EventManager.Instance.Unsubscribe("OnSave", SaveAsteroid);
-        EventManager.Instance.Unsubscribe("OnRewind", OnRewind);
     }
 
     public void Configure(float speed) 
@@ -99,14 +98,16 @@ public class Asteroid : Entity, IReminder
         var snapshot = _memento.Remember();
 
         transform.position = snapshot.position;
-        transform.rotation = snapshot.rotation;
+        transform.rotation = snapshot.rotation;   
+        
     }
 
     public IEnumerator StartToRecord()
     {
         while (true) 
         {
-            MakeSnapshot();
+            if (gameObject.activeSelf)
+                MakeSnapshot();
             
             yield return new WaitForSeconds(.1f);
         }

@@ -32,7 +32,6 @@ public class SavestateManager : MonoBehaviour
 
     public void LoadGame()
     {
-        print(SceneManager.GetActiveScene());
         loaded = true;
     }
 
@@ -55,13 +54,11 @@ public class SavestateManager : MonoBehaviour
 
     private void SaveData()
     {
-        print("All Saved!");
         saveState.SaveBinary(Application.dataPath + "/Resources/SaveGame/SaveState.dat");
     }
 
     public void LoadData()
     {
-        print("data loaded");
         saveState = BinarySerializer.LoadBinary<SaveState>(Application.dataPath + "/Resources/SaveGame/SaveState.dat");
         GetComponent<Spawner>()?.SpawnLoadedAsteroids(saveState.asteroidList);
         EventManager.Instance.Trigger("OnLoad", saveState.playerData.lives);

@@ -10,7 +10,6 @@ public class LoadButton : MonoBehaviour
     {
         if (File.Exists(Application.dataPath + "/Resources/SaveGame/SaveState.dat"))
         {
-            print("exists");
             GetComponent<Button>().interactable = true;
         }
         else GetComponent<Button>().interactable = false;
