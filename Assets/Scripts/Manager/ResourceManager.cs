@@ -48,6 +48,10 @@ public class ResourceManager : MonoBehaviour
             case "Heal":
                 newObj = Resources.Load<GameObject>("Prefabs/Heal");
                 break;
+            
+            case "Bomb":
+                newObj = Resources.Load<GameObject>("Prefabs/Bomb");
+                break;
         }
 
         return newObj;

@@ -5,9 +5,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IReminder
 {
-    [HideInInspector]
     public Pool<Bullet> bulletPool;
-
+    public Pool<Bomb> bombPool;
+    [HideInInspector]
+    public List<Bomb> activeBombs;
+    [HideInInspector]
+    public bool exploding;
+    
     private Rigidbody2D _rb;
     private PlayerModel _playerModel;
     private float _auxAxisX;
@@ -27,10 +31,14 @@ public class PlayerController : MonoBehaviour, IReminder
     {
         MementoManager.instance.Add(this);
         
-        BulletBuilder builder = new BulletBuilder();
-        builder.SetSpeed(_playerModel.bulletSpeed);
+        BulletBuilder bulletBuilder = new BulletBuilder();
+        bulletBuilder.SetSpeed(_playerModel.bulletSpeed);
         
-        bulletPool = new Pool<Bullet>(builder.Build, Bullet.TurnOn, Bullet.TurnOff, 5);
+        bulletPool = new Pool<Bullet>(bulletBuilder.Build, Bullet.TurnOn, Bullet.TurnOff, 5);
+        
+        //MyA1-P3
+        BombBuilder bombBuilder = new BombBuilder();
+        bombPool = new Pool<Bomb>(bombBuilder.Build, Bomb.TurnOn, Bomb.TurnOff, 5);
         
         _playerModel.currentFireRate = 0;
         
@@ -56,8 +64,26 @@ public class PlayerController : MonoBehaviour, IReminder
             _playerModel.weapons[_playerModel.currentWeaponIndex].Shoot();
         else if (Input.GetKeyDown(KeyCode.E))
             NextWeapon();
+        else if (Input.GetKeyDown(KeyCode.Q) && !exploding)   //MyA1-P3
+            StartCoroutine(ExplodeBombs()); 
         else
             _playerModel.currentFireRate -= Time.deltaTime;
+
+    }
+
+    //MyA1-P3
+    private IEnumerator ExplodeBombs()
+    {
+        exploding = true;
+        
+        foreach (Bomb bomb in activeBombs)
+        {
+            bomb.Explode();
+            yield return new WaitForSeconds(0.5f);
+        }
+        
+        activeBombs.Clear();
+        exploding = false;
     }
     
     public void NextWeapon()

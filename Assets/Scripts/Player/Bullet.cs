@@ -16,7 +16,7 @@ public class Bullet : Entity
         BulletFlyweightPoint.normal.speed = speed;
     }
 
-    private void Update()
+    private new void Update()
     {
         base.Update();
         

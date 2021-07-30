@@ -43,6 +43,7 @@ public class PlayerModel : Entity
     {
         weapons.Add(new AutomaticWeapon());
         weapons.Add(new LaserWeapon());
+        weapons.Add(new BombWeapon());
 
         PlayerController pController = GetComponent<PlayerController>();
         foreach (IWeapon item in weapons)
