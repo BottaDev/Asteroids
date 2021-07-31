@@ -234,6 +234,7 @@ MonoBehaviour:
   decelerationTime: 1
   currentWeaponIndex: 0
   bulletSpeed: 10
+  chainTime: 0.3
   spriteFire: {fileID: 996703029709345985}
   colorTime: 0.3
 --- !u!114 &5102735304644719248
@@ -248,6 +249,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96496071893bbc647baa173ac80d6105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeBombs: []
+  exploding: 0
 --- !u!114 &28109775916569675
 MonoBehaviour:
   m_ObjectHideFlags: 0

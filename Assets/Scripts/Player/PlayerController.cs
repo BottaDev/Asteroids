@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour, IReminder
 {
     public Pool<Bullet> bulletPool;
     public Pool<Bomb> bombPool;
+    
     [HideInInspector]
     public List<Bomb> activeBombs;
     [HideInInspector]
@@ -17,6 +18,11 @@ public class PlayerController : MonoBehaviour, IReminder
     private float _auxAxisX;
     private float _auxAxisY;
     private Memento<ObjectSnapshot> _memento = new Memento<ObjectSnapshot>();
+    private MoveCommand _moveCommand = new MoveCommand();
+    private ShootCommand _shootCommand = new ShootCommand();
+    private ChangeWeaponCommand _weaponCommand = new ChangeWeaponCommand();
+    private RotateCommand _rotateCommand = new RotateCommand();
+    private ExplodeCommand _explodeCommand = new ExplodeCommand();
 
     private void Awake()
     {
@@ -38,6 +44,7 @@ public class PlayerController : MonoBehaviour, IReminder
         
         //MyA1-P3
         BombBuilder bombBuilder = new BombBuilder();
+        bombBuilder.Configure(_playerModel.chainTime, _playerModel.radius);
         bombPool = new Pool<Bomb>(bombBuilder.Build, Bomb.TurnOn, Bomb.TurnOff, 5);
         
         _playerModel.currentFireRate = 0;
@@ -58,39 +65,17 @@ public class PlayerController : MonoBehaviour, IReminder
     private void Update()
     {
         if (_auxAxisX != 0)
-            transform.Rotate(Vector3.forward * _playerModel.RotationSpeed * Time.deltaTime * -_auxAxisX);
+            _rotateCommand.Execute(transform, _playerModel, _auxAxisX);     //MyA1-P2
             
         if (Input.GetKey(KeyCode.Space) && _playerModel.currentFireRate <= 0)
-            _playerModel.weapons[_playerModel.currentWeaponIndex].Shoot();
+            _shootCommand.Execute(_playerModel);    //MyA1-P2
         else if (Input.GetKeyDown(KeyCode.E))
-            NextWeapon();
-        else if (Input.GetKeyDown(KeyCode.Q) && !exploding)   //MyA1-P3
-            StartCoroutine(ExplodeBombs()); 
+            _weaponCommand.Execute(_playerModel);   //MyA1-P2
+        else if (Input.GetKeyDown(KeyCode.Q) && !exploding)
+            _explodeCommand.Execute(this);     //MyA1-P2 and MyA1-P3
         else
             _playerModel.currentFireRate -= Time.deltaTime;
 
-    }
-
-    //MyA1-P3
-    private IEnumerator ExplodeBombs()
-    {
-        exploding = true;
-        
-        foreach (Bomb bomb in activeBombs)
-        {
-            bomb.Explode();
-            yield return new WaitForSeconds(0.5f);
-        }
-        
-        activeBombs.Clear();
-        exploding = false;
-    }
-    
-    public void NextWeapon()
-    {
-        _playerModel.currentWeaponIndex++;
-        if (_playerModel.currentWeaponIndex >= _playerModel.weapons.Count)
-            _playerModel.currentWeaponIndex = 0;
     }
 
     private void Move()
@@ -98,10 +83,9 @@ public class PlayerController : MonoBehaviour, IReminder
         if (_auxAxisY > 0)
         {
             StopCoroutine(Decelerate());
-
-            _rb.AddForce(transform.up * _playerModel.Speed );
-            _rb.velocity = new Vector2(Mathf.Clamp(_rb.velocity.x, -_playerModel.MaxSpeed, _playerModel.MaxSpeed), 
-                                        Mathf.Clamp(_rb.velocity.y, -_playerModel.MaxSpeed, _playerModel.MaxSpeed));
+            
+            //MyA1-P2
+            _moveCommand.Execute(transform, _rb, _playerModel);
 
             EventManager.Instance.Trigger("OnPlayerMove", _playerModel.spriteFire);
         }
