@@ -51,6 +51,11 @@ public class Asteroid : Entity, IReminder
     {
         DestroyAsteroid();
     }
+
+    public void HitByBomb()
+    {
+        DestroyAsteroid();
+    }
     
     private void OnTriggerEnter2D(Collider2D other)
     {

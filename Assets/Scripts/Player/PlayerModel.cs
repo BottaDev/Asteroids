@@ -20,6 +20,9 @@ public class PlayerModel : Entity
     [HideInInspector]
     public int currentWeaponIndex = 0;
     public float bulletSpeed = 10f;
+    [Header("Bombs")]
+    public float chainTime = 0.5f;
+    public float radius = 2f;
     [Header("Feedback")]
     public GameObject spriteFire;
     public float colorTime = 0.3f;
