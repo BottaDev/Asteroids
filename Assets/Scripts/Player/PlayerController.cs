@@ -156,7 +156,7 @@ public class PlayerController : MonoBehaviour, IReminder
         }
     }
 
-    private void HealPlayer()
+    public void HealPlayer()
     {
         if (_playerModel.lifes < 3)
             _playerModel.lifes++;
@@ -177,6 +177,7 @@ public class PlayerController : MonoBehaviour, IReminder
             _playerModel.lifes--;
             EventManager.Instance.Trigger("OnPlayerDamaged", _playerModel.lifes);
         }
+        /*
         else if (other.gameObject.layer == 11)  // Rewind PowerUp
         {
             Rewind();
@@ -185,5 +186,6 @@ public class PlayerController : MonoBehaviour, IReminder
         {
             HealPlayer();
         }
+        */
     }
 }
