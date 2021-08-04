@@ -9,10 +9,28 @@ public class PowerUp : MonoBehaviour, IPowerUp
     private float _timeToDestroy = 15f;
     
     public Pool<PowerUp> pool;
-    
+    public PowerUpType powerUpType;
+
+    private IPowerUp current;
+
+
     protected void Start()
     {
+        SetDecorator();
         StartCoroutine(DisableOnTime());
+    }
+
+    //MyA1-P4 punto 2-2
+    private void SetDecorator()
+    {
+        if (powerUpType == PowerUpType.Heal)
+        {
+            current = new HealPowerUp(this);
+        }
+        else
+        {
+            current = new RewindPowerUp(this);
+        }
     }
     
     public void Configure(float time)
@@ -20,7 +38,7 @@ public class PowerUp : MonoBehaviour, IPowerUp
         _timeToDestroy = time;
     }
     
-    public void UsePowerUp()
+    public void UsePowerUp(PlayerController player)
     {
         pool.ReturnToPool(this); 
     }
@@ -37,9 +55,8 @@ public class PowerUp : MonoBehaviour, IPowerUp
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Player
         if (other.gameObject.layer == 10)
-            UsePowerUp();
+            current.UsePowerUp(other.GetComponent<PlayerController>());
     }
 
     private IEnumerator DisableOnTime()
@@ -48,5 +65,11 @@ public class PowerUp : MonoBehaviour, IPowerUp
         
         if(gameObject.activeSelf)
             pool.ReturnToPool(this);
+    }
+
+    public enum PowerUpType
+    {
+        Heal,
+        Rewind
     }
 }

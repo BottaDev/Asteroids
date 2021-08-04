@@ -10,6 +10,9 @@ public class ExplodeCommand : ICommand
     {
         PlayerController playerController = (PlayerController) parameters[0];
 
+        if (playerController.activeBombs.Count <= 0)
+            return;
+
         playerController.exploding = true;
         playerController.activeBombs[0].Explode(playerController);
     }
