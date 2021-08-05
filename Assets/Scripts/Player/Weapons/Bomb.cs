@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 
 //MyA1-P3
 public class Bomb : MonoBehaviour
 {
+    public GameObject effect;
     public float radius = 2f;
     public float chainTime = 0.5f;
     public Pool<Bomb> pool;
@@ -20,6 +22,9 @@ public class Bomb : MonoBehaviour
 
     public void Explode(PlayerController controller)
     {
+        GameObject obj =  Instantiate(effect, transform.position, Quaternion.identity);
+        Destroy(obj, chainTime);
+        
         List<Asteroid> asteroids = GameObject.FindObjectsOfType<Asteroid>().Where(x => x.enabled = true).ToList();
         foreach (Asteroid ast in asteroids)
         {
