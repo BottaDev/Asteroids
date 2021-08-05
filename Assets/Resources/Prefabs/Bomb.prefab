@@ -94,6 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6c2f97f6473114bb0e64701b90c8ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effect: {fileID: 6916853137956630140, guid: 8c12ef5b98e10f6448d602ba077539a1, type: 3}
+  radius: 2
   chainTime: 0.5
 --- !u!50 &4814618195929176724
 Rigidbody2D:
