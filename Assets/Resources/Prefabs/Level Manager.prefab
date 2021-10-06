@@ -177,12 +177,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f715377c233c564686a668a21e62b34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: 0
-  z: 0
-  cellWidth: 1
-  cellHeight: 1
-  width: 5
-  height: 5
+  x: -16
+  y: -9
+  cellWidth: 3.55
+  cellHeight: 2
+  width: 9
+  height: 9
   areGizmosShutDown: 0
-  activatedGrid: 0
-  showLogs: 1
+  activatedGrid: 1
+  showLogs: 0

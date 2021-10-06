@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3026574586583056993}
   - component: {fileID: 3026574586583056998}
-  - component: {fileID: 3026574586583056992}
   - component: {fileID: 4814618195929176724}
+  - component: {fileID: 3026574586583056992}
+  - component: {fileID: 4778968058535589604}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
@@ -82,21 +83,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3026574586583056992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3026574586583056999}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6c2f97f6473114bb0e64701b90c8ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effect: {fileID: 6916853137956630140, guid: 8c12ef5b98e10f6448d602ba077539a1, type: 3}
-  radius: 2
-  chainTime: 0.5
 --- !u!50 &4814618195929176724
 Rigidbody2D:
   serializedVersion: 4
@@ -118,3 +104,33 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3026574586583056992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3026574586583056999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6c2f97f6473114bb0e64701b90c8ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 6916853137956630140, guid: 8c12ef5b98e10f6448d602ba077539a1, type: 3}
+  radius: 2
+  chainTime: 0.5
+--- !u!114 &4778968058535589604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3026574586583056999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 540879fa84ae55b4686675109f22d298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetGrid: {fileID: 0}
+  width: 4
+  height: 4

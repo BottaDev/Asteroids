@@ -6,7 +6,7 @@ using UnityEngine;
 public class SpatialGrid : MonoBehaviour 
 {
     public float x;
-    //public float z;
+    public float y;
     public float cellWidth;
     public float cellHeight;
     [Tooltip("Number of columns (width of the grid)")] public int width;
@@ -64,22 +64,22 @@ public class SpatialGrid : MonoBehaviour
 
     public IEnumerable<IGridEntity> Query(Vector3 aabbFrom, Vector3 aabbTo, Func<Vector3, bool> filterByPosition) 
     {
-        var from = new Vector3(Mathf.Min(aabbFrom.x, aabbTo.x), 0, Mathf.Min(aabbFrom.z, aabbTo.z));
-        var to   = new Vector3(Mathf.Max(aabbFrom.x, aabbTo.x), 0, Mathf.Max(aabbFrom.z, aabbTo.z));
+        var from = new Vector3(Mathf.Min(aabbFrom.x, aabbTo.x), 0, Mathf.Min(aabbFrom.y, aabbTo.y));
+        var to   = new Vector3(Mathf.Max(aabbFrom.x, aabbTo.x), 0, Mathf.Max(aabbFrom.y, aabbTo.y));
 
         var fromCoord = GetPositionInGrid(from);
         var toCoord   = GetPositionInGrid(to);
 
-        fromCoord = Tuple.Create(Util.Clamp(fromCoord.Item1, 0, width), Util.Clamp(fromCoord.Item2, 0, height));
-        toCoord   = Tuple.Create(Util.Clamp(toCoord.Item1,   0, width), Util.Clamp(toCoord.Item2,   0, height));
+        fromCoord = Tuple.Create(Utility.Clamp(fromCoord.Item1, 0, width), Utility.Clamp(fromCoord.Item2, 0, height));
+        toCoord   = Tuple.Create(Utility.Clamp(toCoord.Item1,   0, width), Utility.Clamp(toCoord.Item2,   0, height));
 
         if (!IsInsideGrid(fromCoord) && !IsInsideGrid(toCoord))
             return Empty;
         
-        var cols = Util.Generate(fromCoord.Item1, x => x + 1)
+        var cols = Utility.Generate(fromCoord.Item1, x => x + 1)
                        .TakeWhile(n => n < width && n <= toCoord.Item1);
 
-        var rows = Util.Generate(fromCoord.Item2, y => y + 1)
+        var rows = Utility.Generate(fromCoord.Item2, y => y + 1)
                        .TakeWhile(y => y < height && y <= toCoord.Item2);
 
         var cells = cols.SelectMany(col => rows.Select(row => Tuple.Create(col, row)));
@@ -89,7 +89,7 @@ public class SpatialGrid : MonoBehaviour
               .SelectMany(cell => _buckets[cell.Item1, cell.Item2])
               .Where(e => 
                   from.x <= e.Position.x && e.Position.x <= to.x && 
-                  from.z <= e.Position.z && e.Position.z <= to.z)
+                  from.y <= e.Position.y && e.Position.y <= to.y)
               .Where(n => filterByPosition(n.Position));
     }
 
@@ -97,7 +97,7 @@ public class SpatialGrid : MonoBehaviour
     {
         // Removes the difference, divide according to the cells, and floors it...
         return Tuple.Create(Mathf.FloorToInt((pos.x - x) / cellWidth),
-                            Mathf.FloorToInt((pos.z - z) / cellHeight));
+                            Mathf.FloorToInt((pos.y - y) / cellHeight));
     }
 
     public bool IsInsideGrid(Tuple<int, int> position) 
@@ -112,7 +112,8 @@ public class SpatialGrid : MonoBehaviour
         var ents = RecursiveWalker(transform).Select(n => n.GetComponent<IGridEntity>())
                                              .Where(n => n != null);
         
-        foreach (var e in ents) e.OnMove -= UpdateEntity;
+        foreach (var e in ents) 
+            e.OnMove -= UpdateEntity;
     }
     
     private static IEnumerable<Transform> RecursiveWalker(Transform parent) 
@@ -134,13 +135,13 @@ public class SpatialGrid : MonoBehaviour
 
     private void OnDrawGizmos() 
     {
-        var rows = Util.Generate(z, curr => curr + cellHeight)
-                       .Select(row => Tuple.Create(new Vector3(x,                     0, row),
-                                                   new Vector3(x + cellWidth * width, 0, row)));
+        var rows = Utility.Generate(y, curr => curr + cellHeight)
+                       .Select(row => Tuple.Create(new Vector3(x,                     row, 0),
+                                                   new Vector3(x + cellWidth * width, row, 0)));
 
-        var cols = Util.Generate(x, curr => curr + cellWidth)
-                       .Select(col => Tuple.Create(new Vector3(col, 0, z),
-                                                   new Vector3(col, 0, z + cellHeight * height)));
+        var cols = Utility.Generate(x, curr => curr + cellWidth)
+                       .Select(col => Tuple.Create(new Vector3(col, y, 0),
+                                                   new Vector3(col, y + cellHeight * height, 0)));
 
         var allLines = rows.Take(width + 1).Concat(cols.Take(height + 1));
 

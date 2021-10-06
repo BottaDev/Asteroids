@@ -52,7 +52,6 @@ public class LaserWeapon : IWeapon
             }
             else
             {
-                Debug.Log("he does miss sometimes :((");
                 _lr.SetPosition(1, _playerModel.spawnPoint.position + _playerController.transform.up * range);
             }
 

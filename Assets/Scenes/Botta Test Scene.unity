@@ -127,6 +127,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 30286340314966527, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1716621751312137514, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
         type: 3}
       propertyPath: timeToSpawn
@@ -152,6 +157,11 @@ PrefabInstance:
       propertyPath: pauseMenu
       value: 
       objectReference: {fileID: 1892987248}
+    - target: {fileID: 7466508900690731645, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8646879906738742009, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
         type: 3}
       propertyPath: scorePoints
@@ -162,6 +172,11 @@ PrefabInstance:
       propertyPath: finalPoints
       value: 
       objectReference: {fileID: 1457622647}
+    - target: {fileID: 8646879906738742009, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8646879906738742010, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
         type: 3}
       propertyPath: ingameScene
@@ -772,6 +787,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778788653155771845, guid: c671f3212265bf4458e06feb5f900d7f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -23.71997
       objectReference: {fileID: 0}
     - target: {fileID: 6972737769476263171, guid: c671f3212265bf4458e06feb5f900d7f,
         type: 3}
