@@ -14,17 +14,19 @@ public class Bomb : MonoBehaviour
     public Pool<Bomb> pool;
     
     private SpriteRenderer _renderer;
+    private IQuery _query; 
 
     private void Awake()
     {
         _renderer = GetComponent<SpriteRenderer>();
+        _query = GetComponent<IQuery>();
     }
 
     public void Explode(PlayerController controller)
     {
         GameObject obj =  Instantiate(effect, transform.position, Quaternion.identity);
         Destroy(obj, chainTime);
-        
+        /*
         List<Asteroid> asteroids = GameObject.FindObjectsOfType<Asteroid>().Where(x => x.enabled = true).ToList();
         foreach (Asteroid ast in asteroids)
         {
@@ -32,7 +34,19 @@ public class Bomb : MonoBehaviour
             if (distance <= radius)
                 ast.HitByBomb();
         }
-        
+        */
+         
+        // IA2-P2, IA2-P3
+        List<Asteroid> asteroids = _query.Query()
+            .OfType<Asteroid>()
+            .Where(x => (transform.position - x.transform.position).sqrMagnitude <= radius)
+            .ToList();
+
+        foreach (Asteroid ast in asteroids)
+        {
+            ast.HitByBomb();
+        }
+
         StartCoroutine(ExplodeNextBomb(controller));
     }
 
