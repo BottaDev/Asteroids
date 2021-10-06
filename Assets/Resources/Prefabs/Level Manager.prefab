@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 7466508900690731645}
   - component: {fileID: 30286340314966527}
   - component: {fileID: 1716621751312137514}
+  - component: {fileID: 6656738378263247296}
   m_Layer: 0
   m_Name: Level Manager
   m_TagString: Untagged
@@ -161,5 +162,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b32816228a0ca43959c802a45c2c63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerUps:
-  - {fileID: 5677797852270960806, guid: f2afd17a1b856a7458c813304c8a6a36, type: 3}
+  timeToSpawn: 30
+  powerUpCount: 1
+  timeToDestroy: 15
+--- !u!114 &6656738378263247296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8646879906738742012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f715377c233c564686a668a21e62b34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x: 0
+  z: 0
+  cellWidth: 1
+  cellHeight: 1
+  width: 5
+  height: 5
+  areGizmosShutDown: 0
+  activatedGrid: 0
+  showLogs: 1
