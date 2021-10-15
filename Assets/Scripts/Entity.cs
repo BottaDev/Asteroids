@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MonoBehaviour
+public class Entity : MonoBehaviour, IGridEntity
 {
     protected void Update()
     {
@@ -22,5 +23,12 @@ public class Entity : MonoBehaviour
         
         if (transform.position.x < -LevelManager.instance.globalXLimit / 2) 
             transform.position = new Vector2(LevelManager.instance.globalXLimit / 2, transform.position.y);
+    }
+
+    public event Action<IGridEntity> OnMove;
+    public Vector3 Position 
+    {
+        get => transform.position;
+        set => transform.position = value;
     }
 }

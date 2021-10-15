@@ -39,7 +39,7 @@ public class Bomb : MonoBehaviour
         // IA2-P2, IA2-P3
         List<Asteroid> asteroids = _query.Query()
             .OfType<Asteroid>()
-            .Where(x => (transform.position - x.transform.position).sqrMagnitude <= radius)
+            .Where(x => (transform.position - x.Position).sqrMagnitude <= radius)
             .ToList();
 
         foreach (Asteroid ast in asteroids)
