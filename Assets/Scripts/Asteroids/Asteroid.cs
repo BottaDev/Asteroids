@@ -10,8 +10,10 @@ public class Asteroid : Entity, IReminder
 
     private Memento<ObjectSnapshot> _memento = new Memento<ObjectSnapshot>();
     
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         MementoManager.instance.Add(this);
         
         EventManager.Instance.Subscribe("OnGameFinished", OnGameFinished);
