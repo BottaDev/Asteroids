@@ -2,9 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Entity : MonoBehaviour, IGridEntity
 {
+    protected virtual void Start()
+    {
+        SpatialGrid grid = FindObjectOfType<SpatialGrid>();
+        grid.Add(this);
+    }
+
     protected void Update()
     {
         CheckBounds();

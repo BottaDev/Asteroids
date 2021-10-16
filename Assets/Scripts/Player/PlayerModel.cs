@@ -34,8 +34,10 @@ public class PlayerModel : Entity
         InitializeWeaponList();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         EventManager.Instance.Subscribe("OnSave", OnSaveData);
         EventManager.Instance.Subscribe("OnLoad", OnLoadData);
 

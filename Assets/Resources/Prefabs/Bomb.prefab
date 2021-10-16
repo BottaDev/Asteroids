@@ -131,6 +131,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 540879fa84ae55b4686675109f22d298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetGrid: {fileID: 0}
-  width: 4
-  height: 4
+  radius: 3
