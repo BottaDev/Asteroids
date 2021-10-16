@@ -41,6 +41,22 @@ public class SpatialGrid : MonoBehaviour
         }
     }
 
+    public void Add(IGridEntity entity) 
+    {
+        entity.OnMove += UpdateEntity;
+        UpdateEntity(entity);
+    }
+
+    public void Remove(IGridEntity entity) 
+    {
+        entity.OnMove -= UpdateEntity;
+        
+        UpdateEntity(entity);
+        var currentPos = GetPositionInGrid(entity.Position);
+        _buckets[currentPos.Item1, currentPos.Item2].Remove(entity);
+        _lastPositions.Remove(entity);
+    }
+
     public void UpdateEntity(IGridEntity entity) 
     {
         var lastPos= _lastPositions.ContainsKey(entity) ? _lastPositions[entity] : Outside;
@@ -64,8 +80,8 @@ public class SpatialGrid : MonoBehaviour
 
     public IEnumerable<IGridEntity> Query(Vector3 aabbFrom, Vector3 aabbTo, Func<Vector3, bool> filterByPosition) 
     {
-        var from = new Vector3(Mathf.Min(aabbFrom.x, aabbTo.x), 0, Mathf.Min(aabbFrom.y, aabbTo.y));
-        var to   = new Vector3(Mathf.Max(aabbFrom.x, aabbTo.x), 0, Mathf.Max(aabbFrom.y, aabbTo.y));
+        var from = new Vector3(Mathf.Min(aabbFrom.x, aabbTo.x), Mathf.Min(aabbFrom.y, aabbTo.y), 0);
+        var to   = new Vector3(Mathf.Max(aabbFrom.x, aabbTo.x), Mathf.Max(aabbFrom.y, aabbTo.y), 0);
 
         var fromCoord = GetPositionInGrid(from);
         var toCoord   = GetPositionInGrid(to);
@@ -172,7 +188,7 @@ public class SpatialGrid : MonoBehaviour
                 }
 
                 if (showLogs)
-                    Debug.Log("tengo " + connections + " conexiones por individuo");
+                    Debug.Log("Tengo " + connections + " conexiones por individuo");
                 connections = 0;
             }
         }
@@ -190,7 +206,7 @@ public class SpatialGrid : MonoBehaviour
                     }
 
                     if (showLogs)
-                        Debug.Log("tengo " + connections + " conexiones por individuo");
+                        Debug.Log("Tengo " + connections + " conexiones por individuo");
                     connections = 0;
                 }
             }
