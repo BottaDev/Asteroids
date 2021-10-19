@@ -6,6 +6,8 @@ using System.Linq;
 
 public class Entity : MonoBehaviour, IGridEntity
 {
+    public event Action<IGridEntity> OnMove;
+    
     protected virtual void Start()
     {
         SpatialGrid grid = FindObjectOfType<SpatialGrid>();
@@ -15,6 +17,7 @@ public class Entity : MonoBehaviour, IGridEntity
     protected void Update()
     {
         CheckBounds();
+        OnMove?.Invoke(this);
     }
     
     private void CheckBounds()
@@ -31,8 +34,7 @@ public class Entity : MonoBehaviour, IGridEntity
         if (transform.position.x < -LevelManager.instance.globalXLimit / 2) 
             transform.position = new Vector2(LevelManager.instance.globalXLimit / 2, transform.position.y);
     }
-
-    public event Action<IGridEntity> OnMove;
+    
     public Vector3 Position 
     {
         get => transform.position;
