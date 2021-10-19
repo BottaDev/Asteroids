@@ -5,11 +5,12 @@ using UnityEngine;
 public class ShipEnemy : Entity
 {
     private StateMachine _sm;
+    public Pool<ShipEnemy> pool;
 
     [HideInInspector] public LineRenderer lineRenderer;
     [HideInInspector] public PlayerController target;
     [HideInInspector] public Vector2 targetPoint;
-     public float currentSpeed;
+    public float currentSpeed;
     
     [Range(0f, 2f)]   public float patrolArea;
     public float speed;
@@ -31,6 +32,41 @@ public class ShipEnemy : Entity
         _sm.OnUpdate();
 
         transform.position += transform.up * currentSpeed * Time.deltaTime;
+    }
+
+
+    public void HitByLaser()
+    {
+        Die();
+    }
+
+    public void HitByBomb()
+    {
+        Die();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Player bullet
+        if (other.gameObject.layer == 8)
+            Die();
+    }
+
+    void Die(bool hasScore = true)
+    {
+        if (hasScore)
+            EventManager.Instance.Trigger("OnAsteroidDestroyed", AsteroidFlyweightPoint.normal.points);
+        pool.ReturnToPool(this);
+    }
+
+    public static void TurnOn(ShipEnemy ship)
+    {
+        ship.gameObject.SetActive(true);
+    }
+
+    public static void TurnOff(ShipEnemy ship)
+    {
+        ship.gameObject.SetActive(false);
     }
 }
 
@@ -61,7 +97,7 @@ public class ShipPatrolState : IState
     {
         _ship.transform.eulerAngles += Vector3.forward * (1 + _ship.patrolArea);
 
-        RaycastHit2D ray = Physics2D.Raycast(_ship.transform.position, _ship.transform.up);
+        RaycastHit2D ray = Physics2D.Raycast(_ship.transform.position + _ship.transform.up * 0.5f, _ship.transform.up);
         if (ray.collider != null && ray.collider.gameObject.layer == 10)
         {
             _ship.targetPoint = ray.collider.transform.position + (ray.collider.transform.position - _ship.transform.position).normalized * _ship.overshoot;
