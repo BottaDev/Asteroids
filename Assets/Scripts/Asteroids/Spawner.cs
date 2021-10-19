@@ -5,21 +5,32 @@ using UnityEngine;
 public class Spawner : MonoBehaviour, ISpawner
 {
     public float TimeToSpawn = 30;
-    public int AsteroidCount = 8;
+    public int EntityCount = 8;
     public float AsteroidSpeed = 2f;
+    public float SateliteSpeed = 1.5f;
 
     private float _currentTime;
     private Transform _playerPos;
     private Pool<Asteroid> _asteroidPool;
+    private Pool<SateliteEnemy> _satelitePool;
+    private Pool<ShipEnemy> _shipPool;
 
     private void Awake()
     {
         EventManager.Instance.Subscribe("OnGameFinished", OnGameFinished);
 
-        AsteroidBuilder builder = new AsteroidBuilder();
-        builder.SetSpeed(AsteroidSpeed);
+        AsteroidBuilder asteroidBuilder = new AsteroidBuilder();
+        asteroidBuilder.SetSpeed(AsteroidSpeed);
 
-        _asteroidPool = new Pool<Asteroid>(builder.Build, Asteroid.TurnOn, Asteroid.TurnOff, AsteroidCount);
+        SateliteBuilder sateliteBuilder = new SateliteBuilder();
+        sateliteBuilder.SetSpeed(SateliteSpeed);
+
+        ShipBuilder shipBuilder = new ShipBuilder();
+
+
+        _asteroidPool = new Pool<Asteroid>(asteroidBuilder.Build, Asteroid.TurnOn, Asteroid.TurnOff, EntityCount);
+        _satelitePool = new Pool<SateliteEnemy>(sateliteBuilder.Build, SateliteEnemy.TurnOn, SateliteEnemy.TurnOff, EntityCount);
+        _shipPool     = new Pool<ShipEnemy>(shipBuilder.Build, ShipEnemy.TurnOn, ShipEnemy.TurnOff, EntityCount);
     }
 
     private void Start()
@@ -45,18 +56,41 @@ public class Spawner : MonoBehaviour, ISpawner
 
     public void SpawnObject()
     {
-        for (int i = 0; i < AsteroidCount; i++)
+        for (int i = 0; i < EntityCount; i++)
         {
             Vector3 v3Pos = Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(-1f, 1f),Random.Range(-1f, 1f),10));
-        
-            var asteroid = _asteroidPool.Get();
-            asteroid.pool = _asteroidPool;
-            asteroid.transform.position = v3Pos;
 
-            Vector3 diff = _playerPos.position - asteroid.transform.position;
-            diff.Normalize();
-            float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
-            asteroid.transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);    
+            int random = Random.Range(0,3);
+
+            switch (random)
+            {
+                case 0: //Case Asteroid
+
+                    var asteroid = _asteroidPool.Get();
+                    asteroid.pool = _asteroidPool;
+                    asteroid.transform.position = v3Pos;
+
+                    Vector3 diff = _playerPos.position - asteroid.transform.position;
+                    diff.Normalize();
+                    float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+                    asteroid.transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
+                    break;
+
+                case 1: //Case Satelite
+
+                    var satelite = _satelitePool.Get();
+                    satelite.pool = _satelitePool;
+                    satelite.transform.position = v3Pos;
+                    break;
+
+                case 2: //Case Ship
+
+                    var ship = _shipPool.Get();
+                    ship.pool = _shipPool;
+                    ship.transform.position = v3Pos;
+                    break;
+            }
+
         }
 
         _currentTime = TimeToSpawn;
@@ -81,6 +115,6 @@ public class Spawner : MonoBehaviour, ISpawner
 
     public void StopAsteroids()
     {
-        AsteroidCount = 0;
+        EntityCount = 0;
     }
 }
