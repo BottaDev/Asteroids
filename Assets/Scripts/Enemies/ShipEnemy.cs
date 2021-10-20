@@ -35,12 +35,12 @@ public class ShipEnemy : Entity
     }
 
 
-    public void HitByLaser()
+    public override void HitByLaser()
     {
         Die();
     }
 
-    public void HitByBomb()
+    public override void HitByBomb()
     {
         Die();
     }

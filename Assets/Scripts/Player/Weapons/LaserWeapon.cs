@@ -34,21 +34,28 @@ public class LaserWeapon : IWeapon
 
 
     RaycastHit2D hit;
-    LayerMask layerMask = (1 << 9);
+    LayerMask asteroidLayerMask = (1 << 9);
+    LayerMask enemyLayerMask = (1 << 13);
     IEnumerator Laser()
     {
         _lr.enabled = true;
         _isLaserOn = true;
+        LayerMask finalLayerMask = asteroidLayerMask | enemyLayerMask;
 
         for (int i = 0; i < duration*60; i++)
         {
             _lr.SetPosition(0, _playerModel.spawnPoint.position);
 
-            if (hit = Physics2D.Raycast(_playerModel.spawnPoint.position, _playerController.transform.up, range, layerMask))
+            if (hit = Physics2D.Raycast(_playerModel.spawnPoint.position, _playerController.transform.up, range, finalLayerMask))
             {
                 Debug.Log(hit.collider.name);
                 _lr.SetPosition(1, hit.point);
-                hit.collider.GetComponent<Asteroid>().HitByLaser();
+                
+                if (hit.collider.gameObject.layer == 9)             // Asteroid
+                    hit.collider.GetComponent<Asteroid>().HitByLaser();
+                else if (hit.collider.gameObject.layer == 13)        // Enemy
+                    hit.collider.GetComponent<Entity>().HitByLaser();
+                
             }
             else
             {

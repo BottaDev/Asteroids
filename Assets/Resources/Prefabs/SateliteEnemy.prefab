@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 231680301}
   - component: {fileID: 231680302}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: AreaVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 3593497549939601114}
   - component: {fileID: 3593497549939601113}
   - component: {fileID: 1252386210369183607}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: SateliteEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3593497551237594612}
   - component: {fileID: 3593497551237594619}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

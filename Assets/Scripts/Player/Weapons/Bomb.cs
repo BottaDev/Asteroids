@@ -37,14 +37,14 @@ public class Bomb : MonoBehaviour
         */
          
         // IA2-P2, IA2-P3
-        List<Asteroid> asteroids = _query.Query()
-            .OfType<Asteroid>()
+        List<Entity> entities = _query.Query()
+            .OfType<Entity>()
             .Where(x => (transform.position - x.Position).sqrMagnitude <= radius)
             .ToList();
 
-        foreach (Asteroid ast in asteroids)
+        foreach (Entity e in entities)
         {
-            ast.HitByBomb();
+            e.HitByBomb();
         }
 
         StartCoroutine(ExplodeNextBomb(controller));

@@ -52,12 +52,12 @@ public class SateliteEnemy : Entity
         transform.position += transform.up * speed * Time.deltaTime;
     }
 
-    public void HitByLaser()
+    public override void HitByLaser()
     {
         Die();
     }
 
-    public void HitByBomb()
+    public override void HitByBomb()
     {
         Die();
     }

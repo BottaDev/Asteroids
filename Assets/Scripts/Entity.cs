@@ -20,6 +20,10 @@ public class Entity : MonoBehaviour, IGridEntity
         OnMove?.Invoke(this);
     }
     
+    public virtual void HitByLaser() { }
+
+    public virtual void HitByBomb() { }
+    
     private void CheckBounds()
     {
         if (transform.position.y > LevelManager.instance.globalYLimit / 2) 

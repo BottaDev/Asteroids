@@ -171,21 +171,11 @@ public class PlayerController : MonoBehaviour, IReminder
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Asteroid
-        if (other.gameObject.layer == 9)
+        // Asteroid, Enemy
+        if (other.gameObject.layer == 9 || other.gameObject.layer == 13)
         {
             _playerModel.lifes--;
             EventManager.Instance.Trigger("OnPlayerDamaged", _playerModel.lifes);
         }
-        /*
-        else if (other.gameObject.layer == 11)  // Rewind PowerUp
-        {
-            Rewind();
-        }
-        else if (other.gameObject.layer == 12)  // Heal PowerUp
-        {
-            HealPlayer();
-        }
-        */
     }
 }

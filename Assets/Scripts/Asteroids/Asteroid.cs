@@ -49,12 +49,12 @@ public class Asteroid : Entity, IReminder
         asteroid.gameObject.SetActive(false);
     }
 
-    public void HitByLaser()
+    public override void HitByLaser()
     {
         DestroyAsteroid();
     }
 
-    public void HitByBomb()
+    public override void HitByBomb()
     {
         DestroyAsteroid();
     }
