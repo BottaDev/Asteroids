@@ -105,8 +105,7 @@ public class Asteroid : Entity, IReminder
         var snapshot = _memento.Remember();
 
         transform.position = snapshot.position;
-        transform.rotation = snapshot.rotation;   
-        
+        transform.rotation = snapshot.rotation;
     }
 
     public IEnumerator StartToRecord()
