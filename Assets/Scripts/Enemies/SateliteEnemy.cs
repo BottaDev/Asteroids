@@ -180,12 +180,13 @@ public class SateliteWanderState : IState
             _sm.ChangeState("Chase");
         }
 
-        List<PlayerModel> pm = _satelite.query.Query()
+        //IA2-P3
+        PlayerModel pm = _satelite.query.Query()
             .OfType<PlayerModel>()
-            .ToList<PlayerModel>();
-        if (pm.Count > 0)
-            _satelite.target = pm[0];
-       
+            .OrderBy(n => Vector3.Distance(_satelite.transform.position, n.Position))
+            .FirstOrDefault();
+
+        _satelite.target = pm;
     }
 }
 
