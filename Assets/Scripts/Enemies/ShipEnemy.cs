@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//IA2-P1
 public class ShipEnemy : Entity, IReminder
 {
     private StateMachine _sm;

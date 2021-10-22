@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//IA2-P1
 public class StateMachine
 {
     private Dictionary<string, IState> _stateDictionary = new Dictionary<string, IState>();
