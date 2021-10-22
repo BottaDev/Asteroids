@@ -6,6 +6,9 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance = null;
+    
+    [HideInInspector]
+    public SpatialGrid targetGrid;
 
     [Header("Map Limit")]
     public float globalXLimit = 17.5f;
@@ -17,6 +20,8 @@ public class LevelManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
+
+        targetGrid = GetComponent<SpatialGrid>();
     }
 
     private void OnDrawGizmos()

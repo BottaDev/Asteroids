@@ -26,25 +26,16 @@ public class Bomb : MonoBehaviour
     {
         GameObject obj =  Instantiate(effect, transform.position, Quaternion.identity);
         Destroy(obj, chainTime);
-        /*
-        List<Asteroid> asteroids = GameObject.FindObjectsOfType<Asteroid>().Where(x => x.enabled = true).ToList();
-        foreach (Asteroid ast in asteroids)
-        {
-            float distance = Vector2.Distance(transform.position, ast.transform.position);
-            if (distance <= radius)
-                ast.HitByBomb();
-        }
-        */
-         
+
         // IA2-P2, IA2-P3
-        List<Asteroid> asteroids = _query.Query()
-            .OfType<Asteroid>()
+        List<Entity> entities = _query.Query()
+            .OfType<Entity>()
             .Where(x => (transform.position - x.Position).sqrMagnitude <= radius)
             .ToList();
 
-        foreach (Asteroid ast in asteroids)
+        foreach (Entity e in entities)
         {
-            ast.HitByBomb();
+            e.HitByBomb();
         }
 
         StartCoroutine(ExplodeNextBomb(controller));

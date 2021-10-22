@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //IA2-P1
-public class ShipEnemy : Entity
+public class ShipEnemy : Entity, IReminder
 {
     private StateMachine _sm;
     public Pool<ShipEnemy> pool;
@@ -17,6 +17,8 @@ public class ShipEnemy : Entity
     public float speed;
     public float overshoot;
 
+    private Memento<ObjectSnapshot> _memento = new Memento<ObjectSnapshot>();
+    
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -25,6 +27,14 @@ public class ShipEnemy : Entity
         _sm.AddState("Attack", new ShipAttackState(_sm, this));
 
         _sm.ChangeState("Patrol");
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        
+        MementoManager.instance.Add(this);
+        EventManager.Instance.Subscribe("OnRewind", OnRewind);
     }
 
     protected void Update()
@@ -36,12 +46,12 @@ public class ShipEnemy : Entity
     }
 
 
-    public void HitByLaser()
+    public override void HitByLaser()
     {
         Die();
     }
 
-    public void HitByBomb()
+    public override void HitByBomb()
     {
         Die();
     }
@@ -68,6 +78,42 @@ public class ShipEnemy : Entity
     public static void TurnOff(ShipEnemy ship)
     {
         ship.gameObject.SetActive(false);
+    }
+
+    private void OnRewind(params object[] parameters)
+    {
+        Rewind();   
+    }
+    
+    public void Rewind()
+    {
+        if (!_memento.CanRemember()) 
+            return;
+        
+        var snapshot = _memento.Remember();
+
+        transform.position = snapshot.position;
+        transform.rotation = snapshot.rotation;
+    }
+
+    public IEnumerator StartToRecord()
+    {
+        while (true) 
+        {
+            if (gameObject.activeSelf)
+                MakeSnapshot();
+            
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+    
+    public void MakeSnapshot()
+    {
+        var snapshot = new ObjectSnapshot();
+        snapshot.position = transform.position;
+        snapshot.rotation = transform.localRotation;
+        
+        _memento.Record(snapshot);
     }
 }
 

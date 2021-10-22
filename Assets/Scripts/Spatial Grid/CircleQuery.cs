@@ -6,13 +6,7 @@ using UnityEngine;
 public class CircleQuery : MonoBehaviour, IQuery 
 {
     public float radius = 5f;
-    private SpatialGrid _targetGrid;
-
-    private void Start()
-    {
-        _targetGrid = FindObjectOfType<SpatialGrid>();
-    }
-
+    
     public IEnumerable<IGridEntity> Query() 
     {
         var halfSize = new Vector3(radius, radius, 0);
@@ -20,7 +14,7 @@ public class CircleQuery : MonoBehaviour, IQuery
         var aabbFrom = transform.position - halfSize;
         var aabbTo = transform.position + halfSize;
 
-        return _targetGrid.Query(aabbFrom, aabbTo, n => (transform.position - n).sqrMagnitude <= radius * radius);
+        return LevelManager.instance.targetGrid.Query(aabbFrom, aabbTo, n => (transform.position - n).sqrMagnitude <= radius * radius);
     }
 
     private void OnDrawGizmos() 

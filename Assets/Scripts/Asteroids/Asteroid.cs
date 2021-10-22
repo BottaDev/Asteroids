@@ -49,12 +49,12 @@ public class Asteroid : Entity, IReminder
         asteroid.gameObject.SetActive(false);
     }
 
-    public void HitByLaser()
+    public override void HitByLaser()
     {
         DestroyAsteroid();
     }
 
-    public void HitByBomb()
+    public override void HitByBomb()
     {
         DestroyAsteroid();
     }
@@ -105,8 +105,7 @@ public class Asteroid : Entity, IReminder
         var snapshot = _memento.Remember();
 
         transform.position = snapshot.position;
-        transform.rotation = snapshot.rotation;   
-        
+        transform.rotation = snapshot.rotation;
     }
 
     public IEnumerator StartToRecord()

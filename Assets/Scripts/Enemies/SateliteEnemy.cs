@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 
 //IA2-P1
-public class SateliteEnemy : Entity
+public class SateliteEnemy : Entity, IReminder
 {
     public float speed;
     public float searchRadius;
@@ -20,6 +20,7 @@ public class SateliteEnemy : Entity
     [HideInInspector] public PlayerModel target;
 
     private StateMachine _sm;
+    private Memento<ObjectSnapshot> _memento = new Memento<ObjectSnapshot>();
 
 
     public void Configure(float _speed)
@@ -44,6 +45,14 @@ public class SateliteEnemy : Entity
         _sm.ChangeState("Wander");
     }
 
+    protected override void Start()
+    {
+        base.Start();
+        
+        MementoManager.instance.Add(this);
+        EventManager.Instance.Subscribe("OnRewind", OnRewind);
+    }
+
     protected void Update()
     {
         base.Update();
@@ -53,12 +62,12 @@ public class SateliteEnemy : Entity
         transform.position += transform.up * speed * Time.deltaTime;
     }
 
-    public void HitByLaser()
+    public override void HitByLaser()
     {
         Die();
     }
 
-    public void HitByBomb()
+    public override void HitByBomb()
     {
         Die();
     }
@@ -85,6 +94,42 @@ public class SateliteEnemy : Entity
     public static void TurnOff(SateliteEnemy satelite)
     {
         satelite.gameObject.SetActive(false);
+    }
+
+    public void MakeSnapshot()
+    {
+        var snapshot = new ObjectSnapshot();
+        snapshot.position = transform.position;
+        snapshot.rotation = transform.localRotation;
+        
+        _memento.Record(snapshot);
+    }
+
+    private void OnRewind(params object[] parameters)
+    {
+        Rewind();   
+    }
+    
+    public void Rewind()
+    {
+        if (!_memento.CanRemember()) 
+            return;
+        
+        var snapshot = _memento.Remember();
+
+        transform.position = snapshot.position;
+        transform.rotation = snapshot.rotation;
+    }
+
+    public IEnumerator StartToRecord()
+    {
+        while (true) 
+        {
+            if (gameObject.activeSelf)
+                MakeSnapshot();
+            
+            yield return new WaitForSeconds(.1f);
+        }
     }
 }
 
