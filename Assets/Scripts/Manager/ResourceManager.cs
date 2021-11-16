@@ -29,6 +29,10 @@ public class ResourceManager : MonoBehaviour
                 newObj = Resources.Load<GameObject>("Prefabs/Bullet");
                 break;
                 
+            case "EnemyBullet":
+                newObj = Resources.Load<GameObject>("Prefabs/Enemy Bullet");
+                break;
+            
             case "SmallAsteroid":
                 newObj = Resources.Load<GameObject>("Prefabs/Asteroid (Small)");
                 break;;

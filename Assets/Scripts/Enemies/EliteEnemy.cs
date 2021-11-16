@@ -6,6 +6,8 @@ public class EliteEnemy : MonoBehaviour
     public ChaseState chaseState;
     public AttackState attackState;
 
+    public Pool<EnemyBullet> bulletPool;
+    
     [HideInInspector] public PlayerModel player;
     
     private FiniteStateMachine _fsm;
@@ -19,6 +21,10 @@ public class EliteEnemy : MonoBehaviour
         attackState.OnNeedsReplan += OnReplan;
         
         player = FindObjectOfType<PlayerModel>();
+        
+        EnemyBulletBuilder bulletBuilder = new EnemyBulletBuilder();
+        bulletBuilder.Configure(attackState.bulletSpeed, attackState.timeToDestroy);
+        bulletPool = new Pool<EnemyBullet>(bulletBuilder.Build, EnemyBullet.TurnOn, EnemyBullet.TurnOff, 5);
         
         //OnlyPlan();
         PlanAndExecute();

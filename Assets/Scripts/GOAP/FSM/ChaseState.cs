@@ -26,9 +26,8 @@ public class ChaseState : MonoBaseState
 
     private void Move()
     {
-        var dir = (_enemy.player.transform.position - transform.position).normalized;
-
-        transform.position += dir * (speed * Time.deltaTime);
+        transform.position =
+            Vector2.MoveTowards(transform.position, _enemy.player.transform.position, speed * Time.deltaTime);
     }
 
     private void RotateTowardsPlayer()
@@ -44,7 +43,7 @@ public class ChaseState : MonoBaseState
     {
         float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
         
-        if (distance < attackDistance && Transitions.ContainsKey("OnAttackState"))
+        if (distance <= attackDistance && Transitions.ContainsKey("OnAttackState"))
             return Transitions["OnAttackState"];
 
         return this;

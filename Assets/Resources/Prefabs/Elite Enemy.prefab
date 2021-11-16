@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b435c7d9b7ddc14095e9629c2f49d62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speed: 2
   attackDistance: 7
 --- !u!114 &6624694664997950920
 MonoBehaviour:
@@ -110,6 +110,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea46c6b4320ebb04b937db2f4489a6f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireRate: 1.5
+  bulletSpeed: 5
+  timeToDestroy: 5
+  spawnPoint: {fileID: 1763836223446398720}
 --- !u!114 &8623669413536092782
 MonoBehaviour:
   m_ObjectHideFlags: 0
