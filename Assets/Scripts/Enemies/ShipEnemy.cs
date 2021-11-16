@@ -9,7 +9,6 @@ public class ShipEnemy : Entity, IReminder
     public Pool<ShipEnemy> pool;
 
     [HideInInspector] public LineRenderer lineRenderer;
-    [HideInInspector] public PlayerController target;
     [HideInInspector] public Vector2 targetPoint;
     public float currentSpeed;
     
@@ -130,14 +129,13 @@ public class ShipPatrolState : IState
 
     public void OnEnter()
     {
-        Debug.Log("Patrol - OnEnter");
-
+        //Debug.Log("Patrol - OnEnter");
         _ship.currentSpeed = _ship.speed;
     }
 
     public void OnExit()
     {
-        Debug.Log("Patrol - OnExit");
+        //Debug.Log("Patrol - OnExit");
     }
 
     public void OnUpdate()
@@ -172,7 +170,7 @@ public class ShipAttackState : IState
         _ship.transform.up = ((Vector3)_ship.targetPoint - _ship.transform.position).normalized;
         _ship.currentSpeed = 0.01f;
 
-        Debug.Log("Attack - OnEnter");
+        //Debug.Log("Attack - OnEnter");
     }
 
     public void OnExit()
@@ -180,7 +178,7 @@ public class ShipAttackState : IState
         _ship.lineRenderer.SetPosition(0, Vector3.zero);
         _ship.lineRenderer.SetPosition(1, Vector3.zero);
 
-        Debug.Log("Attack - OnExit");
+        //Debug.Log("Attack - OnExit");
     }
 
     public void OnUpdate()
@@ -197,7 +195,8 @@ public class ShipAttackState : IState
         }
     }
 
-    float BezierSpeed(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3, float t) //receives a point between start and destination and returns the apropiate speed corresponding to a bezier curve
+    // Receives a point between start and destination and returns the apropiate speed corresponding to a bezier curve
+    private float BezierSpeed(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3, float t)
     {
         Vector2 A = Vector2.Lerp(p0, p1, t);
         Vector2 B = Vector2.Lerp(p1, p2, t);

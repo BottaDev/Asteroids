@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 
-public class Bullet : Entity
+public class EnemyBullet : Entity
 {
-    public Pool<Bullet> pool;
+    public Pool<EnemyBullet> pool;
+    
+    public float speed;
+    public float timeToDestroy;
     
     private float _spawnTime;
 
@@ -11,18 +14,19 @@ public class Bullet : Entity
         _spawnTime = Time.time;
     }
     
-    public void Configure(float speed) 
+    public void Configure(float speed, float timeToDestroy) 
     {
-        BulletFlyweightPoint.normal.speed = speed;
+        this.speed = speed;
+        this.timeToDestroy = timeToDestroy;
     }
 
     private new void Update()
     {
         base.Update();
         
-        transform.position += transform.up * (BulletFlyweightPoint.normal.speed * Time.deltaTime);
+        transform.position += transform.up * (speed * Time.deltaTime);
         
-        if (_spawnTime + BulletFlyweightPoint.normal.TimeToDestroy <= Time.time)
+        if (_spawnTime + timeToDestroy <= Time.time)
             DestroyBullet();
     }
 
@@ -33,16 +37,17 @@ public class Bullet : Entity
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.layer == 9 || other.gameObject.layer == 13) 
+        // Enemy Bullet
+        if (other.gameObject.layer == 10)
             DestroyBullet();
     }
     
-    public static void TurnOn(Bullet bullet)
+    public static void TurnOn(EnemyBullet bullet)
     {
         bullet.gameObject.SetActive(true);
     }
     
-    public static void TurnOff(Bullet bullet)
+    public static void TurnOff(EnemyBullet bullet)
     {
         bullet.gameObject.SetActive(false);
     }

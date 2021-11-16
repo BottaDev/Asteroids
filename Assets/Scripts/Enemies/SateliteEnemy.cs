@@ -164,12 +164,12 @@ public class SateliteWanderState : IState
 
         _satelite.currentRotationSpeed = _satelite.slowRotationSpeed;
 
-        Debug.Log("Wander - OnEnter");
+        //Debug.Log("Wander - OnEnter");
     }
 
     public void OnExit()
     {
-        Debug.Log("Wander - OnExit");
+        //Debug.Log("Wander - OnExit");
     }
 
     public void OnUpdate()
@@ -203,7 +203,7 @@ public class SateliteChaseState : IState
 
     public void OnEnter()
     {
-        Debug.Log("Chase - OnEnter");
+        //Debug.Log("Chase - OnEnter");
         if (_satelite.target == null)
             _satelite.target = GameObject.Find("Player").GetComponent <PlayerModel>();
 
@@ -212,7 +212,7 @@ public class SateliteChaseState : IState
 
     public void OnExit()
     {
-        Debug.Log("Chase - OnExit");
+        //Debug.Log("Chase - OnExit");
     }
 
     public void OnUpdate()
