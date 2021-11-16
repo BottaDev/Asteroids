@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3031661911973105345}
   - component: {fileID: 3031661911973105344}
   - component: {fileID: 4426595410653204681}
+  - component: {fileID: 6624694664997950920}
   - component: {fileID: 8623669413536092782}
   m_Layer: 0
   m_Name: Elite Enemy
@@ -95,6 +96,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b435c7d9b7ddc14095e9629c2f49d62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 4
+  attackDistance: 7
+--- !u!114 &6624694664997950920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3031661911973105347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea46c6b4320ebb04b937db2f4489a6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8623669413536092782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,6 +123,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chaseState: {fileID: 4426595410653204681}
+  attackState: {fileID: 6624694664997950920}
+  player: {fileID: 0}
 --- !u!1 &4052234716751093257
 GameObject:
   m_ObjectHideFlags: 0

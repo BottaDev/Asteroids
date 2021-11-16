@@ -129,14 +129,13 @@ public class ShipPatrolState : IState
 
     public void OnEnter()
     {
-        Debug.Log("Patrol - OnEnter");
-
+        //Debug.Log("Patrol - OnEnter");
         _ship.currentSpeed = _ship.speed;
     }
 
     public void OnExit()
     {
-        Debug.Log("Patrol - OnExit");
+        //Debug.Log("Patrol - OnExit");
     }
 
     public void OnUpdate()

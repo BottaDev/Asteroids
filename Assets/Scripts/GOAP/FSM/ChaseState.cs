@@ -6,33 +6,53 @@ using UnityEngine;
 public class ChaseState : MonoBaseState
 {
     public float speed = 4f;
+    public float attackDistance = 3f;
     
-    private PlayerModel _player;
+    private EliteEnemy _enemy;
     
     private void Awake()
     {
-        _player = FindObjectOfType<PlayerModel>();
+        _enemy = GetComponent<EliteEnemy>();
+    }
+
+    public override void UpdateLoop()
+    {
+        if (_enemy.player == null)
+            return;
+        
+        RotateTowardsPlayer();
+        Move();
+    }
+
+    private void Move()
+    {
+        var dir = (_enemy.player.transform.position - transform.position).normalized;
+
+        transform.position += dir * (speed * Time.deltaTime);
     }
 
     private void RotateTowardsPlayer()
     {
-        if (_player == null)
-            return;
-        
-        float offset = 90f;
-        Vector2 direction = _player.transform.position - transform.position;
+        float offset = 270f;
+        Vector2 direction = _enemy.player.transform.position - transform.position;
         direction.Normalize();
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;       
         transform.rotation = Quaternion.Euler(Vector3.forward * (angle + offset));
     }
     
-    public override void UpdateLoop()
-    {
-        RotateTowardsPlayer();
-    }
-
     public override IGoapState ProcessInput()
     {
-        throw new System.NotImplementedException();
+        float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
+        
+        if (distance < attackDistance && Transitions.ContainsKey("OnAttackState"))
+            return Transitions["OnAttackState"];
+
+        return this;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackDistance);
     }
 }
