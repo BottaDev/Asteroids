@@ -53,9 +53,12 @@ public class AttackState : MonoBaseState
     public override IGoapState ProcessInput()
     {
         float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
-        
-        if (distance > _chaseState.attackDistance && Transitions.ContainsKey("OnChaseState"))
-            return Transitions["OnChaseState"];
+
+        if (distance > _chaseState.attackDistance)
+        {
+            Debug.Log("ads");
+            Replan();   
+        }
 
         return this;
     }

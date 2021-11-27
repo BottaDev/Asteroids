@@ -26,7 +26,6 @@ public class EliteEnemy : MonoBehaviour
         bulletBuilder.Configure(attackState.bulletSpeed, attackState.timeToDestroy);
         bulletPool = new Pool<EnemyBullet>(bulletBuilder.Build, EnemyBullet.TurnOn, EnemyBullet.TurnOff, 5);
         
-        //OnlyPlan();
         PlanAndExecute();
     }
 
@@ -60,40 +59,17 @@ public class EliteEnemy : MonoBehaviour
 
     private void OnReplan() 
     {
-        if (Time.time >= _lastReplanTime + _replanRate) 
+        if (Time.time >= _lastReplanTime + _replanRate)
             _lastReplanTime = Time.time;
         else 
             return;
 
-        var actions = new List<GOAPAction>
-        {
-            new GOAPAction("Chase")
-                .Effect("isPlayerNear",true)
-                .LinkedState(chaseState),
-            
-            new GOAPAction("Attack")
-                .Pre("isPlayerNear",true)
-                .Effect("isPlayerAlive",false)
-                .LinkedState(attackState),
-        };
-
-        var from = new GOAPState();
-        from.values["isPlayerNear"] = false;
-        from.values["isPlayerAlive"]   = true;
-        
-        var to = new GOAPState();
-        to.values["isPlayerAlive"] = false;
-
-        var planner = new GOAPPlanner();
-
-        var plan = planner.Run(from, to, actions);
-        
-        ConfigureFsm(plan);
+        PlanAndExecute();
     }
 
     private void ConfigureFsm(IEnumerable<GOAPAction> plan) 
     {
-        Debug.Log("Completed Plan");
+        //Debug.Log("Completed Plan");
         _fsm = GOAPPlanner.ConfigureFSM(plan, StartCoroutine);
         _fsm.Active = true;
     }

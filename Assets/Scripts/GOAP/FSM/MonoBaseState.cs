@@ -40,6 +40,11 @@ public abstract class MonoBaseState : MonoBehaviour, IGoapState
         return null;
     }
 
+    protected void Replan()
+    {
+        OnNeedsReplan?.Invoke();
+    }
+    
     public abstract void UpdateLoop();
 
     protected virtual void OnActive() {}
