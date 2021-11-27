@@ -56,7 +56,7 @@ public class AttackState : MonoBaseState
 
         if (distance > _chaseState.attackDistance)
         {
-            Debug.Log("ads");
+            Debug.Log("Re-planning...");
             Replan();   
         }
 
