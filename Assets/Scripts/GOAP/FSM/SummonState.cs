@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class SummonState : MonoBaseState
 {
-    float summonInterval = 1.75f;
+    float summonInterval = 1f;
     float next;
+    float speed = 40;
 
     private EliteEnemy _enemy;
     private Pool<Asteroid> _asteroidPool;
@@ -26,6 +27,8 @@ public class SummonState : MonoBaseState
             next = Time.time + summonInterval;
             Summon();
         }
+
+        transform.eulerAngles += Vector3.forward * speed * Time.deltaTime;
     }
 
     void Summon()
@@ -34,10 +37,7 @@ public class SummonState : MonoBaseState
         asteroid.pool = _asteroidPool;
         asteroid.transform.position = transform.position;
 
-        Vector3 diff = _enemy.player.transform.position - asteroid.transform.position;
-        diff.Normalize();
-        float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
-        asteroid.transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
+        asteroid.transform.rotation = transform.rotation;
     }
 
     public override IGoapState ProcessInput()
