@@ -7,6 +7,7 @@ public class EliteEnemy : MonoBehaviour
     public int hp;
 
     public HealState healState;
+    public FleeState fleeState;
     public ChaseState chaseState;
     public AttackState attackState;
     public SummonState summonState;
@@ -58,11 +59,17 @@ public class EliteEnemy : MonoBehaviour
                 .Pre("isPlayerNear",false)
                 .Effect("isPlayerAlive",false)
                 .LinkedState(summonState),
+
+            new GOAPAction("Flee")
+                .Pre("isPlayerTooNear",false)
+                .Effect("isPlayerAlive",false)
+                .LinkedState(fleeState),
         };
         
         var from = new GOAPState();
         from.values["isPlayerNear"] = false;
         from.values["isPlayerAlive"] = true;
+        from.values["isPlayerTooNear"] = false;
 
         var to = new GOAPState();
         to.values["isPlayerAlive"] = false;
@@ -94,22 +101,26 @@ public class EliteEnemy : MonoBehaviour
 
             new GOAPAction("Heal")
                 .Pre("isPlayerNear",false)
-                .Effect("isInjured",false)
                 .LinkedState(healState),
 
             new GOAPAction("Summon")
                 .Pre("isPlayerNear",false)
                 .Effect("isPlayerAlive",false)
                 .LinkedState(summonState),
+
+            new GOAPAction("Flee")
+                .Pre("isPlayerTooNear",false)
+                .Effect("isPlayerAlive",false)
+                .LinkedState(fleeState),
         };
 
         var from = new GOAPState();
         from.values["isPlayerNear"] = false;
-        from.values["isPlayerAlive"]   = true;
-        
+        from.values["isPlayerAlive"] = true;
+        from.values["isPlayerTooNear"] = false;
+
         var to = new GOAPState();
         to.values["isPlayerAlive"] = false;
-        to.values["isInjured"] = false;
 
         var planner = new GOAPPlanner();
 

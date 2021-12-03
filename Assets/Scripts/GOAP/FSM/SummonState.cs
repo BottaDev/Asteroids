@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class SummonState : MonoBaseState
 {
-    float summonInterval = 1f;
+    float summonInterval = 2f;
     float next;
     float speed = 40;
+    public float attackDistance = 3f;
 
     private EliteEnemy _enemy;
     private Pool<Asteroid> _asteroidPool;
@@ -42,6 +43,11 @@ public class SummonState : MonoBaseState
 
     public override IGoapState ProcessInput()
     {
+        float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
+
+        if (distance <= attackDistance && Transitions.ContainsKey("OnAttackState"))
+            return Transitions["OnAttackState"];
+
         if (_enemy.hp <= 3 && Transitions.ContainsKey("OnHealState"))
             return Transitions["OnHealState"];
 
