@@ -10,7 +10,9 @@ public class FleeState : MonoBaseState
 
     private Vector3 _velocity;
     private EliteEnemy _enemy;
-
+    private float _playerDistance = 999f;
+    public override event Action OnNeedsReplan;
+    
     private void Awake()
     {
         _enemy = GetComponent<EliteEnemy>();
@@ -18,8 +20,8 @@ public class FleeState : MonoBaseState
 
     public override void UpdateLoop()
     {
-        float distance = Vector3.Distance(transform.position, _enemy.player.transform.position);
-        if (distance <= nearDistance)
+        _playerDistance = Vector3.Distance(transform.position, _enemy.player.transform.position);
+        if (_playerDistance < nearDistance)
             MoveFlee();
     }
 
@@ -30,18 +32,32 @@ public class FleeState : MonoBaseState
 
     public override IGoapState ProcessInput()
     {
-        float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
-
-        if (distance >= nearDistance && Transitions.ContainsKey("OnAttackState"))
+        if (_playerDistance > nearDistance)
+        {
+            if (!Transitions.ContainsKey("OnAttackState"))
+            {
+                OnNeedsReplan?.Invoke();
+                return this;
+            }
+            
             return Transitions["OnAttackState"];
-
-        if (_enemy.hp <= 3 && Transitions.ContainsKey("OnHealState"))
+        }
+        
+        if (_enemy.currentHp <= _enemy.maxHP / 3)
+        {
+            if (!Transitions.ContainsKey("OnHealState"))
+            {
+                OnNeedsReplan?.Invoke();
+                return this;
+            }
+            
             return Transitions["OnHealState"];
+        }
 
         return this;
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, nearDistance);

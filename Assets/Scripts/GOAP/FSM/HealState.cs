@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class HealState : MonoBaseState
 {
-    float healInterval = .8f;
-    float next;
-    float healedAmmount;
-    float maxHeal;
+    private float healInterval = .8f;
+    private float next;
+    private float healedAmmount;
+    private float maxHeal;
 
     private EliteEnemy _enemy;
 
@@ -25,9 +25,9 @@ public class HealState : MonoBaseState
         }
     }
 
-    void Heal()
+    private void Heal()
     {
-        _enemy.hp += 1;
+        _enemy.currentHp += 1;
         healedAmmount += 1;
     }
 

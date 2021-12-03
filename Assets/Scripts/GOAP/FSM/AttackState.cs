@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class AttackState : MonoBaseState
     private EliteEnemy _enemy;
     private ChaseState _chaseState;
     private FleeState _fleeState;
+    public override event Action OnNeedsReplan;
     
     private void Awake()
     {
@@ -56,11 +58,28 @@ public class AttackState : MonoBaseState
     {
         float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
         
-        if (distance > _chaseState.attackDistance && Transitions.ContainsKey("OnChaseState"))
-            return Transitions["OnChaseState"];
-        else
-        if (distance > _fleeState.nearDistance && Transitions.ContainsKey("OnChaseState"))
+        if (distance > _chaseState.attackDistance)
+        {
+            if (!Transitions.ContainsKey("OnChaseState"))
+            {
+                OnNeedsReplan?.Invoke();
+                return this;        
+            }
+
+            return Transitions["OnChaseState"];    
+        }
+
+
+        if (distance < _fleeState.nearDistance)
+        {
+            if (!Transitions.ContainsKey("OnFleeState"))
+            {
+                OnNeedsReplan?.Invoke();
+                return this;
+            }
+            
             return Transitions["OnFleeState"];
+        }
 
         return this;
     }
