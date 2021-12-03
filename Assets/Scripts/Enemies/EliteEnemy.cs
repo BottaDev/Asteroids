@@ -3,8 +3,14 @@ using UnityEngine;
 
 public class EliteEnemy : MonoBehaviour
 {
+    public int maxHP = 7;
+    public int hp;
+
+    public HealState healState;
+    public FleeState fleeState;
     public ChaseState chaseState;
     public AttackState attackState;
+    public SummonState summonState;
 
     public Pool<EnemyBullet> bulletPool;
     
@@ -17,6 +23,8 @@ public class EliteEnemy : MonoBehaviour
     
     private void Start() 
     {
+        hp = maxHP;
+
         chaseState.OnNeedsReplan += OnReplan;
         attackState.OnNeedsReplan += OnReplan;
         
@@ -37,16 +45,31 @@ public class EliteEnemy : MonoBehaviour
             new GOAPAction("Chase")
                 .Effect("isPlayerNear",true)
                 .LinkedState(chaseState),
-            
+
             new GOAPAction("Attack")
                 .Pre("isPlayerNear",true)
                 .Effect("isPlayerAlive",false)
                 .LinkedState(attackState),
+
+            new GOAPAction("Heal")
+                .Pre("isPlayerNear",false)
+                .LinkedState(healState),
+
+            new GOAPAction("Summon")
+                .Pre("isPlayerNear",false)
+                .Effect("isPlayerAlive",false)
+                .LinkedState(summonState),
+
+            new GOAPAction("Flee")
+                .Pre("isPlayerTooNear",false)
+                .Effect("isPlayerAlive",false)
+                .LinkedState(fleeState),
         };
         
         var from = new GOAPState();
         from.values["isPlayerNear"] = false;
         from.values["isPlayerAlive"] = true;
+        from.values["isPlayerTooNear"] = false;
 
         var to = new GOAPState();
         to.values["isPlayerAlive"] = false;
@@ -70,17 +93,32 @@ public class EliteEnemy : MonoBehaviour
             new GOAPAction("Chase")
                 .Effect("isPlayerNear",true)
                 .LinkedState(chaseState),
-            
+
             new GOAPAction("Attack")
                 .Pre("isPlayerNear",true)
                 .Effect("isPlayerAlive",false)
                 .LinkedState(attackState),
+
+            new GOAPAction("Heal")
+                .Pre("isPlayerNear",false)
+                .LinkedState(healState),
+
+            new GOAPAction("Summon")
+                .Pre("isPlayerNear",false)
+                .Effect("isPlayerAlive",false)
+                .LinkedState(summonState),
+
+            new GOAPAction("Flee")
+                .Pre("isPlayerTooNear",false)
+                .Effect("isPlayerAlive",false)
+                .LinkedState(fleeState),
         };
 
         var from = new GOAPState();
         from.values["isPlayerNear"] = false;
-        from.values["isPlayerAlive"]   = true;
-        
+        from.values["isPlayerAlive"] = true;
+        from.values["isPlayerTooNear"] = false;
+
         var to = new GOAPState();
         to.values["isPlayerAlive"] = false;
 
