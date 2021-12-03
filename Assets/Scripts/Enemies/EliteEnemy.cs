@@ -3,8 +3,13 @@ using UnityEngine;
 
 public class EliteEnemy : MonoBehaviour
 {
+    public int maxHP = 7;
+    public int hp;
+
+    public HealState healState;
     public ChaseState chaseState;
     public AttackState attackState;
+    public SummonState summonState;
 
     public Pool<EnemyBullet> bulletPool;
     
@@ -17,6 +22,8 @@ public class EliteEnemy : MonoBehaviour
     
     private void Start() 
     {
+        hp = maxHP;
+
         chaseState.OnNeedsReplan += OnReplan;
         attackState.OnNeedsReplan += OnReplan;
         
@@ -37,11 +44,20 @@ public class EliteEnemy : MonoBehaviour
             new GOAPAction("Chase")
                 .Effect("isPlayerNear",true)
                 .LinkedState(chaseState),
-            
+
             new GOAPAction("Attack")
                 .Pre("isPlayerNear",true)
                 .Effect("isPlayerAlive",false)
                 .LinkedState(attackState),
+
+            new GOAPAction("Heal")
+                .Pre("isPlayerNear",false)
+                .LinkedState(healState),
+
+            new GOAPAction("Summon")
+                .Pre("isPlayerNear",false)
+                .Effect("isPlayerAlive",false)
+                .LinkedState(summonState),
         };
         
         var from = new GOAPState();
@@ -70,11 +86,21 @@ public class EliteEnemy : MonoBehaviour
             new GOAPAction("Chase")
                 .Effect("isPlayerNear",true)
                 .LinkedState(chaseState),
-            
+
             new GOAPAction("Attack")
                 .Pre("isPlayerNear",true)
                 .Effect("isPlayerAlive",false)
                 .LinkedState(attackState),
+
+            new GOAPAction("Heal")
+                .Pre("isPlayerNear",false)
+                .Effect("isInjured",false)
+                .LinkedState(healState),
+
+            new GOAPAction("Summon")
+                .Pre("isPlayerNear",false)
+                .Effect("isPlayerAlive",false)
+                .LinkedState(summonState),
         };
 
         var from = new GOAPState();
@@ -83,6 +109,7 @@ public class EliteEnemy : MonoBehaviour
         
         var to = new GOAPState();
         to.values["isPlayerAlive"] = false;
+        to.values["isInjured"] = false;
 
         var planner = new GOAPPlanner();
 

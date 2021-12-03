@@ -57,6 +57,9 @@ public class AttackState : MonoBaseState
         if (distance > _chaseState.attackDistance && Transitions.ContainsKey("OnChaseState"))
             return Transitions["OnChaseState"];
 
+        if (_enemy.hp <= 3 && Transitions.ContainsKey("OnHealState"))
+            return Transitions["OnHealState"];
+
         return this;
     }
 }
