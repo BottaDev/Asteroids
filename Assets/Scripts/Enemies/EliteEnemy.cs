@@ -52,17 +52,18 @@ public class EliteEnemy : MonoBehaviour
                 .LinkedState(attackState),
 
             new GOAPAction("Heal")
-                .Pre("isPlayerNear",false)
+                .Pre("isLowHP",false)
+                .Effect("isRegenerating", true)
                 .LinkedState(healState),
 
             new GOAPAction("Summon")
-                .Pre("isPlayerNear",false)
+                .Pre("areLowAsteroids",false)
                 .Effect("isPlayerAlive",false)
                 .LinkedState(summonState),
 
             new GOAPAction("Flee")
                 .Pre("isPlayerTooNear",false)
-                .Effect("isPlayerAlive",false)
+                .Effect("isPlayerAlive",true)
                 .LinkedState(fleeState),
         };
         
@@ -100,17 +101,18 @@ public class EliteEnemy : MonoBehaviour
                 .LinkedState(attackState),
 
             new GOAPAction("Heal")
-                .Pre("isPlayerNear",false)
+                .Pre("isLowHP",false)
+                .Effect("isRegenerating", true)
                 .LinkedState(healState),
 
             new GOAPAction("Summon")
-                .Pre("isPlayerNear",false)
+                .Pre("areLowAsteroids",false)
                 .Effect("isPlayerAlive",false)
                 .LinkedState(summonState),
 
             new GOAPAction("Flee")
                 .Pre("isPlayerTooNear",false)
-                .Effect("isPlayerAlive",false)
+                .Effect("isPlayerAlive",true)
                 .LinkedState(fleeState),
         };
 
@@ -129,9 +131,10 @@ public class EliteEnemy : MonoBehaviour
         ConfigureFsm(plan);
     }
 
-    private void ConfigureFsm(IEnumerable<GOAPAction> plan) 
+    private void ConfigureFsm(IEnumerable<GOAPAction> plan)
     {
-        Debug.Log("Completed Plan");
+        _fsm.Active = false;
+        //Debug.Log("Completed Plan");
         _fsm = GOAPPlanner.ConfigureFSM(plan, StartCoroutine);
         _fsm.Active = true;
     }

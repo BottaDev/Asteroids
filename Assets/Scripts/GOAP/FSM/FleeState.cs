@@ -21,13 +21,6 @@ public class FleeState : MonoBaseState
         float distance = Vector3.Distance(transform.position, _enemy.player.transform.position);
         if (distance <= nearDistance)
             MoveFlee();
-        else if (distance >= nearDistance)
-            Move();
-    }
-
-    private void Move()
-    {
-        transform.position = Vector2.MoveTowards(transform.position, _enemy.player.transform.position, speed * Time.deltaTime);
     }
 
     private void MoveFlee()
