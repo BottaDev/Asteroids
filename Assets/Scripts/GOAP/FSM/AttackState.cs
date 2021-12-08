@@ -58,7 +58,7 @@ public class AttackState : MonoBaseState
     {
         float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
         
-        if (distance > _chaseState.attackDistance)
+        if (distance > _enemy.attackDistance)
         {
             if (!Transitions.ContainsKey("OnChaseState"))
             {
@@ -70,7 +70,7 @@ public class AttackState : MonoBaseState
         }
 
 
-        if (distance < _fleeState.nearDistance)
+        if (distance < _enemy.nearDistance)
         {
             if (!Transitions.ContainsKey("OnFleeState"))
             {

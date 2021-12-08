@@ -657,6 +657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7701c65b01394478b4e17e4cde588d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackDistance: 3
 --- !u!114 &1856953266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -742,6 +743,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Elite Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 5349895200505261773, guid: 29285544c1a002341a2daad979d70ed7,
+        type: 3}
+      propertyPath: speed
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8623669413536092782, guid: 29285544c1a002341a2daad979d70ed7,
         type: 3}
       propertyPath: hp
@@ -757,6 +763,21 @@ PrefabInstance:
       propertyPath: summonState
       value: 
       objectReference: {fileID: 1856953265}
+    - target: {fileID: 8623669413536092782, guid: 29285544c1a002341a2daad979d70ed7,
+        type: 3}
+      propertyPath: maxHP
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8623669413536092782, guid: 29285544c1a002341a2daad979d70ed7,
+        type: 3}
+      propertyPath: attackDistance
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8623669413536092782, guid: 29285544c1a002341a2daad979d70ed7,
+        type: 3}
+      propertyPath: nearDistance
+      value: 2.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29285544c1a002341a2daad979d70ed7, type: 3}
 --- !u!1001 &4936573577511645328

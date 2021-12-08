@@ -6,9 +6,7 @@ using UnityEngine;
 public class FleeState : MonoBaseState
 {
     public float speed;
-    public float nearDistance = 1.5f;
 
-    private Vector3 _velocity;
     private EliteEnemy _enemy;
     private float _playerDistance = 999f;
     public override event Action OnNeedsReplan;
@@ -21,7 +19,7 @@ public class FleeState : MonoBaseState
     public override void UpdateLoop()
     {
         _playerDistance = Vector3.Distance(transform.position, _enemy.player.transform.position);
-        if (_playerDistance < nearDistance)
+        if (_playerDistance < _enemy.attackDistance)
             MoveFlee();
     }
 
@@ -32,17 +30,18 @@ public class FleeState : MonoBaseState
 
     public override IGoapState ProcessInput()
     {
-        if (_playerDistance > nearDistance)
+        Debug.Log("FleeState Process Input. \nPlayer outside of range: " + (_playerDistance > _enemy.attackDistance) + "\nCurrent HP: " + _enemy.currentHp + "\nElements in 'Transitions': " + Transitions.Count);
+
+        if (_playerDistance > _enemy.attackDistance)
         {
-            if (!Transitions.ContainsKey("OnAttackState"))
+            if (!Transitions.ContainsKey("OnSummonState"))
             {
                 OnNeedsReplan?.Invoke();
                 return this;
             }
-            
-            return Transitions["OnAttackState"];
+            return Transitions["OnSummonState"];
         }
-        
+
         if (_enemy.currentHp <= _enemy.maxHP / 3)
         {
             if (!Transitions.ContainsKey("OnHealState"))
@@ -60,6 +59,6 @@ public class FleeState : MonoBaseState
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, nearDistance);
+        Gizmos.DrawWireSphere(transform.position, _enemy.nearDistance);
     }
 }

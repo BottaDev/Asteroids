@@ -29,6 +29,19 @@ public class HealState : MonoBaseState
     {
         _enemy.currentHp += 1;
         healedAmmount += 1;
+
+    }
+
+    public override void Enter(IGoapState from, Dictionary<string, object> transitionParameters = null)
+    {
+        GetComponent<SpriteRenderer>().color = Color.green;
+        base.Enter(from, transitionParameters);
+    }
+
+    public override Dictionary<string, object> Exit(IGoapState to)
+    {
+        GetComponent<SpriteRenderer>().color = Color.white;
+        return base.Exit(to);
     }
 
     public override IGoapState ProcessInput()

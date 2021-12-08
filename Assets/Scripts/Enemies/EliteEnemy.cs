@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EliteEnemy : Entity, IReminder
 {
-    public int maxHP = 7;
+    public int maxHP = 12;
     public int currentHp;
 
     public HealState healState;
@@ -20,6 +20,9 @@ public class EliteEnemy : Entity, IReminder
     private float _lastReplanTime;
     private float _replanRate = .5f;
     private Memento<ObjectSnapshot> _memento = new Memento<ObjectSnapshot>();
+
+    public float nearDistance;
+    public float attackDistance;
     
     protected override void Start()
     {
@@ -55,16 +58,22 @@ public class EliteEnemy : Entity, IReminder
 
             new GOAPAction("Heal")
                 .Pre("isLowHP",true)
+                .Pre("isPlayerTooNear",false)
                 .Effect("isLowHP",false)
                 .LinkedState(healState),
 
             new GOAPAction("Summon")
-                .Pre("areLowAsteroids",false)
+                .Pre("areLowAsteroids",true)
+                .Pre("isPlayerNear",false)
+                .Pre("isPlayerTooNear",false)
+                .Effect("isPlayerAlive",false)
+                .Effect("areLowAsteroids",false)
                 .LinkedState(summonState),
 
             new GOAPAction("Flee")
                 .Pre("isPlayerNear",true)
                 .Pre("isPlayerTooNear",true)
+                .Effect("isPlayerNear",false)
                 .Effect("isPlayerTooNear",false)
                 .LinkedState(fleeState),
         };
@@ -72,13 +81,13 @@ public class EliteEnemy : Entity, IReminder
         var from = new GOAPState();
         
         float distance = Vector2.Distance(transform.position, player.transform.position);
-        if (distance < chaseState.attackDistance)
+        if (distance < attackDistance)
         {
             // AttackState
             from.values["isPlayerNear"] = true;
             
             // FleeState
-            if (distance < fleeState.nearDistance)
+            if (distance < nearDistance)
                 from.values["isPlayerTooNear"] = true;
             else
                 from.values["isPlayerTooNear"] = false;
@@ -89,11 +98,17 @@ public class EliteEnemy : Entity, IReminder
             from.values["isPlayerTooNear"] = false;     // FleeState
         }
 
+        from.values["areLowAsteroids"] = true;
+        if(Time.time >= 5)
+            from.values["areLowAsteroids"] = false; 
+
         // HealState
         if (currentHp <= maxHP / 3)
             from.values["isLowHP"] = true;
         else
             from.values["isLowHP"] = false;
+
+        //Debug.Log("IsLowHP: " + from.values["isLowHP"]);
 
         var to = new GOAPState();
         to.values["isLowHP"] = false;

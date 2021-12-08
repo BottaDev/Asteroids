@@ -7,7 +7,6 @@ public class SummonState : MonoBaseState
     float summonInterval = 2f;
     float next;
     float speed = 40;
-    public float attackDistance = 3f;
 
     private EliteEnemy _enemy;
     private Pool<Asteroid> _asteroidPool;
@@ -45,7 +44,9 @@ public class SummonState : MonoBaseState
     {
         float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
 
-        if (distance <= attackDistance && Transitions.ContainsKey("OnAttackState"))
+        Debug.Log("SummonState Process Input. \nPlayer outside of range: " + (distance > _enemy.attackDistance) + "\nCurrent HP: " + _enemy.currentHp + "\nElements in 'Transitions': " + Transitions.Count);
+
+        if (distance <= _enemy.attackDistance && Transitions.ContainsKey("OnAttackState"))
             return Transitions["OnAttackState"];
 
         if (_enemy.currentHp <= 3 && Transitions.ContainsKey("OnHealState"))
