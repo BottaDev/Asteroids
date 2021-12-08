@@ -115,6 +115,7 @@ public class EliteEnemy : Entity, IReminder
         
         int asteroids = _query.Query()
             .OfType<Asteroid>()
+            .Where(x => x.enabled)
             .ToList().Count;
         
         // SummonState
@@ -126,7 +127,9 @@ public class EliteEnemy : Entity, IReminder
         var to = new GOAPState();
         to.values["isLowHP"] = false;
         to.values["isPlayerTooNear"] = false;
+        to.values["areLowAsteroids"] = false;
         to.values["isPlayerAlive"] = false;
+        
 
         var planner = new GOAPPlanner();
 

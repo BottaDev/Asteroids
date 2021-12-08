@@ -53,6 +53,7 @@ public class ChaseState : MonoBaseState
 
         int asteroids = _query.Query()
             .OfType<Asteroid>()
+            .Where(x => x.enabled)
             .ToList().Count;
         
         if (asteroids <= _summonState.minAsteroids)
