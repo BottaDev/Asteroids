@@ -49,7 +49,7 @@ public class SummonState : MonoBaseState
         if (distance <= _enemy.attackDistance && Transitions.ContainsKey("OnAttackState"))
             return Transitions["OnAttackState"];
 
-        if (_enemy.hp <= 3 && Transitions.ContainsKey("OnHealState"))
+        if (_enemy.currentHp <= 3 && Transitions.ContainsKey("OnHealState"))
             return Transitions["OnHealState"];
 
         return this;

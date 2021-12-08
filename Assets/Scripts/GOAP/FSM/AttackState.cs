@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class AttackState : MonoBaseState
     private EliteEnemy _enemy;
     private ChaseState _chaseState;
     private FleeState _fleeState;
+    public override event Action OnNeedsReplan;
     
     private void Awake()
     {
@@ -77,6 +79,7 @@ public class AttackState : MonoBaseState
             }
             
             return Transitions["OnFleeState"];
+        }
 
         return this;
     }

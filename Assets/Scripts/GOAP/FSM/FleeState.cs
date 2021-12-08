@@ -8,7 +8,9 @@ public class FleeState : MonoBaseState
     public float speed;
 
     private EliteEnemy _enemy;
-
+    private float _playerDistance = 999f;
+    public override event Action OnNeedsReplan;
+    
     private void Awake()
     {
         _enemy = GetComponent<EliteEnemy>();
@@ -19,13 +21,6 @@ public class FleeState : MonoBaseState
         _playerDistance = Vector3.Distance(transform.position, _enemy.player.transform.position);
         if (_playerDistance < _enemy.attackDistance)
             MoveFlee();
-        else if (distance >= nearDistance)
-            Move();
-    }
-
-    private void Move()
-    {
-        transform.position = Vector2.MoveTowards(transform.position, _enemy.player.transform.position, speed * Time.deltaTime);
     }
 
     private void MoveFlee()
@@ -56,11 +51,12 @@ public class FleeState : MonoBaseState
             }
             
             return Transitions["OnHealState"];
+        }
 
         return this;
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _enemy.nearDistance);

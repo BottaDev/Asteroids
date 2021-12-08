@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class FiniteStateMachine 
@@ -27,10 +28,19 @@ public class FiniteStateMachine
         _startCoroutine = startCoroutine;
     }
 
-    public IEnumerator Update() 
+    public IEnumerator Update()
     {
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
+        
         while (Active) 
         {
+            if (stopwatch.ElapsedMilliseconds >= 1f / 60f * 1000f)
+            {
+                yield return null;
+                stopwatch.Restart();
+            }
+            
             CurrentState.UpdateLoop();
             
             var nextState = CurrentState.ProcessInput();
@@ -38,6 +48,12 @@ public class FiniteStateMachine
             
             while (nextState != CurrentState && stateTransitions < _MAX_TRANSITIONS_PER_FRAME) 
             {
+                if (stopwatch.ElapsedMilliseconds >= 1f / 60f * 1000f)
+                {
+                    yield return null;
+                    stopwatch.Restart();
+                }
+                
                 var previousState = CurrentState;
                 var transitionParameters = CurrentState.Exit(nextState);
 

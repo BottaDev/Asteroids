@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class EliteEnemy : MonoBehaviour
+public class EliteEnemy : Entity, IReminder
 {
     public int maxHP = 12;
     public int currentHp;
@@ -13,11 +14,9 @@ public class EliteEnemy : MonoBehaviour
     public SummonState summonState;
 
     public Pool<EnemyBullet> bulletPool;
-    
     [HideInInspector] public PlayerModel player;
     
     private FiniteStateMachine _fsm;
-
     private float _lastReplanTime;
     private float _replanRate = .5f;
     private Memento<ObjectSnapshot> _memento = new Memento<ObjectSnapshot>();
@@ -25,9 +24,11 @@ public class EliteEnemy : MonoBehaviour
     public float nearDistance;
     public float attackDistance;
     
-    private void Start() 
+    protected override void Start()
     {
-        hp = maxHP;
+        base.Start();
+        
+        currentHp = maxHP;
 
         chaseState.OnNeedsReplan += OnReplan;
         attackState.OnNeedsReplan += OnReplan;
@@ -38,7 +39,6 @@ public class EliteEnemy : MonoBehaviour
         bulletBuilder.Configure(attackState.bulletSpeed, attackState.timeToDestroy);
         bulletPool = new Pool<EnemyBullet>(bulletBuilder.Build, EnemyBullet.TurnOn, EnemyBullet.TurnOff, 5);
         
-        //OnlyPlan();
         PlanAndExecute();
     }
 
@@ -47,6 +47,7 @@ public class EliteEnemy : MonoBehaviour
         var actions = new List<GOAPAction>
         {
             new GOAPAction("Chase")
+                .Pre("isPlayerNear",false)
                 .Effect("isPlayerNear",true)
                 .LinkedState(chaseState),
 
@@ -110,6 +111,8 @@ public class EliteEnemy : MonoBehaviour
         //Debug.Log("IsLowHP: " + from.values["isLowHP"]);
 
         var to = new GOAPState();
+        to.values["isLowHP"] = false;
+        to.values["isPlayerTooNear"] = false;
         to.values["isPlayerAlive"] = false;
 
         var planner = new GOAPPlanner();
@@ -126,51 +129,76 @@ public class EliteEnemy : MonoBehaviour
         else 
             return;
 
-        var actions = new List<GOAPAction>
-        {
-            new GOAPAction("Chase")
-                .Effect("isPlayerNear",true)
-                .LinkedState(chaseState),
-
-            new GOAPAction("Attack")
-                .Pre("isPlayerNear",true)
-                .Effect("isPlayerAlive",false)
-                .LinkedState(attackState),
-
-            new GOAPAction("Heal")
-                .Pre("isPlayerNear",false)
-                .LinkedState(healState),
-
-            new GOAPAction("Summon")
-                .Pre("isPlayerNear",false)
-                .Effect("isPlayerAlive",false)
-                .LinkedState(summonState),
-
-            new GOAPAction("Flee")
-                .Pre("isPlayerTooNear",false)
-                .Effect("isPlayerAlive",false)
-                .LinkedState(fleeState),
-        };
-
-        var from = new GOAPState();
-        from.values["isPlayerNear"] = false;
-        from.values["isPlayerAlive"] = true;
-        from.values["isPlayerTooNear"] = false;
-
-        var to = new GOAPState();
-        to.values["isPlayerAlive"] = false;
-
-        var planner = new GOAPPlanner();
-
-        var plan = planner.Run(from, to, actions);
-        
-        ConfigureFsm(plan);
+        PlanAndExecute();
     }
 
-    private void ConfigureFsm(IEnumerable<GOAPAction> plan) 
+    private void ConfigureFsm(IEnumerable<GOAPAction> plan)
     {
-        Debug.Log("Completed Plan");
+        //Debug.Log("Completed Plan");
+        
+        if (_fsm != null)
+            _fsm.Active = false;
         _fsm = GOAPPlanner.ConfigureFSM(plan, StartCoroutine);
         _fsm.Active = true;
+    }
+
+    private void TakeDamage()
+    {
+        currentHp--;
+        if (currentHp <=0)
+            Die();
+    }
+    
+    public override void HitByLaser()
+    {
+        TakeDamage();
+    }
+
+    public override void HitByBomb()
+    {
+        TakeDamage();
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Player bullet
+        if (other.gameObject.layer == 8)
+            TakeDamage();
+    }
+    
+    void Die()
+    {
+        Destroy(gameObject);
+    }
+
+    public void MakeSnapshot()
+    {
+        var snapshot = new ObjectSnapshot();
+        snapshot.position = transform.position;
+        snapshot.rotation = transform.localRotation;
+        
+        _memento.Record(snapshot);
+    }
+
+    public void Rewind()
+    {
+        if (!_memento.CanRemember()) 
+            return;
+        
+        var snapshot = _memento.Remember();
+
+        transform.position = snapshot.position;
+        transform.rotation = snapshot.rotation;
+    }
+
+    public IEnumerator StartToRecord()
+    {
+        while (true) 
+        {
+            if (gameObject.activeSelf)
+                MakeSnapshot();
+            
+            yield return new WaitForSeconds(.1f);
+        }
     }
 }
