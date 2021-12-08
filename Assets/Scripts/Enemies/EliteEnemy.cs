@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class EliteEnemy : MonoBehaviour
 {
-    public int maxHP = 7;
-    public int hp;
+    public int maxHP = 12;
+    public int currentHp;
 
     public HealState healState;
     public FleeState fleeState;
@@ -20,6 +20,10 @@ public class EliteEnemy : MonoBehaviour
 
     private float _lastReplanTime;
     private float _replanRate = .5f;
+    private Memento<ObjectSnapshot> _memento = new Memento<ObjectSnapshot>();
+
+    public float nearDistance;
+    public float attackDistance;
     
     private void Start() 
     {
@@ -52,24 +56,58 @@ public class EliteEnemy : MonoBehaviour
                 .LinkedState(attackState),
 
             new GOAPAction("Heal")
-                .Pre("isPlayerNear",false)
+                .Pre("isLowHP",true)
+                .Pre("isPlayerTooNear",false)
+                .Effect("isLowHP",false)
                 .LinkedState(healState),
 
             new GOAPAction("Summon")
+                .Pre("areLowAsteroids",true)
                 .Pre("isPlayerNear",false)
+                .Pre("isPlayerTooNear",false)
                 .Effect("isPlayerAlive",false)
+                .Effect("areLowAsteroids",false)
                 .LinkedState(summonState),
 
             new GOAPAction("Flee")
-                .Pre("isPlayerTooNear",false)
-                .Effect("isPlayerAlive",false)
+                .Pre("isPlayerNear",true)
+                .Pre("isPlayerTooNear",true)
+                .Effect("isPlayerNear",false)
+                .Effect("isPlayerTooNear",false)
                 .LinkedState(fleeState),
         };
         
         var from = new GOAPState();
-        from.values["isPlayerNear"] = false;
-        from.values["isPlayerAlive"] = true;
-        from.values["isPlayerTooNear"] = false;
+        
+        float distance = Vector2.Distance(transform.position, player.transform.position);
+        if (distance < attackDistance)
+        {
+            // AttackState
+            from.values["isPlayerNear"] = true;
+            
+            // FleeState
+            if (distance < nearDistance)
+                from.values["isPlayerTooNear"] = true;
+            else
+                from.values["isPlayerTooNear"] = false;
+        }
+        else
+        {
+            from.values["isPlayerNear"] = false;        // AttackState && ChaseState
+            from.values["isPlayerTooNear"] = false;     // FleeState
+        }
+
+        from.values["areLowAsteroids"] = true;
+        if(Time.time >= 5)
+            from.values["areLowAsteroids"] = false; 
+
+        // HealState
+        if (currentHp <= maxHP / 3)
+            from.values["isLowHP"] = true;
+        else
+            from.values["isLowHP"] = false;
+
+        //Debug.Log("IsLowHP: " + from.values["isLowHP"]);
 
         var to = new GOAPState();
         to.values["isPlayerAlive"] = false;

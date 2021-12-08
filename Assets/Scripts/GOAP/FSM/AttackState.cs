@@ -56,10 +56,26 @@ public class AttackState : MonoBaseState
     {
         float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
         
-        if (distance > _chaseState.attackDistance && Transitions.ContainsKey("OnChaseState"))
-            return Transitions["OnChaseState"];
-        else
-        if (distance > _fleeState.nearDistance && Transitions.ContainsKey("OnChaseState"))
+        if (distance > _enemy.attackDistance)
+        {
+            if (!Transitions.ContainsKey("OnChaseState"))
+            {
+                OnNeedsReplan?.Invoke();
+                return this;        
+            }
+
+            return Transitions["OnChaseState"];    
+        }
+
+
+        if (distance < _enemy.nearDistance)
+        {
+            if (!Transitions.ContainsKey("OnFleeState"))
+            {
+                OnNeedsReplan?.Invoke();
+                return this;
+            }
+            
             return Transitions["OnFleeState"];
 
         return this;

@@ -6,9 +6,7 @@ using UnityEngine;
 public class FleeState : MonoBaseState
 {
     public float speed;
-    public float nearDistance = 1.5f;
 
-    private Vector3 _velocity;
     private EliteEnemy _enemy;
 
     private void Awake()
@@ -18,8 +16,8 @@ public class FleeState : MonoBaseState
 
     public override void UpdateLoop()
     {
-        float distance = Vector3.Distance(transform.position, _enemy.player.transform.position);
-        if (distance <= nearDistance)
+        _playerDistance = Vector3.Distance(transform.position, _enemy.player.transform.position);
+        if (_playerDistance < _enemy.attackDistance)
             MoveFlee();
         else if (distance >= nearDistance)
             Move();
@@ -37,12 +35,26 @@ public class FleeState : MonoBaseState
 
     public override IGoapState ProcessInput()
     {
-        float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
+        Debug.Log("FleeState Process Input. \nPlayer outside of range: " + (_playerDistance > _enemy.attackDistance) + "\nCurrent HP: " + _enemy.currentHp + "\nElements in 'Transitions': " + Transitions.Count);
 
-        if (distance >= nearDistance && Transitions.ContainsKey("OnAttackState"))
-            return Transitions["OnAttackState"];
+        if (_playerDistance > _enemy.attackDistance)
+        {
+            if (!Transitions.ContainsKey("OnSummonState"))
+            {
+                OnNeedsReplan?.Invoke();
+                return this;
+            }
+            return Transitions["OnSummonState"];
+        }
 
-        if (_enemy.hp <= 3 && Transitions.ContainsKey("OnHealState"))
+        if (_enemy.currentHp <= _enemy.maxHP / 3)
+        {
+            if (!Transitions.ContainsKey("OnHealState"))
+            {
+                OnNeedsReplan?.Invoke();
+                return this;
+            }
+            
             return Transitions["OnHealState"];
 
         return this;
@@ -51,6 +63,6 @@ public class FleeState : MonoBaseState
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, nearDistance);
+        Gizmos.DrawWireSphere(transform.position, _enemy.nearDistance);
     }
 }

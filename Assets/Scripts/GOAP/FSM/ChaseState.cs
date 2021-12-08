@@ -6,7 +6,6 @@ using UnityEngine;
 public class ChaseState : MonoBaseState
 {
     public float speed = 4f;
-    public float attackDistance = 3f;
     
     private EliteEnemy _enemy;
     
@@ -42,16 +41,21 @@ public class ChaseState : MonoBaseState
     public override IGoapState ProcessInput()
     {
         float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
-        
-        if (distance <= attackDistance && Transitions.ContainsKey("OnAttackState"))
+
+        if (distance <= _enemy.attackDistance && Transitions.ContainsKey("OnAttackState"))
             return Transitions["OnAttackState"];
 
         return this;
     }
 
+    public override void Enter(IGoapState from, Dictionary<string, object> transitionParameters = null)
+    {
+        base.Enter(from, transitionParameters);
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackDistance);
+        Gizmos.DrawWireSphere(transform.position, _enemy.attackDistance);
     }
 }
