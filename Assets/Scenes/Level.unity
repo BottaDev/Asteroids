@@ -227,16 +227,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8646879906738742014, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
-        type: 3}
-      propertyPath: TimeToSpawn
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 8646879906738742014, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
-        type: 3}
-      propertyPath: AsteroidCount
-      value: 7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 229e6a1edb05e2b4a85cd4264a5d0a03, type: 3}
 --- !u!1 &364387146
@@ -394,7 +384,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 54454344}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1837306462}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2665dd5869cf0424d8b6240e86390a42, type: 3}
@@ -592,33 +582,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1837306462 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8646879906738742012, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
+--- !u!114 &1837306463 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1837306463, guid: 229e6a1edb05e2b4a85cd4264a5d0a03,
     type: 3}
   m_PrefabInstance: {fileID: 54454344}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1837306463
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1837306462}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c6f8357a1724eb4fb3a1dc774874cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveState:
-    spawnerCooldown: 0
-    score: 0
-    playerData:
-      lives: 3
-      x: 0
-      y: 0
-      z: 0.5
-    asteroidList: []
 --- !u!1 &1892987248 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9085969435407653462, guid: c671f3212265bf4458e06feb5f900d7f,
