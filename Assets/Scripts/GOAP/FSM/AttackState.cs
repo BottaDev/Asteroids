@@ -53,6 +53,17 @@ public class AttackState : MonoBaseState
     public override IGoapState ProcessInput()
     {
         float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
+     
+        if (_enemy.currentHp <= _enemy.maxHP / 3)
+        {
+            if (!Transitions.ContainsKey("OnHealState"))
+            {
+                OnNeedsReplan?.Invoke();
+                return this;
+            }
+            
+            return Transitions["OnHealState"];
+        } 
         
         if (distance > _enemy.attackDistance)
         {

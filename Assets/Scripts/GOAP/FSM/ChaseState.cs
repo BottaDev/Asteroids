@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ChaseState : MonoBaseState
 {
     public float speed = 4f;
+    public override event Action OnNeedsReplan;
     
     private EliteEnemy _enemy;
+    private SummonState _summonState;
+    private IQuery _query; 
     
     private void Awake()
     {
         _enemy = GetComponent<EliteEnemy>();
+        _summonState = GetComponent<SummonState>();
+        _query = GetComponent<IQuery>();
     }
 
     public override void UpdateLoop()
@@ -45,11 +51,21 @@ public class ChaseState : MonoBaseState
         if (distance <= _enemy.attackDistance && Transitions.ContainsKey("OnAttackState"))
             return Transitions["OnAttackState"];
 
+        int asteroids = _query.Query()
+            .OfType<Asteroid>()
+            .ToList().Count;
+        
+        if (asteroids <= _summonState.minAsteroids)
+        {
+            if (!Transitions.ContainsKey("OnSummonState"))
+            {
+                OnNeedsReplan?.Invoke();
+                return this;
+            }
+            
+            return Transitions["OnSummonState"];
+        }
+        
         return this;
-    }
-
-    public override void Enter(IGoapState from, Dictionary<string, object> transitionParameters = null)
-    {
-        base.Enter(from, transitionParameters);
     }
 }

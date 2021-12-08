@@ -9,7 +9,6 @@ public class SummonState : MonoBaseState
     
     private float _summonInterval = 2f;
     private float _next;
-    private float _speed = 40;
     private EliteEnemy _enemy;
     public override event Action OnNeedsReplan;
     private Pool<Asteroid> _asteroidPool;
@@ -30,8 +29,6 @@ public class SummonState : MonoBaseState
             _next = Time.time + _summonInterval;
             Summon();
         }
-
-        transform.eulerAngles += Vector3.forward * _speed * Time.deltaTime;
     }
 
     private void Summon()
@@ -69,7 +66,6 @@ public class SummonState : MonoBaseState
             }
             
             return Transitions["OnHealState"];
-
         } 
 
         return this;

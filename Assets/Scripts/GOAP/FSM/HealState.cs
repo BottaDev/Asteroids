@@ -1,13 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HealState : MonoBaseState
 {
+    public override event Action OnNeedsReplan;
+    
     private float healInterval = .8f;
     private float next;
-    private float healedAmmount;
-    private float maxHeal;
 
     private EliteEnemy _enemy;
 
@@ -28,8 +29,6 @@ public class HealState : MonoBaseState
     private void Heal()
     {
         _enemy.currentHp += 1;
-        healedAmmount += 1;
-
     }
 
     public override void Enter(IGoapState from, Dictionary<string, object> transitionParameters = null)
@@ -38,16 +37,47 @@ public class HealState : MonoBaseState
         base.Enter(from, transitionParameters);
     }
 
-    public override Dictionary<string, object> Exit(IGoapState to)
-    {
-        GetComponent<SpriteRenderer>().color = Color.white;
-        return base.Exit(to);
-    }
-
     public override IGoapState ProcessInput()
     {
-        if(healedAmmount >= maxHeal && Transitions.ContainsKey("OnChaseState"))
-            return Transitions["OnChaseState"];
+        if (_enemy.currentHp >= _enemy.maxHP)
+        {
+            // Has finished healing himself...
+            GetComponent<SpriteRenderer>().color = Color.white;
+            
+            float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
+        
+            if (distance < _enemy.nearDistance)
+            {
+                if (!Transitions.ContainsKey("OnFleeState"))
+                {
+                    OnNeedsReplan?.Invoke();
+                    return this;
+                }
+            
+                return Transitions["OnFleeState"];
+            }            
+            
+            if (distance > _enemy.attackDistance)
+            {
+                if (!Transitions.ContainsKey("OnChaseState"))
+                {
+                    OnNeedsReplan?.Invoke();
+                    return this;        
+                }
+
+                return Transitions["OnChaseState"];    
+            }
+            else
+            {
+                if (!Transitions.ContainsKey("OnAttackState"))
+                {
+                    OnNeedsReplan?.Invoke();
+                    return this;        
+                }
+
+                return Transitions["OnAttackState"];    
+            }
+        }
 
         return this;
     }

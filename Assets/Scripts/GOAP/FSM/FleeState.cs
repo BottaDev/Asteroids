@@ -42,16 +42,6 @@ public class FleeState : MonoBaseState
             
             return Transitions["OnAttackState"];
         }
-        
-        /*if (_playerDistance > _enemy.attackDistance)
-        {
-            if (!Transitions.ContainsKey("OnSummonState"))
-            {
-                OnNeedsReplan?.Invoke();
-                return this;
-            }
-            return Transitions["OnSummonState"];
-        }*/
 
         if (_enemy.currentHp <= _enemy.maxHP / 3)
         {
