@@ -13,15 +13,11 @@ public class AttackState : MonoBaseState
     
     private float _currentFireRate;
     private EliteEnemy _enemy;
-    private ChaseState _chaseState;
-    private FleeState _fleeState;
     public override event Action OnNeedsReplan;
     
     private void Awake()
     {
         _enemy = GetComponent<EliteEnemy>();
-        _chaseState = GetComponent<ChaseState>();
-        _fleeState  = GetComponent<FleeState>();
     }
     
     public override void UpdateLoop()

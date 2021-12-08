@@ -52,10 +52,4 @@ public class ChaseState : MonoBaseState
     {
         base.Enter(from, transitionParameters);
     }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _enemy.attackDistance);
-    }
 }

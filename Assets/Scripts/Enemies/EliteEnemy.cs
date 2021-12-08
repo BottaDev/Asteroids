@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EliteEnemy : Entity, IReminder
@@ -19,10 +20,16 @@ public class EliteEnemy : Entity, IReminder
     private FiniteStateMachine _fsm;
     private float _lastReplanTime;
     private float _replanRate = .5f;
+    private IQuery _query; 
     private Memento<ObjectSnapshot> _memento = new Memento<ObjectSnapshot>();
 
     public float nearDistance;
     public float attackDistance;
+    
+    private void Awake()
+    {
+        _query = GetComponent<IQuery>();
+    }
     
     protected override void Start()
     {
@@ -32,7 +39,10 @@ public class EliteEnemy : Entity, IReminder
 
         chaseState.OnNeedsReplan += OnReplan;
         attackState.OnNeedsReplan += OnReplan;
-        
+        healState.OnNeedsReplan += OnReplan;
+        fleeState.OnNeedsReplan += OnReplan;
+        summonState.OnNeedsReplan += OnReplan;
+
         player = FindObjectOfType<PlayerModel>();
         
         EnemyBulletBuilder bulletBuilder = new EnemyBulletBuilder();
@@ -66,7 +76,6 @@ public class EliteEnemy : Entity, IReminder
                 .Pre("areLowAsteroids",true)
                 .Pre("isPlayerNear",false)
                 .Pre("isPlayerTooNear",false)
-                .Effect("isPlayerAlive",false)
                 .Effect("areLowAsteroids",false)
                 .LinkedState(summonState),
 
@@ -81,13 +90,13 @@ public class EliteEnemy : Entity, IReminder
         var from = new GOAPState();
         
         float distance = Vector2.Distance(transform.position, player.transform.position);
-        if (distance < attackDistance)
+        if (distance <= attackDistance)
         {
             // AttackState
             from.values["isPlayerNear"] = true;
             
             // FleeState
-            if (distance < nearDistance)
+            if (distance <= nearDistance)
                 from.values["isPlayerTooNear"] = true;
             else
                 from.values["isPlayerTooNear"] = false;
@@ -98,17 +107,21 @@ public class EliteEnemy : Entity, IReminder
             from.values["isPlayerTooNear"] = false;     // FleeState
         }
 
-        from.values["areLowAsteroids"] = true;
-        if(Time.time >= 5)
-            from.values["areLowAsteroids"] = false; 
-
         // HealState
         if (currentHp <= maxHP / 3)
             from.values["isLowHP"] = true;
         else
             from.values["isLowHP"] = false;
-
-        //Debug.Log("IsLowHP: " + from.values["isLowHP"]);
+        
+        int asteroids = _query.Query()
+            .OfType<Asteroid>()
+            .ToList().Count;
+        
+        // SummonState
+        if (asteroids <= summonState.minAsteroids)
+            from.values["areLowAsteroids"] = true;
+        else
+            from.values["areLowAsteroids"] = false;
 
         var to = new GOAPState();
         to.values["isLowHP"] = false;
@@ -200,5 +213,14 @@ public class EliteEnemy : Entity, IReminder
             
             yield return new WaitForSeconds(.1f);
         }
+    }
+    
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, nearDistance);
+        
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackDistance);
     }
 }

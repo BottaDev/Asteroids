@@ -32,7 +32,18 @@ public class FleeState : MonoBaseState
     {
         Debug.Log("FleeState Process Input. \nPlayer outside of range: " + (_playerDistance > _enemy.attackDistance) + "\nCurrent HP: " + _enemy.currentHp + "\nElements in 'Transitions': " + Transitions.Count);
 
-        if (_playerDistance > _enemy.attackDistance)
+        if (_playerDistance > _enemy.nearDistance)
+        {
+            if (!Transitions.ContainsKey("OnAttackState"))
+            {
+                OnNeedsReplan?.Invoke();
+                return this;
+            }
+            
+            return Transitions["OnAttackState"];
+        }
+        
+        /*if (_playerDistance > _enemy.attackDistance)
         {
             if (!Transitions.ContainsKey("OnSummonState"))
             {
@@ -40,7 +51,7 @@ public class FleeState : MonoBaseState
                 return this;
             }
             return Transitions["OnSummonState"];
-        }
+        }*/
 
         if (_enemy.currentHp <= _enemy.maxHP / 3)
         {
@@ -54,11 +65,5 @@ public class FleeState : MonoBaseState
         }
 
         return this;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, _enemy.nearDistance);
     }
 }
