@@ -68,10 +68,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870b5b01eb0c11c40b82e02cba8353f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeToSpawn: 15
-  EntityCount: 8
-  AsteroidSpeed: 2
-  SateliteSpeed: 1.5
+  asteroidTimeToSpawn: 30
+  asteroidCount: 8
+  asteroidSpeed: 2
+  sateliteSpeed: 1.5
+  sateliteTimeToSpawn: 45
+  sateliteCount: 2
+  eliteTimeToSpawn: 90
+  eliteCount: 1
 --- !u!114 &8646879906738742008
 MonoBehaviour:
   m_ObjectHideFlags: 0

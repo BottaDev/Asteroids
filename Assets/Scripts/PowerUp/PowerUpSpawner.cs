@@ -38,7 +38,6 @@ public class PowerUpSpawner : MonoBehaviour, ISpawner
     
     public void SpawnObject()
     {
-        //Vector3 v3Pos = Camera.main.ViewportToWorldPoint(new Vector3(0,0,10));
         Vector3 screenPosition = Camera.main.ScreenToWorldPoint(new Vector3(Random.Range(0,Screen.width), Random.Range(0,Screen.height), Camera.main.farClipPlane/2));
         
         var powerUp = _powerUpPool.Get();

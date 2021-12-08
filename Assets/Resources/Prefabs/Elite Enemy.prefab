@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 5349895200505261773}
   - component: {fileID: 3884557324174867510}
   - component: {fileID: 8265363949705135536}
-  - component: {fileID: 1856953265}
   - component: {fileID: 1856953266}
   - component: {fileID: 560174778050411821}
   m_Layer: 13
@@ -135,7 +134,7 @@ MonoBehaviour:
   fleeState: {fileID: 5349895200505261773}
   chaseState: {fileID: 4426595410653204681}
   attackState: {fileID: 6624694664997950920}
-  summonState: {fileID: 1856953265}
+  summonState: {fileID: 8265363949705135536}
   player: {fileID: 0}
   nearDistance: 2.5
   attackDistance: 7
@@ -194,19 +193,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8265363949705135536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3031661911973105347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c7701c65b01394478b4e17e4cde588d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minAsteroids: 2
---- !u!114 &1856953265
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

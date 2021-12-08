@@ -15,6 +15,7 @@ public class EliteEnemy : Entity, IReminder
     public SummonState summonState;
 
     public Pool<EnemyBullet> bulletPool;
+    public Pool<EliteEnemy> pool;
     [HideInInspector] public PlayerModel player;
     
     private FiniteStateMachine _fsm;
@@ -181,11 +182,6 @@ public class EliteEnemy : Entity, IReminder
         if (other.gameObject.layer == 8)
             TakeDamage();
     }
-    
-    void Die()
-    {
-        Destroy(gameObject);
-    }
 
     public void MakeSnapshot()
     {
@@ -216,6 +212,23 @@ public class EliteEnemy : Entity, IReminder
             
             yield return new WaitForSeconds(.1f);
         }
+    }
+    
+    public static void TurnOn(EliteEnemy enemy)
+    {
+        enemy.gameObject.SetActive(true);
+    }
+
+    public static void TurnOff(EliteEnemy enemy)
+    {
+        enemy.gameObject.SetActive(false);
+    }
+    
+    void Die(bool hasScore = true)
+    {
+        if (hasScore)
+            EventManager.Instance.Trigger("OnAsteroidDestroyed", AsteroidFlyweightPoint.normal.points);
+        pool.ReturnToPool(this);
     }
     
     private void OnDrawGizmosSelected()
