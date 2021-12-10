@@ -12,6 +12,10 @@ public class Spawner : MonoBehaviour
     public float sateliteSpeed = 1.5f;
     public float sateliteTimeToSpawn = 30f;
     public int sateliteCount = 2;
+    [Header("Blaster Enemy")]
+    public float blasterSpeed = 1.5f;
+    public float blasterTimeToSpawn = 30f;
+    public int blasterCount = 2;
     [Header("Elite Enemy")]
     public float eliteTimeToSpawn = 90f;
     public int eliteCount = 1;
@@ -23,6 +27,7 @@ public class Spawner : MonoBehaviour
     private Pool<Asteroid> _asteroidPool;
     private Pool<SateliteEnemy> _satelitePool;
     private Pool<ShipEnemy> _shipPool;
+    private Pool<BlasterEnemy> _blasterPool;
     private Pool<EliteEnemy> _elitePool;
 
     private void Awake()
@@ -35,13 +40,17 @@ public class Spawner : MonoBehaviour
         SateliteBuilder sateliteBuilder = new SateliteBuilder();
         sateliteBuilder.SetSpeed(sateliteSpeed);
 
+        BlasterBuilder blasterBuilder = new BlasterBuilder();
+        blasterBuilder.SetSpeed(blasterSpeed);
+
         ShipBuilder shipBuilder = new ShipBuilder();
         EliteBuilder elitebuilder = new EliteBuilder();
 
         _asteroidPool = new Pool<Asteroid>(asteroidBuilder.Build, Asteroid.TurnOn, Asteroid.TurnOff, asteroidCount);
         _satelitePool = new Pool<SateliteEnemy>(sateliteBuilder.Build, SateliteEnemy.TurnOn, SateliteEnemy.TurnOff, sateliteCount);
+        _blasterPool  = new Pool<BlasterEnemy>(blasterBuilder.Build, BlasterEnemy.TurnOn, BlasterEnemy.TurnOff, sateliteCount);
         _shipPool     = new Pool<ShipEnemy>(shipBuilder.Build, ShipEnemy.TurnOn, ShipEnemy.TurnOff, sateliteCount);
-        _elitePool     = new Pool<EliteEnemy>(elitebuilder.Build, EliteEnemy.TurnOn, EliteEnemy.TurnOff, eliteCount);
+        _elitePool    = new Pool<EliteEnemy>(elitebuilder.Build, EliteEnemy.TurnOn, EliteEnemy.TurnOff, eliteCount);
     }
 
     private void Start()
@@ -102,24 +111,35 @@ public class Spawner : MonoBehaviour
                 {
                     Vector3 v3Pos = Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(-1f, 1f),Random.Range(-1f, 1f),10));
                     
-                    int random = Random.Range(0,2);
-                    if (random == 0)
+                    int random = Random.Range(0,3);
+
+                    switch (random)
                     {
-                        var satelite = _satelitePool.Get();
-                        satelite.pool = _satelitePool;
-                        satelite.transform.position = v3Pos;
-                    }
-                    else
-                    {
-                        var ship = _shipPool.Get();
-                        ship.pool = _shipPool;
-                        ship.transform.position = v3Pos;
+                        case 0:
+                            var blaster = _blasterPool.Get();
+                            blaster.pool = _blasterPool;
+                            blaster.transform.position = v3Pos;
+                            break;
+
+
+                        case 1:
+                            var ship = _shipPool.Get();
+                            ship.pool = _shipPool;
+                            ship.transform.position = v3Pos;
+                            break;
+
+                        case 2:
+                            var satelite = _satelitePool.Get();
+                            satelite.pool = _satelitePool;
+                            satelite.transform.position = v3Pos;
+                            break;
+
                     }
                 }
                 
                 _currentSateliteTime = sateliteTimeToSpawn;
             break;
-            
+
             case SpawnType.EliteENemy:
                 for (int i = 0; i < eliteCount; i++)
                 {
@@ -161,6 +181,6 @@ public class Spawner : MonoBehaviour
     {
         Asteroid,
         SateliteEnemy,
-        EliteENemy
+        EliteENemy,
     }
 }

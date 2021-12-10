@@ -64,7 +64,11 @@ public class ResourceManager : MonoBehaviour
             case "Ship":
                 newObj = Resources.Load<GameObject>("Prefabs/ShipEnemy");
                 break;
-            
+
+            case "Blaster":
+                newObj = Resources.Load<GameObject>("Prefabs/BlasterEnemy");
+                break;
+
             case "Elite":
                 newObj = Resources.Load<GameObject>("Prefabs/Elite Enemy");
                 break;
