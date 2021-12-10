@@ -53,6 +53,17 @@ public class SummonState : MonoBaseState
 
     public override IGoapState ProcessInput()
     {
+		if (_enemy.currentHp <= _enemy.maxHP / 3)
+        {
+            if (!Transitions.ContainsKey("OnHealState"))
+            {
+                OnNeedsReplan?.Invoke();
+                return this;
+            }
+            
+            return Transitions["OnHealState"];
+        } 
+		
         float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
 
         Debug.Log("SummonState Process Input. \nPlayer outside of range: " + (distance > _enemy.attackDistance) + "\nCurrent HP: " + _enemy.currentHp + "\nElements in 'Transitions': " + Transitions.Count);
@@ -67,17 +78,16 @@ public class SummonState : MonoBaseState
             
             return Transitions["OnAttackState"];
         }
-
-        if (_enemy.currentHp <= _enemy.maxHP / 3)
+		else if (_enemy.attackDistance > distance)
         {
-            if (!Transitions.ContainsKey("OnHealState"))
+            if (!Transitions.ContainsKey("OnChaseState"))
             {
                 OnNeedsReplan?.Invoke();
                 return this;
             }
-            
-            return Transitions["OnHealState"];
-        } 
+			
+			return Transitions["OnChaseState"];
+        }
 
         return this;
     }
