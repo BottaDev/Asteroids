@@ -9,7 +9,7 @@ public class SummonState : MonoBaseState
     
     private float _summonInterval = 2f;
     private float _next;
-    private EliteEnemy _enemy;
+    private EliteEnemyState _enemy;
     public override event Action OnNeedsReplan;
     private Pool<Asteroid> _asteroidPool;
 
@@ -18,7 +18,7 @@ public class SummonState : MonoBaseState
         AsteroidBuilder asteroidBuilder = new AsteroidBuilder();
         asteroidBuilder.SetSpeed(1.5f);
 
-        _enemy = GetComponent<EliteEnemy>();
+        _enemy = GetComponent<EliteEnemyState>();
         _asteroidPool = new Pool<Asteroid>(asteroidBuilder.Build, Asteroid.TurnOn, Asteroid.TurnOff, 3);
     }
 
@@ -53,7 +53,7 @@ public class SummonState : MonoBaseState
 
     public override IGoapState ProcessInput()
     {
-		if (_enemy.currentHp <= _enemy.maxHP / 3)
+		if (_enemy.currentHp <= _enemy.maxHp / 3)
         {
             if (!Transitions.ContainsKey("OnHealState"))
             {
@@ -66,7 +66,7 @@ public class SummonState : MonoBaseState
 		
         float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
 
-        Debug.Log("SummonState Process Input. \nPlayer outside of range: " + (distance > _enemy.attackDistance) + "\nCurrent HP: " + _enemy.currentHp + "\nElements in 'Transitions': " + Transitions.Count);
+        //Debug.Log("SummonState Process Input. \nPlayer outside of range: " + (distance > _enemy.attackDistance) + "\nCurrent HP: " + _enemy.currentHp + "\nElements in 'Transitions': " + Transitions.Count);
 
         if (_enemy.attackDistance <= distance)
         {

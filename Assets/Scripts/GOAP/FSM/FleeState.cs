@@ -5,15 +5,13 @@ using UnityEngine;
 
 public class FleeState : MonoBaseState
 {
-    public float speed;
-
-    private EliteEnemy _enemy;
+    private EliteEnemyState _enemy;
     private float _playerDistance = 999f;
     public override event Action OnNeedsReplan;
     
     private void Awake()
     {
-        _enemy = GetComponent<EliteEnemy>();
+        _enemy = GetComponent<EliteEnemyState>();
     }
 
     public override void UpdateLoop()
@@ -27,7 +25,7 @@ public class FleeState : MonoBaseState
 
     private void MoveFlee()
     {
-        transform.position = Vector2.MoveTowards(transform.position, _enemy.player.transform.position, -speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, _enemy.player.transform.position, -_enemy.fleeSpeed * Time.deltaTime);
     }
 
     private void RotateTowardsPlayer()
@@ -41,7 +39,7 @@ public class FleeState : MonoBaseState
     
     public override IGoapState ProcessInput()
     {
-        Debug.Log("FleeState Process Input. \nPlayer outside of range: " + (_playerDistance > _enemy.attackDistance) + "\nCurrent HP: " + _enemy.currentHp + "\nElements in 'Transitions': " + Transitions.Count);
+        //Debug.Log("FleeState Process Input. \nPlayer outside of range: " + (_playerDistance > _enemy.attackDistance) + "\nCurrent HP: " + _enemy.currentHp + "\nElements in 'Transitions': " + Transitions.Count);
 
         if (_playerDistance > _enemy.nearDistance)
         {
@@ -54,7 +52,7 @@ public class FleeState : MonoBaseState
             return Transitions["OnAttackState"];
         }
 
-        if (_enemy.currentHp <= _enemy.maxHP / 3)
+        if (_enemy.currentHp <= _enemy.maxHp / 3)
         {
             if (!Transitions.ContainsKey("OnHealState"))
             {

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3031661911973105344}
   - component: {fileID: 6206434283498016938}
   - component: {fileID: 8623669413536092782}
+  - component: {fileID: 7673826687802058600}
   - component: {fileID: 4426595410653204681}
   - component: {fileID: 6624694664997950920}
   - component: {fileID: 5349895200505261773}
@@ -128,16 +129,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa1187e88d91ddb4d9f0fba06fc2f209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 12
-  currentHp: 0
   healState: {fileID: 1856953266}
   fleeState: {fileID: 5349895200505261773}
   chaseState: {fileID: 4426595410653204681}
   attackState: {fileID: 6624694664997950920}
   summonState: {fileID: 8265363949705135536}
-  player: {fileID: 0}
+--- !u!114 &7673826687802058600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3031661911973105347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c85a42e1588fe8a4fb3982ecd1b42ca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 12
+  currentHp: 0
+  chaseSpeed: 2
+  fleeSpeed: 4
   nearDistance: 2.5
   attackDistance: 7
+  player: {fileID: 0}
 --- !u!114 &4426595410653204681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,7 +165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b435c7d9b7ddc14095e9629c2f49d62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
 --- !u!114 &6624694664997950920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +193,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227bf426108f70149a016d6e3d578fbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
 --- !u!114 &3884557324174867510
 MonoBehaviour:
   m_ObjectHideFlags: 0

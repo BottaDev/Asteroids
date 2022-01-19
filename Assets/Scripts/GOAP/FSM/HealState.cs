@@ -10,11 +10,11 @@ public class HealState : MonoBaseState
     private float healInterval = .8f;
     private float next;
 
-    private EliteEnemy _enemy;
+    private EliteEnemyState _enemyState;
 
     private void Awake()
     {
-        _enemy = GetComponent<EliteEnemy>();
+        _enemyState = GetComponent<EliteEnemyState>();
     }
 
     public override void UpdateLoop()
@@ -28,7 +28,7 @@ public class HealState : MonoBaseState
 
     private void Heal()
     {
-        _enemy.currentHp += 1;
+        _enemyState.currentHp += 1;
     }
 
     public override void Enter(IGoapState from, Dictionary<string, object> transitionParameters = null)
@@ -39,14 +39,14 @@ public class HealState : MonoBaseState
 
     public override IGoapState ProcessInput()
     {
-        if (_enemy.currentHp >= _enemy.maxHP)
+        if (_enemyState.currentHp >= _enemyState.maxHp)
         {
             // Has finished healing himself...
             GetComponent<SpriteRenderer>().color = Color.white;
             
-            float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
+            float distance = Vector2.Distance(transform.position, _enemyState.player.transform.position);
         
-            if (distance < _enemy.nearDistance)
+            if (distance < _enemyState.nearDistance)
             {
                 if (!Transitions.ContainsKey("OnFleeState"))
                 {
@@ -57,7 +57,7 @@ public class HealState : MonoBaseState
                 return Transitions["OnFleeState"];
             }            
             
-            if (distance > _enemy.attackDistance)
+            if (distance > _enemyState.attackDistance)
             {
                 if (!Transitions.ContainsKey("OnChaseState"))
                 {

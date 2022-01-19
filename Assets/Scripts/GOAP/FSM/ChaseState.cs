@@ -6,16 +6,15 @@ using UnityEngine;
 
 public class ChaseState : MonoBaseState
 {
-    public float speed = 4f;
     public override event Action OnNeedsReplan;
     
-    private EliteEnemy _enemy;
+    private EliteEnemyState _enemy;
     private SummonState _summonState;
     private IQuery _query; 
     
     private void Awake()
     {
-        _enemy = GetComponent<EliteEnemy>();
+        _enemy = GetComponent<EliteEnemyState>();
         _summonState = GetComponent<SummonState>();
         _query = GetComponent<IQuery>();
     }
@@ -32,7 +31,7 @@ public class ChaseState : MonoBaseState
     private void Move()
     {
         transform.position =
-            Vector2.MoveTowards(transform.position, _enemy.player.transform.position, speed * Time.deltaTime);
+            Vector2.MoveTowards(transform.position, _enemy.player.transform.position, _enemy.chaseSpeed * Time.deltaTime);
     }
 
     private void RotateTowardsPlayer()
@@ -46,7 +45,7 @@ public class ChaseState : MonoBaseState
     
     public override IGoapState ProcessInput()
     {
-        if (_enemy.currentHp <= _enemy.maxHP / 3)
+        if (_enemy.currentHp <= _enemy.maxHp / 3)
         {
             if (!Transitions.ContainsKey("OnHealState"))
             {

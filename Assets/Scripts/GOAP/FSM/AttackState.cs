@@ -11,15 +11,24 @@ public class AttackState : MonoBaseState
     public float timeToDestroy = 5f;
     public Transform spawnPoint;
     
+    public Pool<EnemyBullet> bulletPool;
+    
     private float _currentFireRate;
-    private EliteEnemy _enemy;
+    private EliteEnemyState _enemy;
     public override event Action OnNeedsReplan;
     
     private void Awake()
     {
-        _enemy = GetComponent<EliteEnemy>();
+        _enemy = GetComponent<EliteEnemyState>();
     }
-    
+
+    private void Start()
+    {
+        EnemyBulletBuilder bulletBuilder = new EnemyBulletBuilder();
+        bulletBuilder.Configure(bulletSpeed, timeToDestroy);
+        bulletPool = new Pool<EnemyBullet>(bulletBuilder.Build, EnemyBullet.TurnOn, EnemyBullet.TurnOff, 5);
+    }
+
     public override void UpdateLoop()
     {
         RotateTowardsPlayer();
@@ -32,9 +41,9 @@ public class AttackState : MonoBaseState
 
     private void Shoot()
     {
-        var bullet = _enemy.bulletPool.Get();
+        var bullet = bulletPool.Get();
 
-        bullet.pool = _enemy.bulletPool;
+        bullet.pool = bulletPool;
         bullet.transform.position = spawnPoint.position;
         bullet.transform.eulerAngles = _enemy.transform.eulerAngles;
 
@@ -54,7 +63,7 @@ public class AttackState : MonoBaseState
     {
         float distance = Vector2.Distance(transform.position, _enemy.player.transform.position);
      
-        if (_enemy.currentHp <= _enemy.maxHP / 3)
+        if (_enemy.currentHp <= _enemy.maxHp / 3)
         {
             if (!Transitions.ContainsKey("OnHealState"))
             {

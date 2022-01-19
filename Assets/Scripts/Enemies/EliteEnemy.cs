@@ -5,28 +5,21 @@ using UnityEngine;
 
 public class EliteEnemy : Entity, IReminder
 {
-    public int maxHP = 12;
-    public int currentHp;
-
     public HealState healState;
     public FleeState fleeState;
     public ChaseState chaseState;
     public AttackState attackState;
     public SummonState summonState;
-
-    public Pool<EnemyBullet> bulletPool;
-    public Pool<EliteEnemy> pool;
-    [HideInInspector] public PlayerModel player;
     
+    public Pool<EliteEnemy> pool;
+
     private FiniteStateMachine _fsm;
     private float _lastReplanTime;
     private float _replanRate = .5f;
-    private IQuery _query; 
+    private IQuery _query;
+    private EliteEnemyState _enemyState;
     private Memento<ObjectSnapshot> _memento = new Memento<ObjectSnapshot>();
 
-    public float nearDistance;
-    public float attackDistance;
-    
     private void Awake()
     {
         _query = GetComponent<IQuery>();
@@ -35,8 +28,8 @@ public class EliteEnemy : Entity, IReminder
     protected override void Start()
     {
         base.Start();
-        
-        currentHp = maxHP;
+
+        _enemyState = GetComponent<EliteEnemyState>();
 
         chaseState.OnNeedsReplan += OnReplan;
         attackState.OnNeedsReplan += OnReplan;
@@ -44,12 +37,6 @@ public class EliteEnemy : Entity, IReminder
         fleeState.OnNeedsReplan += OnReplan;
         summonState.OnNeedsReplan += OnReplan;
 
-        player = FindObjectOfType<PlayerModel>();
-        
-        EnemyBulletBuilder bulletBuilder = new EnemyBulletBuilder();
-        bulletBuilder.Configure(attackState.bulletSpeed, attackState.timeToDestroy);
-        bulletPool = new Pool<EnemyBullet>(bulletBuilder.Build, EnemyBullet.TurnOn, EnemyBullet.TurnOff, 5);
-        
         PlanAndExecute();
     }
 
@@ -90,14 +77,14 @@ public class EliteEnemy : Entity, IReminder
         
         var from = new GOAPState();
         
-        float distance = Vector2.Distance(transform.position, player.transform.position);
-        if (distance <= attackDistance)
+        float distance = Vector2.Distance(transform.position, _enemyState.player.transform.position);
+        if (distance <= _enemyState.attackDistance)
         {
             // AttackState
             from.values["isPlayerNear"] = true;
             
             // FleeState
-            if (distance <= nearDistance)
+            if (distance <= _enemyState.nearDistance)
                 from.values["isPlayerTooNear"] = true;
             else
                 from.values["isPlayerTooNear"] = false;
@@ -109,7 +96,7 @@ public class EliteEnemy : Entity, IReminder
         }
 
         // HealState
-        if (currentHp <= maxHP / 3)
+        if (_enemyState.currentHp <= _enemyState.maxHp / 3)
             from.values["isLowHP"] = true;
         else
             from.values["isLowHP"] = false;
@@ -130,7 +117,6 @@ public class EliteEnemy : Entity, IReminder
         to.values["isPlayerTooNear"] = false;
         to.values["areLowAsteroids"] = false;
         to.values["isPlayerAlive"] = false;
-        
 
         var planner = new GOAPPlanner();
 
@@ -161,8 +147,8 @@ public class EliteEnemy : Entity, IReminder
 
     private void TakeDamage()
     {
-        currentHp--;
-        if (currentHp <=0)
+        _enemyState.currentHp--;
+        if (_enemyState.currentHp <=0)
             Die();
     }
     
@@ -228,15 +214,7 @@ public class EliteEnemy : Entity, IReminder
     {
         if (hasScore)
             EventManager.Instance.Trigger("OnAsteroidDestroyed", AsteroidFlyweightPoint.normal.points);
-        pool.ReturnToPool(this);
-    }
-    
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, nearDistance);
         
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackDistance);
+        pool.ReturnToPool(this);
     }
 }
